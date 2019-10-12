@@ -1,0 +1,55 @@
+<template name="authorize">
+	{{#unless loadComplete}}
+		Loading, please wait...
+	{{else}}
+		{{#with errors}}
+			<h1>Invalid request</h1>
+			{{#each error in this}}
+				<div class="alert-danger alert">
+					<strong>{{stringify error}}</strong>
+				</div>
+			{{/each}}
+		{{else}}
+			{{#if currentUser}}
+				<h1>Confirm request for following resources:</h1>
+
+				<ul>
+					{{#each resource in scope}}
+						<li>{{resource}}</li>
+					{{/each}}
+				</ul>
+
+
+                <!-- AUTHORIZE FORM -->
+
+                <form method="post" role="form" class="{{#unless Template.subscriptionsReady}}hidden{{/unless}}">
+                    <h2>Authorise</h2>
+                    <input type="hidden" name="allow" value="yes">
+                    <input type="hidden" name="token" value="{{getToken}}">
+                    <input type="hidden" name="client_id" value="{{client_id}}">
+                    <input type="hidden" name="redirect_uri" value="{{redirect_uri}}">
+                    <input type="hidden" name="state" value="{{state}}">
+                    <input type="hidden" name="response_type" value="code">
+                    <button id="authorize-button" class="btn btn-primary btn-block" type="submit">Authorise</button>
+                </form>
+
+
+				<div class="text-center p-2">or</div>
+
+                <form method="post" role="form" class="{{#unless Template.subscriptionsReady}}hidden{{/unless}}">
+                    <h2>Authorise</h2>
+                    <input type="hidden" name="allow" value="false">
+                    <input type="hidden" name="token" value="{{getToken}}">
+                    <input type="hidden" name="client_id" value="{{client_id}}">
+                    <input type="hidden" name="redirect_uri" value="{{redirect_uri}}">
+                    <input type="hidden" name="state" value="{{state}}">
+                    <input type="hidden" name="response_type" value="code">
+                    <button id="deny-button" class="btn btn-outline-secondary btn-block" type="submit">Deny</button>
+                </form>
+
+			{{else}}
+				{{> login}}
+			{{/if}}
+		{{/with}}
+	{{/unless}}
+</template>

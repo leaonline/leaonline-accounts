@@ -1,1 +1,27 @@
-{}
+{
+  "oauth": {
+    "clients": {
+      "backend": {
+        "title": "leaonline.backend",
+        "description": "Backend Application",
+        "clientId": "0123456890",
+        "secret": "01234568900123456890",
+        "url": "http://localhost:5050",
+        "redirectUris": [
+          "http://localhost:5050/_oauth/lea"
+        ],
+        "grants": [
+          "authorization_code"
+        ]
+      }
+    }
+  },
+  "public": {
+    "oauth": {
+      "dialogUrl": "/oauth/authorize",
+      "accessTokenUrl": "/oauth/token",
+      "authorizeUrl": "/oauth/authorize",
+      "identityUrl": "/oauth/ident"
+    }
+  }
+}
