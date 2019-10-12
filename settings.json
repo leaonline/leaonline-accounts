@@ -13,6 +13,19 @@
         "grants": [
           "authorization_code"
         ]
+      },
+      "content": {
+        "title": "leaonline.content",
+        "description": "Backend Application",
+        "clientId": "9876543210",
+        "secret": "98765432109876543210",
+        "url": "http://localhost:3030",
+        "redirectUris": [
+          "http://localhost:3030/_oauth/lea"
+        ],
+        "grants": [
+          "authorization_code"
+        ]
       }
     }
   },
