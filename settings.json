@@ -26,6 +26,19 @@
         "grants": [
           "authorization_code"
         ]
+      },
+      "otulea": {
+        "title": "otu.lea",
+        "description": "Diagnostic app",
+        "clientId": "abcdefghijklmnop",
+        "secret": "abcdefghijklmnopabcdefghijklmnop",
+        "url": "http://localhost:3000",
+        "redirectUris": [
+          "http://localhost:3000/_oauth/lea"
+        ],
+        "grants": [
+          "authorization_code"
+        ]
       }
     }
   },
