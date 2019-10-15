@@ -53,12 +53,12 @@ Template.authorize.onRendered(function () {
   const data = instance.data
   this.autorun(function (computation) {
     const user = Meteor.user()
-    console.log("user", user)
-    console.log("data", data)
-    if (user && user.oauth && user.oauth.authorizedClients && user.oauth.authorizedClients.includes(data.client_id) > -1) {
-      computation.stop()
-      console.log('auto autorize')
-      window.$('#authorize-button').click()
-    }
+
+    computation.stop()
+    console.info('Logged in, auto authorize')
+    instance.$('#authorize-button').click()
+
+    // if (user && user.oauth && user.oauth.authorizedClients &&
+    //  user.oauth.authorizedClients.includes(data.client_id) > -1) {}
   })
 })
