@@ -50,9 +50,9 @@ Template.authorize.helpers({
 // accepted this client
 Template.authorize.onRendered(function () {
   const instance = this
-  const data = instance.data
   this.autorun(function (computation) {
     const user = Meteor.user()
+    if (!user) return
 
     computation.stop()
     console.info('Logged in, auto authorize')

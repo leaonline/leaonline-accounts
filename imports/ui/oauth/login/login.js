@@ -1,3 +1,4 @@
+/* global AutoForm */
 import { Template } from 'meteor/templating'
 import { Meteor } from 'meteor/meteor'
 import { ReactiveDict } from 'meteor/reactive-dict'
@@ -48,7 +49,7 @@ Template.login.events({
 
     Meteor.loginWithPassword(user, password, (err, res) => {
       if (err) {
-        return templateInstance.state.set('errors', [ err ])
+        return templateInstance.state.set('errors', [err])
       }
       if (res) {
         templateInstance.state.set('loggingIn', false)

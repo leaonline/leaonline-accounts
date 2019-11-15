@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 
-const {oauth} = Meteor.settings.public
+const { oauth } = Meteor.settings.public
 
 export const Routes = {}
 

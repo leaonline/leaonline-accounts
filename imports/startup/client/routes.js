@@ -7,6 +7,6 @@ Routes.each(route => {
     triggersEnter: route.triggersEnter,
     action: function (params, queryParams) {
       this.render(route.layout || 'layout', route.template, queryParams)
-    },
+    }
   })
 })

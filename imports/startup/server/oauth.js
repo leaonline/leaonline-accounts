@@ -35,12 +35,12 @@ const oauth2server = new OAuth2Server({
 oauth2server.authenticatedRoute().get(urls.identityUrl, function (req, res, next) {
   const user = Meteor.users.findOne(req.data.user.id)
   res.writeHead(200, {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
   })
   const body = JSON.stringify({
     id: user._id,
     login: user.username,
-    email: user.emails && user.emails[ 0 ].address,
+    email: user.emails && user.emails[0].address,
     firstName: user.firstName,
     lastName: user.lastName,
     name: `${user.firstName} ${user.lastName}`
