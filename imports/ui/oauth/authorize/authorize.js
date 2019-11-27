@@ -51,12 +51,13 @@ Template.authorize.helpers({
 Template.authorize.onRendered(function () {
   const instance = this
   this.autorun(function (computation) {
-    const user = Meteor.user()
+    const user = Meteor.user() || Meteor.userId()
     if (!user) return
-
     computation.stop()
     console.info('Logged in, auto authorize')
-    instance.$('#authorize-button').click()
+    setTimeout(() => {
+      instance.$('#authorize-button').click()
+    }, 300)
 
     // if (user && user.oauth && user.oauth.authorizedClients &&
     //  user.oauth.authorizedClients.includes(data.client_id) > -1) {}
