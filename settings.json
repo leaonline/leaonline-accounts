@@ -49,5 +49,12 @@
       "authorizeUrl": "/oauth/authorize",
       "identityUrl": "/oauth/ident"
     }
-  }
+  },
+  "users": [{
+    "username": "admin",
+    "password": "password"
+  }, {
+    "username": "jkuester",
+    "password": "password"
+  }]
 }
