@@ -39,6 +39,19 @@
         "grants": [
           "authorization_code"
         ]
+      },
+      "teacher": {
+        "title": "teacher.app",
+        "description": "Diagnostic app",
+        "clientId": "teacher-application-id",
+        "secret": "abcdefghijklmnopabcdefghijklmnop",
+        "url": "http://localhost:55555",
+        "redirectUris": [
+          "http://localhost:5555/_oauth/lea"
+        ],
+        "grants": [
+          "authorization_code"
+        ]
       }
     }
   },
