@@ -55,6 +55,10 @@
       }
     }
   },
+  "emailTemplates": {
+    "siteName": "lea.online network",
+    "from": "no-reply@leaonline.tld"
+  },
   "public": {
     "oauth": {
       "dialogUrl": "/oauth/authorize",
@@ -65,9 +69,10 @@
   },
   "users": [{
     "username": "admin",
-    "password": "password"
-  }, {
-    "username": "jkuester",
-    "password": "password"
+    "email": "admin@example.com",
+    "firstName": "Arthur",
+    "lastName": "Administrator",
+    "institution": "core-team",
+    "persona": "admin"
   }]
 }
