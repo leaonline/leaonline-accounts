@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { Accounts } from 'meteor/accounts-base'
+import { inviteUser } from '../../api/accounts/inviteUser'
 
 const users = Meteor.settings.users
 
@@ -11,8 +11,7 @@ Meteor.startup(() => {
       return
     }
 
-    const password = user.password
-    const userId = Accounts.createUser({ username, password })
+    const userId = inviteUser(user)
     if (Meteor.isDevelopment) {
       console.info(`DEFAULT: user created with id ${userId} - login via ${username}`)
     }
