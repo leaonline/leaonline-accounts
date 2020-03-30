@@ -26,6 +26,9 @@ leaonline:oauth2-server
 # UI
 ostrio:flow-router-extra
 reactive-dict@1.3.0
+aldeed:autoform
+imajus:autoform-bootstrap4
+jquery
 
 #========================================
 # SECURITY
