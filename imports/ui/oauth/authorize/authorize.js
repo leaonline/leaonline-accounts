@@ -18,7 +18,8 @@ Template.authorize.onCreated(function () {
   // check params against our definitions
   // https://www.oauth.com/oauth2-servers/authorization/the-authorization-request/
   instance.autorun(() => {
-    const scope = FlowRouter.getQueryParam('scope')
+    const data = Template.currentData()
+    const { scope } = data.queryParams
     instance.state.set('scope', scope && scope.split('+'))
   })
 
@@ -50,13 +51,17 @@ Template.authorize.helpers({
 // accepted this client
 Template.authorize.onRendered(function () {
   const instance = this
-  this.autorun(function (computation) {
+  instance.autorun(function (computation) {
     const user = Meteor.user() || Meteor.userId()
     if (!user) return
+
+    // if we have a user we want to auto-submit the authentication form
     computation.stop()
-    console.info('Logged in, auto authorize')
+
+
+
     setTimeout(() => {
-      instance.$('#authorize-button').click()
+      instance.$('#authForm').submit()
     }, 300)
 
     // if (user && user.oauth && user.oauth.authorizedClients &&

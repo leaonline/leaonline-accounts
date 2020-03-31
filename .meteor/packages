@@ -24,14 +24,14 @@ alanning:roles@3.2.2
 leaonline:oauth2-server
 
 # UI
-aldeed:autoform
-imajus:autoform-bootstrap4
 ostrio:flow-router-extra
 reactive-dict@1.3.0
+aldeed:autoform
+imajus:autoform-bootstrap4
+jquery
 
 #========================================
 # SECURITY
 #========================================
 audit-argument-checks@1.0.7
 force-ssl@1.1.0
-jquery

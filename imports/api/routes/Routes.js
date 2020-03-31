@@ -17,6 +17,16 @@ _routes.authorize = {
   layout: 'authLayout'
 }
 
+_routes.enrol = {
+  path: (token = ':token') => `/enroll-account/${token}`,
+  template: 'enroll',
+  label: 'Enroll',
+  isPage: true,
+  include () {
+    return import('../../ui/accounts/enroll/enroll')
+  }
+}
+
 Routes.all = function () {
   return Object.assign({}, _routes)
 }

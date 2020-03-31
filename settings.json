@@ -41,11 +41,11 @@
         ]
       },
       "teacher": {
-        "title": "teacher.app",
-        "description": "Diagnostic app",
+        "title": "leaonline.teacher",
+        "description": "Teacher dashboard app",
         "clientId": "teacher-application-id",
         "secret": "abcdefghijklmnopabcdefghijklmnop",
-        "url": "http://localhost:55555",
+        "url": "http://localhost:5555",
         "redirectUris": [
           "http://localhost:5555/_oauth/lea"
         ],
@@ -54,6 +54,10 @@
         ]
       }
     }
+  },
+  "emailTemplates": {
+    "siteName": "lea.online network",
+    "from": "no-reply@leaonline.tld"
   },
   "public": {
     "oauth": {
@@ -65,9 +69,10 @@
   },
   "users": [{
     "username": "admin",
-    "password": "password"
-  }, {
-    "username": "jkuester",
-    "password": "password"
+    "email": "admin@example.com",
+    "firstName": "Arthur",
+    "lastName": "Administrator",
+    "institution": "core-team",
+    "persona": "admin"
   }]
 }

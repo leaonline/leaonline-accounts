@@ -6,7 +6,7 @@ Routes.each(route => {
     waitOn: route.include,
     triggersEnter: route.triggersEnter,
     action: function (params, queryParams) {
-      this.render(route.layout || 'layout', route.template, queryParams)
+      this.render(route.layout || 'layout', route.template, { params, queryParams })
     }
   })
 })

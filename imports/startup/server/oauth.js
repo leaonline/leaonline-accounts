@@ -29,7 +29,7 @@ const oauth2server = new OAuth2Server({
     errorUrl: '/oauth/error',
     fallbackUrl: '/oauth/*'
   },
-  debug: false
+  debug: true
 })
 
 oauth2server.authenticatedRoute().get(urls.identityUrl, function (req, res, next) {

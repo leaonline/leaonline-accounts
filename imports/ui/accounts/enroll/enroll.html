@@ -1,0 +1,19 @@
+<template name="enroll">
+    <h1>Enroll</h1>
+
+    {{#unless ready}}
+        <span>
+            <i class="fa fa-fw fa-spinner fa-pulse"></i>
+        </span>
+    {{else}}
+        <form id="enrollmentForm">
+            <label>Password</label>
+            <input id="password-input" name="new-password" type="password">
+            <button type="submit">Set password</button>
+        </form>
+        {{#with error}}
+            <h5>{{this.error}}</h5>
+            <p>{{this.reason}}</p>
+        {{/with}}
+    {{/unless}}
+</template>
