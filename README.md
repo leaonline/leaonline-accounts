@@ -14,7 +14,7 @@ A future `test` role is to be added in order to separate "real" users from
 test users. This role needs to include a special permission of deleting
 all test data that is associated with the test user.
 
-###### Developers note:
+### Developers note
 
 In the code the roles are named `Personas` in order to keep this
 separated from the `Roles` API, that defined by the `alanning:roles` package.

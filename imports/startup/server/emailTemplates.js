@@ -11,13 +11,13 @@ Accounts.emailTemplates.enrollAccount.subject = (user) => {
 }
 
 Accounts.emailTemplates.enrollAccount.text = (user, url) => {
-  const cleanUrl = url.replace('/#/','/')
+  const cleanUrl = url.replace('/#/', '/')
   if (Meteor.isDevelopment) {
     console.log('enrollAccount', user, cleanUrl)
   }
-  return 'You have been selected to participate in building a better future!'
-    + ' To activate your account, simply click the link below:\n\n'
-    + cleanUrl
+  return 'You have been selected to participate in building a better future!' +
+    ' To activate your account, simply click the link below:\n\n' +
+    cleanUrl
 }
 
 Accounts.emailTemplates.verifyEmail.subject = (user) => {

@@ -1,4 +1,5 @@
 /* global Roles */
+import { Meteor } from 'meteor/meteor'
 import { Personas } from '../../api/roles/Personas'
 import { Permissions } from '../../api/roles/Permissions'
 
