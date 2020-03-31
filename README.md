@@ -1,5 +1,11 @@
 # lea.online Accounts
 
+![Lint suite](https://github.com/leaonline/leaonline-accounts/workflows/Lint%20suite/badge.svg)
+[![built with Meteor](https://img.shields.io/badge/Meteor-1.10.1-green?logo=meteor&logoColor=white)](https://meteor.com)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+![GitHub](https://img.shields.io/github/license/leaonline/leaonline-accounts)
+
 ## Roles system
 
 There are four main roles within the lea.system. The roles are placed within
