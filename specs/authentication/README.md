@@ -1,8 +1,8 @@
 # Authenticating Users
 
 User authentication is a crucial part of most applications.
-The lea. system consists of several applications that should share the same user base. 
-It is thus crucial to provide a working authentication across the applications that is intuitive and resistant 
+The lea. system consists of several applications that should share the same user base.
+It is thus crucial to provide a working authentication across the applications that is intuitive and resistant
 to errors related to end-users.
 
 Examples of end-user-related errors can be
@@ -33,7 +33,8 @@ has to be denied.
 
 ### Passwordless login
 
-Capability-based strategies ([OAuth](https://en.wikipedia.org/wiki/OAuth), [TOTP](https://en.wikipedia.org/wiki/Time-based_One-time_Password_algorithm)) have a fair risk measure as operations are only executed with a validated 
+Capability-based strategies ([OAuth](https://en.wikipedia.org/wiki/OAuth), [TOTP](https://en.wikipedia.org/wiki/Time-based_One-time_Password_algorithm)
+) have a fair risk measure as operations are only executed with a validated
 capability (token within expiration time-frame).
 
 Still they can involve user-frustrating steps (passwords, second factor) or are expensive to implement (SMS based second
@@ -44,10 +45,10 @@ with a capability url (magic link) that is sent to the user via email (additiona
 which authenticates the user, once opened as it passes the OTP (one-time-password) to the server, which (if valid) logs
 the user in.
 
-- https://en.wikipedia.org/wiki/One-time_password
-- https://en.wikipedia.org/wiki/Capability-based_security
-- https://w3ctag.github.io/capability-urls/
-- https://security.stackexchange.com/questions/118975/is-it-safe-to-include-an-api-key-in-a-requests-url
+- [https://en.wikipedia.org/wiki/One-time_password](https://en.wikipedia.org/wiki/One-time_password)
+- [https://en.wikipedia.org/wiki/Capability-based_security](https://en.wikipedia.org/wiki/Capability-based_security)
+- [https://w3ctag.github.io/capability-urls/](https://w3ctag.github.io/capability-urls/)
+- [https://security.stackexchange.com/questions/118975/is-it-safe-to-include-an-api-key-in-a-requests-url](https://security.stackexchange.com/questions/118975/is-it-safe-to-include-an-api-key-in-a-requests-url)
 
 ### Additional password for team members and administrators
 
@@ -62,8 +63,8 @@ The following graphics summarizes the above described workflow:
 
 ## Further usages
 
-Parts of the describes workflow can be leveraged for further usages. 
+Parts of the describes workflow can be leveraged for further usages.
 Operations that can have severe consequences could be implemented in a way, that they require an OTP to be send
 via magic mail link and that only execute if the OTP matches.
 
-These should be each defined in an own specification document. 
+These should be each defined in an own specification document.
