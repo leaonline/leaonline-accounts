@@ -63,7 +63,7 @@ The following graphics summarizes the above described workflow:
 
 ## Further usages
 
-Parts of the describes workflow can be leveraged for further usages.
+Parts of the described workflow can be leveraged for further usages.
 Operations that can have severe consequences could be implemented in a way, that they require an OTP to be send
 via magic mail link and that only execute if the OTP matches.
 
