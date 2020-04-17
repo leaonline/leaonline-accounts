@@ -74,5 +74,17 @@
     "lastName": "Administrator",
     "institution": "core-team",
     "persona": "admin"
+  },{
+    "email": "tteacher@example.com",
+    "firstName": "Terry",
+    "lastName": "Teacher",
+    "institution": "Five Star Education",
+    "persona": "teacher"
+  }, {
+    "email": "eeditor@example.com",
+    "firstName": "Elaine",
+    "lastName": "Editor",
+    "institution": "core-team",
+    "persona": "team"
   }]
 }

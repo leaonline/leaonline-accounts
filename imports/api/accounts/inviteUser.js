@@ -2,15 +2,26 @@
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import { Random } from 'meteor/random'
-import { check } from 'meteor/check'
+import { check, Match } from 'meteor/check'
 
 const createUser = ({ email, username, firstName, persona, lastName, institution }) => {
-  if (Accounts.findUserByEmail(email) || Accounts.findUserByUsername(username)) {
+  check(email, String)
+  check(persona, String)
+  check(firstName, String)
+  check(lastName, String)
+  check(institution, String)
+  check(username, Match.Maybe(String))
+  if (Accounts.findUserByEmail(email) || (username && Accounts.findUserByUsername(username))) {
     throw new Meteor.Error('createUser.userExists')
   }
 
   const password = Random.id(32)
-  const userId = Accounts.createUser({ username, email, password })
+  const userDef = { email, password }
+  if (username) {
+    userDef.username = username
+  }
+
+  const userId = Accounts.createUser(userDef)
   const updated = Meteor.users.update(userId, { $set: { firstName, lastName, institution, persona } })
 
   if (!updated) {
@@ -39,11 +50,11 @@ const sendEnrollmentEmail = userId => {
 
 export const inviteUser = ({ email, username, persona, firstName, lastName, institution }) => {
   check(email, String)
-  check(username, String)
   check(persona, String)
   check(firstName, String)
   check(lastName, String)
   check(institution, String)
+  check(username, Match.Maybe(String))
 
   const userId = createUser({ email, username, firstName, lastName, persona, institution })
   assignRole(userId, persona, institution)
