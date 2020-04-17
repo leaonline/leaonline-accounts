@@ -1,5 +1,6 @@
 import '../imports/startup/server/settingsSchema'
-import '../imports/startup/server/emailTemplates'
 import '../imports/startup/server/roles'
-import '../imports/startup/server/accounts'
+import '../imports/startup/server/accounts/config'
+import '../imports/startup/server/accounts/emailTemplates'
+import '../imports/startup/server/accounts/users'
 import '../imports/startup/server/oauth'

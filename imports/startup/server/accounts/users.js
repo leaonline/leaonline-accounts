@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
-import { inviteUser } from '../../api/accounts/inviteUser'
+import { inviteUser } from '../../../api/accounts/inviteUser'
 
-const users = Meteor.settings.users
+const users = Meteor.settings.accounts.users
 
 Meteor.startup(() => {
   users.forEach(user => {

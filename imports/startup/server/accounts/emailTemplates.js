@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 
-const settings = Meteor.settings.emailTemplates
+const settings = Meteor.settings.accounts.emailTemplates
 
 Accounts.emailTemplates.siteName = settings.siteName
 Accounts.emailTemplates.from = settings.from
