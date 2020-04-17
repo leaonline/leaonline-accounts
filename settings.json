@@ -1,64 +1,4 @@
 {
-  "oauth": {
-    "clients": {
-      "backend": {
-        "title": "leaonline.backend",
-        "description": "Backend Application",
-        "clientId": "0123456890",
-        "secret": "01234568900123456890",
-        "url": "http://localhost:5050",
-        "redirectUris": [
-          "http://localhost:5050/_oauth/lea"
-        ],
-        "grants": [
-          "authorization_code"
-        ]
-      },
-      "content": {
-        "title": "leaonline.content",
-        "description": "Backend Application",
-        "clientId": "9876543210",
-        "secret": "98765432109876543210",
-        "url": "http://localhost:3030",
-        "redirectUris": [
-          "http://localhost:3030/_oauth/lea"
-        ],
-        "grants": [
-          "authorization_code"
-        ]
-      },
-      "otulea": {
-        "title": "otu.lea",
-        "description": "Diagnostic app",
-        "clientId": "abcdefghijklmnop",
-        "secret": "abcdefghijklmnopabcdefghijklmnop",
-        "url": "http://localhost:3000",
-        "redirectUris": [
-          "http://localhost:3000/_oauth/lea"
-        ],
-        "grants": [
-          "authorization_code"
-        ]
-      },
-      "teacher": {
-        "title": "leaonline.teacher",
-        "description": "Teacher dashboard app",
-        "clientId": "teacher-application-id",
-        "secret": "abcdefghijklmnopabcdefghijklmnop",
-        "url": "http://localhost:5555",
-        "redirectUris": [
-          "http://localhost:5555/_oauth/lea"
-        ],
-        "grants": [
-          "authorization_code"
-        ]
-      }
-    }
-  },
-  "emailTemplates": {
-    "siteName": "lea.online network",
-    "from": "no-reply@leaonline.tld"
-  },
   "public": {
     "oauth": {
       "dialogUrl": "/oauth/authorize",
@@ -67,24 +7,102 @@
       "identityUrl": "/oauth/ident"
     }
   },
-  "users": [{
-    "username": "admin",
-    "email": "admin@example.com",
-    "firstName": "Arthur",
-    "lastName": "Administrator",
-    "institution": "core-team",
-    "persona": "admin"
-  },{
-    "email": "tteacher@example.com",
-    "firstName": "Terry",
-    "lastName": "Teacher",
-    "institution": "Five Star Education",
-    "persona": "teacher"
-  }, {
-    "email": "eeditor@example.com",
-    "firstName": "Elaine",
-    "lastName": "Editor",
-    "institution": "core-team",
-    "persona": "team"
-  }]
+  "oauth": {
+    "clients": [
+      {
+        "key": "backend",
+        "title": "leaonline.backend",
+        "description": "Backend Application",
+        "clientId": "porhLyvwTdhJgdda8",
+        "secret": "CegPW7FWebir7iYuPdubAR3wwzavRptB",
+        "url": "http://localhost:5050",
+        "redirectUris": [
+          "http://localhost:5050/_oauth/lea"
+        ],
+        "grants": [
+          "authorization_code"
+        ]
+      },
+      {
+        "key": "content",
+        "title": "leaonline.content",
+        "description": "Backend Application",
+        "clientId": "BnrC2xfCSqXDwhW4c",
+        "secret": "irbdLuwtTd5hCj9CWtSQwoaDgX4Akk5m",
+        "url": "http://localhost:3030",
+        "redirectUris": [
+          "http://localhost:3030/_oauth/lea"
+        ],
+        "grants": [
+          "authorization_code"
+        ]
+      },
+      {
+        "key": "otulea",
+        "title": "otu.lea",
+        "description": "Diagnostic app",
+        "clientId": "Lb5soRv7RH2g8inRc",
+        "secret": "Y4yNeHM3bniSogeWacRcYZ3S5yz3TCuW",
+        "url": "http://localhost:3000",
+        "redirectUris": [
+          "http://localhost:3000/_oauth/lea"
+        ],
+        "grants": [
+          "authorization_code"
+        ]
+      },
+      {
+        "key": "teacher",
+        "title": "leaonline.teacher",
+        "description": "Teacher dashboard app",
+        "clientId": "iwtu4JCmyTDGg3eg6",
+        "secret": "xKX9q8ZQwaNdHoKcLywyrJeNh3T8F4Gk",
+        "url": "http://localhost:5555",
+        "redirectUris": [
+          "http://localhost:5555/_oauth/lea"
+        ],
+        "grants": [
+          "authorization_code"
+        ]
+      }
+    ]
+  },
+  "accounts": {
+    "emailTemplates": {
+      "siteName": "lea.online network",
+      "from": "no-reply@leaonline.tld"
+    },
+    "config": {
+      "forbidClientAccountCreation": true,
+      "ambiguousErrorMessages": true,
+      "sendVerificationEmail": false,
+      "loginExpirationInDays": 90,
+      "passwordResetTokenExpirationInDays": 1,
+      "passwordEnrollTokenExpirationInDays": 14
+    },
+    "users": [
+      {
+        "username": "admin",
+        "email": "admin@example.com",
+        "firstName": "Arthur",
+        "lastName": "Administrator",
+        "institution": "core-team",
+        "persona": "admin"
+      },
+      {
+        "email": "tteacher@example.com",
+        "firstName": "Terry",
+        "lastName": "Teacher",
+        "institution": "Five Star Education",
+        "persona": "teacher"
+      },
+      {
+        "email": "eeditor@example.com",
+        "firstName": "Elaine",
+        "lastName": "Editor",
+        "institution": "core-team",
+        "persona": "team"
+      }
+    ]
+  }
 }
