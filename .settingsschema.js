@@ -1,9 +1,9 @@
 const SimpleSchema = require('simpl-schema')
 const oauthFlows = ['authorization_code']
-const personas = ['admin', 'team', 'teacher']
 const rlativeUrl = /\/[a-zA-Z\/-]+/
-SimpleSchema.RegEx.IdOf = (min = 17, max = 128) => new RegExp(`^[23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz]{${min},${max}}$`)
 const schema = def => new SimpleSchema(def)
+
+SimpleSchema.RegEx.IdOf = (min = 17, max = 128) => new RegExp(`^[23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz]{${min},${max}}$`)
 
 const settingsSchema = schema({
   public: schema({
@@ -58,10 +58,8 @@ const settingsSchema = schema({
       firstName: String,
       lastName: String,
       institution: String,
-      persona: {
-        type: String,
-        allowedValues: personas
-      }
+      roles: Array,
+      'roles.$': String
     })
   }),
   oauth: Object,

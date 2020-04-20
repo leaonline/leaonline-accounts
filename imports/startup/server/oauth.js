@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { OAuth2Server } from 'meteor/leaonline:oauth2-server'
+import { canUserAccessClient } from '../../api/accounts/canUserAccessClient'
 
 const { clients } = Meteor.settings.oauth
 const urls = Meteor.settings.public.oauth
@@ -32,8 +33,11 @@ const oauth2server = new OAuth2Server({
   debug: true
 })
 
+OAuth2Server.validateUser(canUserAccessClient)
+
 oauth2server.authenticatedRoute().get(urls.identityUrl, function (req, res, next) {
   const user = Meteor.users.findOne(req.data.user.id)
+
   res.writeHead(200, {
     'Content-Type': 'application/json'
   })
