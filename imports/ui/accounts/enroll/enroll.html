@@ -1,15 +1,20 @@
 <template name="enroll">
-    <h1>Enroll</h1>
+    <h1>{{i18n "enrollment.title"}}</h1>
+
+    <p>
+        <span><i class="fa fa-fw fa-fas fa-info-circle"></i></span>
+        {{i18n "enrollment.info"}}
+    </p>
 
     {{#unless ready}}
         <span>
-            <i class="fa fa-fw fa-spinner fa-pulse"></i>
+            <i class="fa fa-fw fa-spinner fa-pulse"></i> {{i18n "common.loading"}}
         </span>
     {{else}}
         <form id="enrollmentForm">
             <label>Password</label>
             <input id="password-input" name="new-password" type="password">
-            <button type="submit">Set password</button>
+            <button type="submit">{{i18n "enrollment.setPassword"}}</button>
         </form>
         {{#with error}}
             <h5>{{this.error}}</h5>

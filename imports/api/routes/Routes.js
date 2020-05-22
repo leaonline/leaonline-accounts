@@ -20,10 +20,20 @@ _routes.authorize = {
 _routes.enrol = {
   path: (token = ':token') => `/enroll-account/${token}`,
   template: 'enroll',
-  label: 'Enroll',
+  label: 'pages.enroll.title',
   isPage: true,
   include () {
     return import('../../ui/accounts/enroll/enroll')
+  }
+}
+
+_routes.resetPassword = {
+  path: (token = ':token') => `/reset-password/${token}`,
+  template: 'resetPassword',
+  label: 'pages.resetPassword.title',
+  isPage: true,
+  include () {
+    return import('../../ui/accounts/resetPassword/resetPassword')
   }
 }
 

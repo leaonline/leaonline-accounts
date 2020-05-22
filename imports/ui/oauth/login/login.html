@@ -1,22 +1,58 @@
 <template name="login">
-    {{#autoForm id="loginForm" type="normal" schema=loginSchema}}
-        {{#each afFieldNames}}
-            {{> afQuickField name=this.name label=this.label options=afOptionsFromSchema}}
-        {{/each}}
+    {{#if state "login"}}
+        {{#autoForm id="loginForm" type="normal" schema=loginSchema}}
+            {{#each afFieldNames}}
+                {{> afQuickField name=this.name label=this.label options=afOptionsFromSchema}}
+            {{/each}}
 
-        <p>
-            <a href>forgot password?    </a>
-        </p>
+            <div class="my-3">
+                {{#each errors}}
+                    <div class="alert alert-danger">
+                        <strong>{{this.error}}</strong>
+                        <span>{{this.reason}}</span>
+                        <span>{{this.details}}</span>
+                    </div>
+                {{/each}}
+            </div>
 
-        <button class="btn btn-primary" type="submit">
-            sign in
-        </button>
-    {{/autoForm}}
-    {{#each errors}}
-         <div class="alert alert-danger">
-             <strong>{{this.error}}</strong>
-             <span>{{this.reason}}</span>
-             <span>{{this.details}}</span>
-         </div>
-    {{/each}}
+            <button class="btn btn-block btn-primary my-3" type="submit">
+                {{i18n "login.signIn"}}
+            </button>
+        {{/autoForm}}
+
+        <div class="my-3 text-center">
+            <a href class="forgot-password-link">{{i18n "login.forgotPassword"}}</a>
+        </div>
+    {{/if}}
+
+
+    {{#if state "forgotPassword"}}
+        {{#unless forgotPasswordRequestSent}}
+            {{#autoForm id="forgotPasswordForm" type="normal" schema=forgotPasswordSchema doc=forgotPasswordDoc}}
+                {{#each afFieldNames}}
+                    {{> afQuickField name=this.name label=this.label options=afOptionsFromSchema}}
+                {{/each}}
+                <div class="my-3">
+                    {{#each errors}}
+                        <div class="alert alert-danger">
+                            <strong>{{this.error}}</strong>
+                            <span>{{this.reason}}</span>
+                            <span>{{this.details}}</span>
+                        </div>
+                    {{/each}}
+                </div>
+                <button class="btn btn-block btn-primary my-3" type="submit">
+                    {{i18n "login.requestPassword"}}
+                </button>
+            {{/autoForm}}
+        {{else}}
+            <p>
+                <span><i class="text-success fa fas fa-fw fa-check"></i></span>
+                {{i18n "login.requestSent"}}
+            </p>
+            <p>
+                <a href class="to-login-link">{{i18n "login.toLogin"}}</a>
+            </p>
+        {{/unless}}
+    {{/if}}
 </template>

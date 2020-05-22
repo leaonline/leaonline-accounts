@@ -15,11 +15,6 @@
 
 <template name="authLayout">
     <div class="container">
-        {{#if currentUser}}
-            <div class="d-block text-right">
-                {{> logout}}
-            </div>
-        {{/if}}
         {{> yield}}
     </div>
 </template>

@@ -1,0 +1,39 @@
+{
+  "actions": {
+    "close": "Schließen",
+    "submit": "Abschicken"
+  },
+  "common": {
+    "loading": "Wird geladen..."
+  },
+  "resetPassword": {
+    "title": "Ein neues Passwort setzen",
+    "complete": "Password erfolgreich aktualisiert",
+    "info": "Sie können hier Ihr Passwort neu setzen. Bitte beachten Sie Groß- und Kleinschreibung und bestätigen Sie Ihr Passwort, indem Sie es erneut eingeben.\n\nSie können Ihr eingegebenes Passwort prüfen, indem Sie auf das Augen-Symbol klicken",
+    "reset": "Neues Passwort setzen"
+  },
+  "enrollment": {
+    "title": "Bei lea.online registrieren",
+    "setPassword": "Passwort setzen",
+    "info": "Um Ihre Registrierung abzuschließen bitten wir Sie, folgende Felder auszufüllen:"
+  },
+  "authenticate": {
+    "hello": "Hallo, {{firstName}} {{lastName}}!",
+    "info": "Bitte wählen Sie, ob Sie mit dem genannten Konto lea.online verwenden, oder einen zuanderen Konto wechseln möchten.",
+    "useThisAccount": "Mit diesem Konto anmelden",
+    "switchAccount": "Mit anderem Konto anmelden"
+  },
+  "login": {
+    "title": "Bei lea.online anmelden",
+    "signIn": "Anmelden",
+    "forgotPassword": "Passwort vergessen?",
+    "requestPassword": "Link anfordern",
+    "requestSent": "Der Link wurde an die angegebene Emailadresse erfolgreich zugesendet.",
+    "toLogin": "zurück zur Anmeldung"
+  },
+  "user": {
+    "email": "Email",
+    "password": "Passwort",
+    "confirmPassword": "Passwort erneut eingeben"
+  }
+}

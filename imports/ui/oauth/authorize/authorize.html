@@ -1,6 +1,7 @@
 <template name="authorize">
+    <div class="text-center col-12 col-md-6 mr-auto ml-auto my-5">
     {{#unless loadComplete}}
-        Loading, please wait...
+        {{i18n "common.loading"}}
     {{else}}
         {{#with errors}}
             <h1>Invalid request</h1>
@@ -11,20 +12,18 @@
             {{/each}}
         {{else}}
             {{#if currentUser}}
-                <h1>Logging you in...</h1>
-
-                {{!-- if we later create a complete authorization form, we also want to display the scope here--}}
-                {{!--
-                <ul>
-                    {{#each resource in scope}}
-                        <li>{{resource}}</li>
-                    {{/each}}
-                </ul>
-                --}}
+                {{#unless autoSignIn}}
+                    <h1>{{i18n "authenticate.hello" currentUser}}</h1>
+                    <p>
+                        <span><i class="fa fas fa-fw fa-info-circle"></i></span>
+                        {{i18n "authenticate.info"}}
+                    </p>
+                {{else}}
+                    <p>{{i18n "authenticate.loggingIn"}}</p>
+                {{/unless}}
 
                 <form id="authForm" method="post" role="form"
                       class="{{#unless Template.subscriptionsReady}}hidden{{/unless}}">
-                    <h2>Authorise</h2>
                     <input type="hidden" name="allow" value="yes">
                     <input type="hidden" name="token" value="{{getToken}}">
                     {{#with queryParams}}
@@ -33,34 +32,24 @@
                         <input type="hidden" name="state" value="{{this.state}}">
                     {{/with}}
                     <input type="hidden" name="response_type" value="code">
-                    {{!-- later display authorize button --}}
-                    {{!--
-                    <button id="authorize-button" class="btn btn-primary btn-block" type="submit">Authorise</button>
-                    --}}
+
+                    {{!-- auto sign in is set when we switch to another user and login form this templtate --}}
+                    {{#unless autoSignIn}}
+                        <button id="authorize-button" class="btn btn-lg btn-primary my-2" type="submit">
+                            {{i18n "authenticate.useThisAccount"}}
+                        </button>
+                    {{/unless}}
                 </form>
 
-
-
-            {{!-- if we later create a complete authorization form, we also want a deny action here --}}
-            {{!--
-            <div class="text-center p-2">or</div>
-
-            <form method="post" role="form" class="{{#unless Template.subscriptionsReady}}hidden{{/unless}}">
-                <h2>Authorise</h2>
-                <input type="hidden" name="allow" value="false">
-                <input type="hidden" name="token" value="{{getToken}}">
-                {{#with queryParams}}
-                    <input type="hidden" name="client_id" value="{{this.client_id}}">
-                    <input type="hidden" name="redirect_uri" value="{{this.redirect_uri}}">
-                    <input type="hidden" name="state" value="{{this.state}}">
-                {{/with}}
-                <input type="hidden" name="response_type" value="code">
-                <button id="deny-button" class="btn btn-outline-secondary btn-block" type="submit">Deny</button>
-            </form>
-            --}}
+                {{#unless autoSignIn}}
+                    <button class="btn btn-sm btn-outline-secondary logout-button my-2">
+                        {{i18n "authenticate.switchAccount"}}
+                    </button>
+                {{/unless}}
             {{else}}
                 {{> login}}
             {{/if}}
         {{/with}}
     {{/unless}}
+    </div>
 </template>

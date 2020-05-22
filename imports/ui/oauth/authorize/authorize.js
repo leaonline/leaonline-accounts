@@ -24,8 +24,17 @@ Template.authorize.onCreated(function () {
 
   // subscription
   instance.autorun(() => {
-    instance.state.set('authorizedSubReady', authorizedClientsSub.ready())
-    console.log(authorizedClientsSub.ready())
+    const authorizedSubReady = authorizedClientsSub.ready()
+    instance.state.set('authorizedSubReady', authorizedSubReady)
+  })
+
+  instance.autorun(() => {
+    if (!Meteor.userId()) return
+    if (!instance.state.get('autoSignIn')) return
+
+    setTimeout(() => {
+      instance.$('#authForm').submit()
+    }, 300)
   })
 })
 
@@ -43,25 +52,16 @@ Template.authorize.helpers({
   errors () {
     const errors = Template.instance().state.get('errors')
     return errors && errors.length > 0 && errors
+  },
+  autoSignIn () {
+    return Template.instance().state.get('autoSignIn')
   }
 })
 
-// Auto click the submit/accept button if user already
-// accepted this client
-Template.authorize.onRendered(function () {
-  const instance = this
-  instance.autorun(function (computation) {
-    const user = Meteor.user() || Meteor.userId()
-    if (!user) return
-
-    // if we have a user we want to auto-submit the authentication form
-    computation.stop()
-
-    setTimeout(() => {
-      instance.$('#authForm').submit()
-    }, 300)
-
-    // if (user && user.oauth && user.oauth.authorizedClients &&
-    //  user.oauth.authorizedClients.includes(data.client_id) > -1) {}
-  })
+Template.authorize.events({
+  'click .logout-button' (event, templateInstance) {
+    event.preventDefault()
+    templateInstance.state.set('autoSignIn', true)
+    Meteor.logout()
+  }
 })

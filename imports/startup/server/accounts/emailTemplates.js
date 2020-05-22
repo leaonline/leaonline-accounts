@@ -36,8 +36,9 @@ Accounts.emailTemplates.resetPassword.subject = (user) => {
 }
 
 Accounts.emailTemplates.resetPassword.text = (user, url) => {
+  const cleanUrl = url.replace('/#/', '/')
   if (Meteor.isDevelopment) {
-    console.log('resetPassword', user, url)
+    console.log('resetPassword', user, cleanUrl)
   }
-  return `Hello ${user}! You can reset your ${settings.siteName} password via the following link: ${url}`
+  return `Hello ${user}! You can reset your ${settings.siteName} password via the following link: ${cleanUrl}`
 }
