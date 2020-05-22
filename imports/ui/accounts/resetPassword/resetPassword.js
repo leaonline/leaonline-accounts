@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating'
+import { Accounts } from 'meteor/accounts-base'
 import { ReactiveDict } from 'meteor/reactive-dict'
 import { Schema } from '../../../api/schema/Schema'
 import { getResetPasswordSchema } from '../../../api/accounts/schema/getResetPasswordSchema'

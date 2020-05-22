@@ -16,8 +16,8 @@ export const getResetPasswordSchema = () => ({
     },
     custom () {
       if (!this.isSet || !this.value) return false
-      const pwField = AutoForm.getFieldValue('password')
+      const pwField = global.AutoForm.getFieldValue('password')
       return this.value === pwField
     }
-  },
+  }
 })

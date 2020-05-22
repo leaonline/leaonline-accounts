@@ -1,12 +1,13 @@
 /* global AutoForm */
-import { Template } from 'meteor/templating'
 import { Meteor } from 'meteor/meteor'
+import { Accounts } from 'meteor/accounts-base'
+import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
 import { Schema } from '../../../api/schema/Schema'
 import { getLoginSchema } from '../../../api/accounts/schema/getLoginSchema'
 import { getForgotPasswordSchema } from '../../../api/accounts/schema/getForgotPasswordSchema'
-import './login.html'
 import { formIsValid } from '../../utils/formIsValid'
+import './login.html'
 
 const loginSchema = Schema.create(getLoginSchema())
 const forgotPasswordSchema = Schema.create(getForgotPasswordSchema())
@@ -95,10 +96,5 @@ Template.login.events({
       viewState: ViewStates.login,
       errors: null
     })
-  },
-  'click .forgotPasswordForm' (event, templateInstance) {
-    event.preventDefault()
-    const loginFormValues = AutoForm.getFormValues('loginForm')
-    const { email } = loginFormValues.insertDoc
   }
 })
