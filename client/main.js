@@ -1,3 +1,5 @@
 import '../imports/startup/client/routes'
+import '../imports/startup/client/bootstrap'
 import '../imports/ui/oauth/logout/logout'
+import './main.scss'
 import './main.html'
