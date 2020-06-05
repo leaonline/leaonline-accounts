@@ -17,7 +17,7 @@ Meteor.startup(() => {
     try {
       const userId = inviteUser(user)
       console.info(`DEFAULT: user created with id ${userId} - login via ${user.email}`)
-    } catch(error) {
+    } catch (error) {
       console.error(error)
     }
   })
