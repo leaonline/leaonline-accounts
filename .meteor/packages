@@ -20,7 +20,7 @@ shell-server@0.5.0            # Server-side component of the `meteor shell` comm
 # ACCOUNTS
 accounts-base@1.6.0
 accounts-password@1.6.0
-alanning:roles@3.2.2
+alanning:roles@3.2.3
 leaonline:oauth2-server
 
 # UI

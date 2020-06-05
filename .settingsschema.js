@@ -3,8 +3,6 @@ const oauthFlows = ['authorization_code']
 const rlativeUrl = /\/[a-zA-Z\/-]+/
 const schema = def => new SimpleSchema(def)
 
-SimpleSchema.RegEx.IdOf = (min = 17, max = 128) => new RegExp(`^[23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz]{${min},${max}}$`)
-
 const settingsSchema = schema({
   public: schema({
     oauth: schema({
@@ -70,11 +68,11 @@ const settingsSchema = schema({
     description: String,
     clientId: {
       type: String,
-      regEx: SimpleSchema.RegEx.IdOf(16)
+      regEx: SimpleSchema.RegEx.idOfLength(16, null)
     },
     secret: {
       type: String,
-      regEx: SimpleSchema.RegEx.IdOf(32)
+      regEx: SimpleSchema.RegEx.idOfLength(32, null)
     },
     url: {
       type: String,
