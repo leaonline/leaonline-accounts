@@ -16,7 +16,7 @@
   "dependencies": {
     "@babel/runtime": "^7.9.6",
     "@fortawesome/fontawesome-free": "^5.12.1",
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.0",
     "bootstrap": "^4.5.0",
     "jquery": "^3.5.1",
     "meteor-node-stubs": "^0.4.1",
