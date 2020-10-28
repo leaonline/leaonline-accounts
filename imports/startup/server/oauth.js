@@ -8,7 +8,7 @@ const oauth2server = new OAuth2Server({
   serverOptions: server,
   model: model,
   routes: routes,
-  debug: true
+  debug: debug
 })
 
 oauth2server.validateUser(canUserAccessClient)
@@ -24,13 +24,13 @@ oauth2server.authenticatedRoute().get(routes.identityUrl, function (req, res, ne
 
   const body = user
     ? JSON.stringify({
-      id: user._id,
-      login: user.username,
-      email: user.emails && user.emails[0]?.address,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      name: `${user.firstName} ${user.lastName}`
-    })
+        id: user._id,
+        login: user.username,
+        email: user.emails && user.emails[0]?.address,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        name: `${user.firstName} ${user.lastName}`
+      })
     : ''
 
   res.end(body)
