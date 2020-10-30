@@ -51,7 +51,11 @@ const settingsSchema = schema({
       lastName: String,
       institution: String,
       roles: Array,
-      'roles.$': String
+      'roles.$': String,
+      retry: {
+        type: Boolean,
+        optional: true
+      }
     })
   }),
   oauth: schema({

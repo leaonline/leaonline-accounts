@@ -1,24 +1,50 @@
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import { inviteUser } from '../../../api/accounts/inviteUser'
+import { createInfoLog } from '../../../api/log/createLog'
+import { rollback } from '../../../api/accounts/rollback'
 
 const users = Meteor.settings.accounts.users
+const info = createInfoLog('Accounts')
+
 
 Meteor.startup(() => {
-  console.info('DEFAULT: check accounts')
+  info('check accounts')
   users.forEach(user => {
-    const { email } = user
-    if (Accounts.findUserByEmail(email)) {
+    const { email, retry } = user
+    const existingUser = Accounts.findUserByEmail(email)
+
+    if (existingUser && !retry) {
       // skip this user as she already exists
-      console.info(`DEFAULT: User exists for mail ${email}`)
+      info(`User exists for mail ${email}`)
       return
     }
-    console.info(`DEFAULT: invite user with email ${email}`)
+
+    // there is a retry option BUT ONLY for users that have yet no valid email
+    // addresss, for example due to a failed creation
+    if (existingUser && retry && !(existingUser.emails[0]?.verified)) {
+      info(`retry - remove user for ${email}`)
+      Meteor.users.remove(existingUser._id)
+    }
+
+    info(`invite user with email ${email}`)
     try {
       const userId = inviteUser(user)
-      console.info(`DEFAULT: user created with id ${userId} - login via ${user.email}`)
+      info(`user created with id ${userId} - for ${email}`)
     } catch (error) {
       console.error(error)
+      info(`invitation failed for ${email}`)
+
+      // on a failed invitation attempt we remove the user
+      const failedUser =  Accounts.findUserByEmail(email)
+      if (!failedUser) {
+        info('no need to rollback')
+      } else {
+        info('initiate rollback')
+        rollback(failedUser)
+      }
+
+      // TODO notify admin
     }
   })
 })
