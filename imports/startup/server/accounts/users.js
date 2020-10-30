@@ -7,7 +7,6 @@ import { rollback } from '../../../api/accounts/rollback'
 const users = Meteor.settings.accounts.users
 const info = createInfoLog('Accounts')
 
-
 Meteor.startup(() => {
   info('check accounts')
   users.forEach(user => {
@@ -36,7 +35,7 @@ Meteor.startup(() => {
       info(`invitation failed for ${email}`)
 
       // on a failed invitation attempt we remove the user
-      const failedUser =  Accounts.findUserByEmail(email)
+      const failedUser = Accounts.findUserByEmail(email)
       if (!failedUser) {
         info('no need to rollback')
       } else {
