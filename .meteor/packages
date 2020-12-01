@@ -28,7 +28,7 @@ ostrio:flow-router-extra
 ostrio:i18n
 reactive-dict@1.3.0
 aldeed:autoform@7.0.0!
-jkuester:autoform-bootstrap4
+communitypackages:autoform-bootstrap4
 jkuester:autoform-password2
 jquery@3.0.0!
 leaonline:utils
