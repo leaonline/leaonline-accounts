@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 const settings = Meteor.settings.oauth.clients
 const clients = {}
 
-settings.map(entry => {
+settings.forEach(entry => {
   clients[entry.clientId] = entry.key
 })
 

@@ -1,3 +1,5 @@
+/* global AutoForm */
+import { Meteor } from 'meteor/meteor'
 import '@fortawesome/fontawesome-free/js/all'
 import 'bootstrap'
 import popper from 'popper.js'
