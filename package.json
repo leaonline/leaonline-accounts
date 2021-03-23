@@ -14,12 +14,12 @@
     "lint:markdown-fix": "markdownlint --fix \"**/*.md\" --config ./.markdownlint.json"
   },
   "dependencies": {
-    "@babel/runtime": "^7.12.5",
-    "@fortawesome/fontawesome-free": "^5.15.2",
+    "@babel/runtime": "^7.13.10",
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "bcrypt": "^5.0.1",
     "bootstrap": "^4.6.0",
     "jquery": "^3.6.0",
-    "meteor-node-stubs": "^1.0.1",
+    "meteor-node-stubs": "^1.0.2",
     "popper.js": "^1.16.1",
     "simpl-schema": "^1.10.2"
   },
@@ -32,11 +32,11 @@
   },
   "devDependencies": {
     "markdown-cli": "^1.6.0",
-    "markdownlint-cli": "^0.26.0",
+    "markdownlint-cli": "^0.27.1",
     "snazzy": "^9.0.0",
     "standard": "^16.0.3",
-    "stylelint": "^13.9.0",
-    "stylelint-config-sass-guidelines": "^7.1.0",
-    "stylelint-config-standard": "^20.0.0"
+    "stylelint": "^13.12.0",
+    "stylelint-config-sass-guidelines": "^8.0.0",
+    "stylelint-config-standard": "^21.0.0"
   }
 }
