@@ -90,15 +90,18 @@ jobs:
     runs-on: ubuntu-latest
     needs: [tests]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Download coverage
         uses: actions/download-artifact@v2
         with:
           name: coverage-folder
+          path: .coverage/
 
 
       - name: Coverage Report
-        uses: romeovs/lcov-reporter-action@v0.2.21
+        uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          lcov-file: ./.coverage/lcov.info
+          path: ".coverage/lcov.info"
+          min_coverage: 95
