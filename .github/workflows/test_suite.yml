@@ -22,13 +22,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: leaonline/testing
-          path: main/lib
+          path: lib
 
       - name: Checkout leaonline:theme repo
         uses: actions/checkout@v2
         with:
           repository: leaonline/theme
-          path: main/lib
+          path: lib
 
       # CACHING
       - name: Cache Meteor install
