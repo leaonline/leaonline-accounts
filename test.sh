@@ -63,7 +63,6 @@ then
     # in cli mode we use a headless browser to include client tests
     # and we activate the coverage reporting functionality
     # ---------------------------------------------------------------
-    METEOR_PROFILE=100 \
     METEOR_PACKAGE_DIRS=${PACKAGE_DIRS} \
     BABEL_ENV=COVERAGE \
     TEST_BROWSER_DRIVER=puppeteer \
