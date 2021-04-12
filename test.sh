@@ -64,17 +64,31 @@ then
     METEOR_PACKAGE_DIRS=${PACKAGE_DIRS} \
     BABEL_ENV=COVERAGE \
     TEST_BROWSER_DRIVER=puppeteer \
+    TEST_SERVER=1 \
+    TEST_CLIENT=1 \
     COVERAGE=1 \
     COVERAGE_OUT_HTML=1 \
     COVERAGE_OUT_JSON_SUMMARY=1 \
     COVERAGE_APP_FOLDER=$PWD/ \
     COVERAGE_VERBOSE_MODE=${VERBOSE_MODE} \
-            meteor test --driver-package=meteortesting:mocha --settings=settings.json --port=${PORT} --once
+            meteor test \
+                --exclude-archs=web.browser.legacy,web.cordova \
+                --driver-package=meteortesting:mocha \
+                --settings=settings.json \
+                --port=${PORT} \
+                --once
     else
     # ---------------------------------------------------------------
     # in watch mode we neither use a browser driver, nor coverage
     # se we speed up the test reload in the development phase
     # ---------------------------------------------------------------
     METEOR_PACKAGE_DIRS=${PACKAGE_DIRS} \
-        meteor test --driver-package=meteortesting:mocha --settings=settings.json --port=${PORT}
+    TEST_BROWSER_DRIVER=puppeteer \
+    TEST_SERVER=1 \
+    TEST_CLIENT=1 \
+        meteor test \
+            --exclude-archs=web.browser.legacy,web.cordova \
+            --driver-package=meteortesting:mocha \
+            --settings=settings.json \
+            --port=${PORT}
 fi

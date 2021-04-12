@@ -28,11 +28,14 @@
       "client": "client/main.js",
       "server": "server/main.js"
     },
-    "testModule": "tests/main.js"
+    "testModule": "tests/main.tests.js"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
     "markdown-cli": "^1.6.0",
     "markdownlint-cli": "^0.27.1",
+    "puppeteer": "^8.0.0",
+    "sinon": "^10.0.0",
     "snazzy": "^9.0.0",
     "standard": "^16.0.3",
     "stylelint": "^13.12.0",

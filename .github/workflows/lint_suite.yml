@@ -8,6 +8,33 @@ on:
   pull_request:
 
 jobs:
+  audit:
+    name: Javascript lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
+    - name: cache dependencies
+      uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-leaonline-accounts
+
+    - name: Install Dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+
+    - name: Run audit
+      run: npm audit --production
+
   lintcode:
     name: Javascript lint
     runs-on: ubuntu-latest
@@ -26,10 +53,14 @@ jobs:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-
+          ${{ runner.os }}-node-leaonline-accounts
 
-    - run: npm install
-    - run: npm run lint:code
+    - name: Install Dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+
+    - name: Run linter
+      run: npm run lint:code
 
   lintstyle:
     name: SCSS lint
@@ -50,9 +81,14 @@ jobs:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-
-    - run: npm install
-    - run: npm run lint:style
+          ${{ runner.os }}-node-leaonline-accounts
+
+    - name: Install Dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+
+    - name: Run linter
+      run: npm run lint:style
 
   lintdocs:
     name: documentation lint
@@ -73,7 +109,11 @@ jobs:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-
+          ${{ runner.os }}-node-leaonline-accounts
 
-    - run: npm install
-    - run: npm run lint:markdown
+    - name: Install Dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+
+    - name: Run linter
+      run: npm run lint:markdown
