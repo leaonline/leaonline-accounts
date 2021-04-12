@@ -54,9 +54,6 @@ then
 	echo "=> Lib path(s): [${PACKAGE_DIRS}]"
 	echo "=> Watch mode: [${WATCH_MODE}] ${RUN_ONCE}"
 	echo "=> list paths:"
-	ls -la ./
-	ls -la ~/
-	ls -la ~/leaonline-accounts
 fi
 
 
