@@ -22,16 +22,16 @@ describe(assignRole.name, function () {
   })
 
   it('throws if the given role is not found', function () {
-    expect(() => assignRole(userId, role)).to.throw('assignRole.unknownRole')
+    expect(() => assignRole(userId, role, institution)).to.throw('assignRole.unknownRole')
   })
   it('throws if the given user is not found', function () {
-    stub(Meteor.roles, 'find', () => ({ count: (() => 1) }))
-    expect(() => assignRole(userId, role)).to.throw('assignRole.unkownUser')
+    stub(Meteor.roles, 'find', () => ({ count: () => 1 }))
+    expect(() => assignRole(userId, role, institution)).to.throw('assignRole.unkownUser')
   })
   it('throws if the user role is not assigned', function () {
-    stub(Meteor.roles, 'find', () => ({ count: (() => 1) }))
-    stub(Meteor.users, 'find', () => ({ count: (() => 1) }))
+    stub(Meteor.roles, 'find', () => ({ count: () => 1 }))
+    stub(Meteor.users, 'find', () => ({ count: () => 1 }))
     stub(Roles, 'addUsersToRoles', () => true)
-    expect(() => assignRole(userId, role)).to.throw('assignRole.roleNotAssigned')
+    expect(() => assignRole(userId, role, institution)).to.throw('assignRole.roleNotAssigned')
   })
 })

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { Roles } from 'meteor/alanning:roles'
-import {OAuth } from '../oauth/OAuth'
+import { OAuth } from '../oauth/OAuth'
 
 export const canUserAccessClient = ({ user, client }) => {
   if (!user?._id || !client?.clientId) {
@@ -15,7 +15,8 @@ export const canUserAccessClient = ({ user, client }) => {
   if (!Roles.userIsInRole(userId, clientKey, institution)) {
     Meteor.users.update({ _id: userId }, { $set: { 'services.resume.loginTokens': [] } })
     return false
-  } else {
+  }
+  else {
     return true
   }
 }
