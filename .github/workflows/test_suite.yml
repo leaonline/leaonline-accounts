@@ -23,14 +23,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: leaonline/testing
-          ref: master
           path: main/lib
 
       - name: Checkout leaonline:theme repo
         uses: actions/checkout@v2
         with:
           repository: leaonline/theme
-          ref: master
           path: main/lib
 
       - name: Setup meteor
@@ -48,7 +46,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: meteor npm ci
 
       - name: Run Tests
         run: sh ./test.sh -c
