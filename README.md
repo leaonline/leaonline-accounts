@@ -15,14 +15,14 @@ Allows users to authenticate across multiple (registered) Meteor apps.
 
 ## Install and run
 
-First, make sure Meteor is installed (https://meteor.com).
+First, make sure [Meteor](https://meteor.com) is installed.
 Then clone this repo and install the dependencies.
 Finally run the `run.sh` script.
 
 ```bash
-$ git clone git@github.com:leaonline/leaonline-accounts.git
-$ cd leaonline-accounts && meteor npm install
-$ ./run.sh
+git clone git@github.com:leaonline/leaonline-accounts.git
+cd leaonline-accounts && meteor npm install
+./run.sh
 ```
 
 ## Run tests
