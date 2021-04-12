@@ -1,5 +1,6 @@
 # lea.online Accounts
 
+[![Test suite](https://github.com/leaonline/leaonline-accounts/actions/workflows/test_suite.yml/badge.svg)](https://github.com/leaonline/leaonline-accounts/actions/workflows/test_suite.yml)
 ![Lint suite](https://github.com/leaonline/leaonline-accounts/workflows/Lint%20suite/badge.svg)
 [![CodeQL](https://github.com/leaonline/leaonline-accounts/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/leaonline/leaonline-accounts/actions/workflows/codeql-analysis.yml)
 [![built with Meteor](https://img.shields.io/badge/Meteor-2.1.1-green?logo=meteor&logoColor=white)](https://meteor.com)
@@ -7,21 +8,33 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![GitHub](https://img.shields.io/github/license/leaonline/leaonline-accounts)
 
-## Roles system
+## About
 
-There are four main roles within the lea.system. The roles are placed within
-a hierarchy of access, where the top-most role has the least restricted permissions:
+Provides an accounts service, based on Meteor using `leaonline:oauth2-server`.
+Allows users to authenticate across multiple (registered) Meteor apps.
 
-1. Administrators (`admin`) - no restriction
-2. Core team members (`team`) - can't manage roles and users but backend and classes
-3. Course instructors (`teacher`) - can only manage classes
-4. Particpants (`user`) - no special permissions
+## Install and run
 
-A future `test` role is to be added in order to separate "real" users from
-test users. This role needs to include a special permission of deleting
-all test data that is associated with the test user.
+First, make sure Meteor is installed (https://meteor.com).
+Then clone this repo and install the dependencies.
+Finally run the `run.sh` script.
 
-### Developers note
+```bash
+$ git clone git@github.com:leaonline/leaonline-accounts.git
+$ cd leaonline-accounts && meteor npm install
+$ ./run.sh
+```
 
-In the code the roles are named `Personas` in order to keep this
-separated from the `Roles` API, that defined by the `alanning:roles` package.
+## Run tests
+
+We have compiled a script for testing for you.
+To run tests in watch mode simply run `./tests.sh`.
+If you want to run testsb once, including coverage analysis run `./tests.sh -c`
+
+## Contribute
+
+Feel free to contribute via issues, PRs, feature requests etc.
+
+## License
+
+AGPL v3, see [LICENSE file](./LICENSE)
