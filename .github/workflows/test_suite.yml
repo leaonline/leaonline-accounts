@@ -24,6 +24,12 @@ jobs:
           repository: leaonline/testing
           path: github/testing
 
+      - name: Checkout leaonline:utils repo
+        uses: actions/checkout@v2
+        with:
+          repository: leaonline/utils
+          path: github/utils
+
       - name: Checkout leaonline:theme repo
         uses: actions/checkout@v2
         with:
