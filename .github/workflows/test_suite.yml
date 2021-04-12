@@ -13,15 +13,30 @@ jobs:
     name: Meteor ${{ matrix.meteor }} tests
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+
+      - name: Checkout
         uses: actions/checkout@v2
+        with:
+          path: main
+
+      - name: Checkout leaonline:testing repo
+        uses: actions/checkout@v2
+        with:
+          repository: leaonline/testing
+          path: lib
+
+      - name: Checkout leaonline:theme repo
+        uses: actions/checkout@v2
+        with:
+          repository: leaonline/theme
+          path: lib
 
       - name: Setup meteor
         uses: meteorengineer/setup-meteor@v1
         with:
           meteor-release: '1.9.2'
 
-      - name: Cache dependencies
+      - name: Cache NPM dependencies
         uses: actions/cache@v1
         with:
           path: ~/.npm
@@ -35,3 +50,9 @@ jobs:
 
       - name: Run Tests
         run: sh ./test.sh -c
+
+      - name: Coverage Report
+        uses: romeovs/lcov-reporter-action@v0.2.21
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: ./coverage/lcov.info

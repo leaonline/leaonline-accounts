@@ -28,8 +28,8 @@ cd leaonline-accounts && meteor npm install
 ## Run tests
 
 We have compiled a script for testing for you.
-To run tests in watch mode simply run `./tests.sh`.
-If you want to run testsb once, including coverage analysis run `./tests.sh -c`
+To run tests in watch mode simply run `./test.sh`.
+If you want to run testsb once, including coverage analysis run `./test.sh -c`
 
 ## Contribute
 

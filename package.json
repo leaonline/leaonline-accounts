@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
+    "babel-plugin-istanbul": "^6.0.0",
     "chai": "^4.3.4",
     "eslint-plugin-security": "^1.4.0",
     "markdown-cli": "^1.6.0",
@@ -44,7 +45,15 @@
     "stylelint-config-sass-guidelines": "^8.0.0",
     "stylelint-config-standard": "^21.0.0"
   },
-  "babel": {},
+  "babel": {
+    "env": {
+      "COVERAGE": {
+        "plugins": [
+          "istanbul"
+        ]
+      }
+    }
+  },
   "eslintConfig": {
     "parser": "@babel/eslint-parser",
     "parserOptions": {

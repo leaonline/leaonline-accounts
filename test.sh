@@ -68,6 +68,8 @@ then
     TEST_CLIENT=1 \
     COVERAGE=1 \
     COVERAGE_OUT_HTML=1 \
+    COVERAGE_OUT_LCOVONLY=1 \
+    COVERAGE_OUT_TEXT_SUMMARY=1 \
     COVERAGE_OUT_JSON_SUMMARY=1 \
     COVERAGE_APP_FOLDER=$PWD/ \
     COVERAGE_VERBOSE_MODE=${VERBOSE_MODE} \
@@ -77,6 +79,7 @@ then
                 --settings=settings.json \
                 --port=${PORT} \
                 --once
+    cat ./.coverage/summary.txt
     else
     # ---------------------------------------------------------------
     # in watch mode we neither use a browser driver, nor coverage
