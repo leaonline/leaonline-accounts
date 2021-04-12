@@ -37,12 +37,14 @@ jobs:
           path: github/theme
 
       # CACHING
-      - name: Cache Meteor install
+      - name: Install Meteor
         id: cache-meteor-install
         uses: actions/cache@v2
         with:
           path: ~/.meteor
           key: v1-meteor-${{ hashFiles('.meteor/versions') }}
+          restore-keys: |
+                v1-meteor-
 
       - name: Cache NPM dependencies
         id: cache-meteor-npm
@@ -50,6 +52,8 @@ jobs:
         with:
           path: ~/.npm
           key: v1-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+                v1-npm-
 
       - name: Cache Meteor build
         id: cache-meteor-build
@@ -61,6 +65,8 @@ jobs:
             .meteor/local/isopacks
             .meteor/local/bundler-cache/scanner
           key: v1-meteor_build_cache-${{ github.ref }}-${{ github.sha }}
+          restore-key: |
+            v1-meteor_build_cache-
 
       - name: Setup meteor
         uses: meteorengineer/setup-meteor@v1
@@ -73,7 +79,7 @@ jobs:
         run: meteor npm ci
 
       - name: Run Tests
-        run: sh ./test.sh -cv
+        run: sh ./test.sh -c
 
       - name: Coverage Report
         uses: romeovs/lcov-reporter-action@v0.2.21
