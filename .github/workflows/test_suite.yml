@@ -70,12 +70,10 @@ jobs:
 
       - name: Setup meteor
         uses: meteorengineer/setup-meteor@v1
-        if: steps.cache-meteor-install.outputs.cache-hit != 'true'
         with:
           meteor-release: '2.1.1'
 
       - name: Install NPM Dependencies
-        if: steps.cache-meteor-npm.outputs.cache-hit != 'true'
         run: meteor npm ci
 
       - name: Run Tests
