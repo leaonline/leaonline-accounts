@@ -17,8 +17,6 @@ jobs:
       # CHECKOUTS
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          path: main
 
       - name: Checkout leaonline:testing repo
         uses: actions/checkout@v2
