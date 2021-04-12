@@ -49,10 +49,14 @@ then
     PROJECT_NAME=`basename "$PROJECT_ROOT"`
 	echo "=> Test: $PROJECT_NAME"
 	echo "=> Path: [${PROJECT_ROOT}]"
-	echo "=> Patent Path: [${PARENT_ROOT}]"
+	echo "=> Parent Path: [${PARENT_ROOT}]"
 	echo "=> Port: [${PORT}]"
 	echo "=> Lib path(s): [${PACKAGE_DIRS}]"
 	echo "=> Watch mode: [${WATCH_MODE}] ${RUN_ONCE}"
+	echo "=> list paths:"
+	ls -la ./
+	ls -la ~/
+	ls -la ~/leaonline-accounts
 fi
 
 
