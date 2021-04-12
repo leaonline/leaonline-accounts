@@ -67,7 +67,7 @@ jobs:
         run: meteor npm ci
 
       - name: Run Tests
-        run: sh ./test.sh -c
+        run: sh ./test.sh -cv
 
       - name: Coverage Report
         uses: romeovs/lcov-reporter-action@v0.2.21
