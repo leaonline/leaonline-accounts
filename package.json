@@ -33,6 +33,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
     "chai": "^4.3.4",
+    "eslint-plugin-security": "^1.4.0",
     "markdown-cli": "^1.6.0",
     "markdownlint-cli": "^0.27.1",
     "puppeteer": "^8.0.0",
@@ -50,6 +51,12 @@
       "sourceType": "module",
       "allowImportExportEverywhere": true
     },
+    "plugins": [
+      "security"
+    ],
+    "extends": [
+      "plugin:security/recommended"
+    ],
     "rules": {
       "brace-style": [
         "error",
