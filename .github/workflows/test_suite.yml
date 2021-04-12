@@ -88,6 +88,7 @@ jobs:
   coverage:
     name: Coverage report
     runs-on: ubuntu-latest
+    needs: [tests]
     steps:
 
       - name: Download coverage
