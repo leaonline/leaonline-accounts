@@ -54,7 +54,7 @@ export const createInviteUser = (handlers = {}) => {
       return userId
     }
     catch (error) {
-      handlers.errorHandler({ userId, institution, error })
+      handlers.errorHandler({ userId, error, ...userDefinitions })
     }
   }
 }

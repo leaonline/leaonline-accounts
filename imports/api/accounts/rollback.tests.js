@@ -1,5 +1,6 @@
 /* eslint-env mocha */
 import { Meteor } from 'meteor/meteor'
+import { Accounts } from 'meteor/accounts-base'
 import { expect } from 'chai'
 import { Random } from 'meteor/random'
 import { Roles } from 'meteor/alanning:roles'
@@ -17,8 +18,13 @@ describe(rollback.name, function () {
     restoreAll()
   })
   it('does nothing when the user does not exist', function () {
+    stub(Accounts, 'findUserByEmail', () => false)
     expect(rollback()).to.equal(false)
     expect(rollback({})).to.equal(false)
+    expect(rollback({ email: Random.id(8) })).to.equal(false)
+
+    stub(Meteor.users, 'remove', () => 0)
+    expect(rollback({ userId: Random.id(8) })).to.equal(false)
   })
   it('resets the user\'s roles', function (done) {
     stub(Roles, 'setUserRoles', (updateId, updateRoles, updateInstitution) => {
@@ -31,11 +37,15 @@ describe(rollback.name, function () {
     rollback({ userId, institution })
   })
 
-  it('removes the user', function (done) {
+  it('removes the user', function () {
+    stub(Roles, 'setUserRoles', () => {})
     stub(Meteor.users, 'remove', _id => {
       expect(_id).to.equal(userId)
-      done()
+      return 1
     })
-    rollback({ userId })
+    expect(rollback({ userId })).to.equal(true)
+
+    stub(Accounts, 'findUserByEmail', () => ({ _id: userId }))
+    expect(rollback({ email: Random.id(8) })).to.equal(true)
   })
 })

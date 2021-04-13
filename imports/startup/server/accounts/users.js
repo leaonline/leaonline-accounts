@@ -6,17 +6,18 @@ import { rollback } from '../../../api/accounts/rollback'
 import { assignRole } from '../../../api/accounts/assignRole'
 import { createUser } from '../../../api/accounts/createUser'
 
+const users = Meteor.settings.accounts.users
+const info = createInfoLog('Accounts')
 const inviteUser = createInviteUser({
   createUserHandler: createUser,
   rolesHandler: ({ userId, roles, institution }) => assignRole(userId, roles, institution),
-  errorHandler: ({ userId, institution, error }) => {
+  errorHandler: ({ userId, email, institution, error }) => {
     console.error(error) // TODO LOG ERROR
-    rollback({ userId, institution })
+
+    info(`invitation failed for ${email} (userId=${userId})`)
+    return rollback({ userId, email, institution })
   }
 })
-
-const users = Meteor.settings.accounts.users
-const info = createInfoLog('Accounts')
 
 Meteor.startup(() => {
   info('check accounts')
@@ -38,25 +39,9 @@ Meteor.startup(() => {
     }
 
     info(`invite user with email ${email}`)
-    try {
-      const userId = inviteUser(user)
+    const userId = inviteUser(user)
+    if (userId) {
       info(`user created with id ${userId} - for ${email}`)
-    }
-    catch (error) {
-      console.error(error)
-      info(`invitation failed for ${email}`)
-
-      // on a failed invitation attempt we remove the user
-      const failedUser = Accounts.findUserByEmail(email)
-      if (!failedUser) {
-        info('no need to rollback')
-      }
-      else {
-        info('initiate rollback')
-        rollback(failedUser)
-      }
-
-      // TODO notify admin
     }
   })
 })
