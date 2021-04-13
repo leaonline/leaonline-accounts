@@ -12,7 +12,7 @@ export const OAuth = {}
 OAuth.getClientKey = clientId => clients.get(clientId)
 
 OAuth.getIdentity = userId => {
-  const user = Meteor.users.findOne(userId)
+  const user = userId && Meteor.users.findOne(userId)
   if (!user) return
 
   return {
