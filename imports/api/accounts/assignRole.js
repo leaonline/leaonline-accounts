@@ -16,4 +16,6 @@ export const assignRole = (userId, role, institution) => {
     const details = JSON.stringify({ userId, role, institution })
     throw new Meteor.Error('assignRole.failed', 'assignRole.roleNotAssigned', details)
   }
+
+  return true
 }

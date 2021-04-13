@@ -6,8 +6,8 @@
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
-    "lint:code": "standard | snazzy",
-    "lint:code-fix": "standard --fix | snazzy",
+    "lint:code": "standardx -v | snazzy",
+    "lint:code-fix": "standardx --fix -v | snazzy",
     "lint:style": "stylelint \"**/*.scss\"",
     "lint:style-fix": "stylelint --fix \"**/*.scss\"",
     "lint:markdown": "markdownlint \"**/*.md\" --config ./.markdownlint.json",
@@ -31,15 +31,49 @@
     "testModule": "tests/main.tests.js"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.13.14",
+    "babel-plugin-istanbul": "^6.0.0",
     "chai": "^4.3.4",
+    "eslint-plugin-security": "^1.4.0",
     "markdown-cli": "^1.6.0",
     "markdownlint-cli": "^0.27.1",
     "puppeteer": "^8.0.0",
     "sinon": "^10.0.0",
     "snazzy": "^9.0.0",
-    "standard": "^16.0.3",
+    "standardx": "^7.0.0",
     "stylelint": "^13.12.0",
     "stylelint-config-sass-guidelines": "^8.0.0",
     "stylelint-config-standard": "^21.0.0"
+  },
+  "babel": {
+    "env": {
+      "COVERAGE": {
+        "plugins": [
+          "istanbul"
+        ]
+      }
+    }
+  },
+  "eslintConfig": {
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "sourceType": "module",
+      "allowImportExportEverywhere": true
+    },
+    "plugins": [
+      "security"
+    ],
+    "extends": [
+      "plugin:security/recommended"
+    ],
+    "rules": {
+      "brace-style": [
+        "error",
+        "stroustrup",
+        {
+          "allowSingleLine": true
+        }
+      ]
+    }
   }
 }

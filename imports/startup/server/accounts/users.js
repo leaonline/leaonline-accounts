@@ -30,7 +30,8 @@ Meteor.startup(() => {
     try {
       const userId = inviteUser(user)
       info(`user created with id ${userId} - for ${email}`)
-    } catch (error) {
+    }
+    catch (error) {
       console.error(error)
       info(`invitation failed for ${email}`)
 
@@ -38,7 +39,8 @@ Meteor.startup(() => {
       const failedUser = Accounts.findUserByEmail(email)
       if (!failedUser) {
         info('no need to rollback')
-      } else {
+      }
+      else {
         info('initiate rollback')
         rollback(failedUser)
       }

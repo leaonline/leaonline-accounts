@@ -18,7 +18,8 @@ Template.enroll.onCreated(function () {
       if (error) instance.state.set({ error })
       instance.state.set('ready', true)
     })
-  } else {
+  }
+  else {
     instance.state.set('ready', true)
   }
 })
@@ -43,7 +44,8 @@ Template.enroll.events({
       templateInstance.state.set('resetting', false)
       if (error) {
         templateInstance.state.set({ error })
-      } else {
+      }
+      else {
         console.log('successful!', Meteor.user())
       }
     })
