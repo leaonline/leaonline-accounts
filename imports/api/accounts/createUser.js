@@ -34,7 +34,7 @@ export const createUser = (userCredentials = {}) => {
   }
 
   const userId = Accounts.createUser(userDef)
-  const updated = Meteor.users.Meteor.users.update(userId, { $set: profile })
+  const updated = Meteor.users.update(userId, { $set: profile })
 
   if (!updated) {
     throw new Meteor.Error('createUser.failed', 'createUser.updateFailed')

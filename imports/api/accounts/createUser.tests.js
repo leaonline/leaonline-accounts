@@ -22,6 +22,21 @@ describe(createUser.name, function () {
   afterEach(function () {
     restoreAll()
   })
+  it('throws on incomplete params', function () {
+    delete userDoc.username
+    ;[undefined, {}].forEach(doc => {
+      expect(() => createUser(doc)).to.throw('Missing key \'email\'')
+    })
+
+    delete userDoc.institution
+    expect(() => createUser(userDoc)).to.throw('Missing key \'institution\'')
+
+    delete userDoc.lastName
+    expect(() => createUser(userDoc)).to.throw('Missing key \'lastName\'')
+
+    delete userDoc.firstName
+    expect(() => createUser(userDoc)).to.throw('Missing key \'firstName\'')
+  })
   it('throws if email alredy exists', function () {
     stub(Accounts, 'findUserByEmail', () => true)
     expect(() => createUser(userDoc)).to.throw('createUser.userExists')
@@ -33,16 +48,19 @@ describe(createUser.name, function () {
   })
   it('throws if user profile is not updated', function () {
     stub(Accounts, 'findUserByEmail', () => false)
-    stub(Accounts, 'findUserByUsername', () => true)
+    stub(Accounts, 'findUserByUsername', () => false)
     stub(Accounts, 'createUser', () => userId)
     stub(Meteor.users, 'update', () => 0)
     expect(() => createUser(userDoc)).to.throw('createUser.updateFailed')
   })
   it('creates a new user', function () {
     stub(Accounts, 'findUserByEmail', () => false)
-    stub(Accounts, 'findUserByUsername', () => true)
+    stub(Accounts, 'findUserByUsername', () => false)
     stub(Accounts, 'createUser', () => userId)
     stub(Meteor.users, 'update', () => 1)
+    expect(createUser(userDoc)).to.equal(userId)
+
+    delete userDoc.username
     expect(createUser(userDoc)).to.equal(userId)
   })
 })
