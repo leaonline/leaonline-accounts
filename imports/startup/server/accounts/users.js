@@ -1,8 +1,19 @@
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
-import { inviteUser } from '../../../api/accounts/inviteUser'
+import { createInviteUser } from '../../../api/accounts/createInviteUser'
 import { createInfoLog } from '../../../api/log/createLog'
 import { rollback } from '../../../api/accounts/rollback'
+import { assignRole } from '../../../api/accounts/assignRole'
+import { createUser } from '../../../api/accounts/createUser'
+
+const inviteUser = createInviteUser({
+  createUserHandler: createUser,
+  rolesHandler: ({ userId, roles, institution }) => assignRole(userId, roles, institution),
+  errorHandler: ({ userId, institution, error }) => {
+    console.error(error) // TODO LOG ERROR
+    rollback({ userId, institution })
+  }
+})
 
 const users = Meteor.settings.accounts.users
 const info = createInfoLog('Accounts')
