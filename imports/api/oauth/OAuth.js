@@ -10,3 +10,17 @@ settings.forEach(entry => {
 export const OAuth = {}
 
 OAuth.getClientKey = clientId => clients.get(clientId)
+
+OAuth.getIdentity = userId => {
+  const user = Meteor.users.findOne(userId)
+  if (!user) return
+
+  return {
+    id: user._id,
+    login: user.username,
+    email: user.emails?.[0]?.address,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    name: `${user.firstName} ${user.lastName}`
+  }
+}

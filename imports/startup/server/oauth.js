@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { OAuth2Server } from 'meteor/leaonline:oauth2-server'
 import { canUserAccessClient } from '../../api/accounts/canUserAccessClient'
+import { OAuth } from '../../api/oauth/OAuth'
 
 const { clients, server, model, debug } = Meteor.settings.oauth
 const routes = Meteor.settings.public.oauth
@@ -11,27 +12,25 @@ const oauth2server = new OAuth2Server({
   debug: debug
 })
 
-oauth2server.validateUser(canUserAccessClient)
+oauth2server.validateUser(function (userData) {
+  return canUserAccessClient(userData)
+})
 
-oauth2server.authenticatedRoute().get(routes.identityUrl, function (req, res, next) {
-  const user = Meteor.users.findOne(req.data.user.id)
+oauth2server.authenticatedRoute().get(routes.identityUrl, function (req, res) {
+  const userId = req?.data?.user?.id
+  const user = OAuth.getIdentity(userId)
+  const status = user ? 200 : 404
 
-  // TODO fail with 404 if user is not found
-
-  res.writeHead(200, {
+  res.writeHead(status, {
     'Content-Type': 'application/json'
   })
 
   const body = user
-    ? JSON.stringify({
-        id: user._id,
-        login: user.username,
-        email: user.emails && user.emails[0]?.address,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        name: `${user.firstName} ${user.lastName}`
-      })
-    : ''
+    ? JSON.stringify(user)
+    : JSON.stringify({
+      error: 'user not found',
+      response: `request user [${userId}] not found`
+    })
 
   res.end(body)
 })
