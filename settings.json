@@ -134,19 +134,6 @@
           "teacher",
           "content"
         ]
-      },
-      {
-        "email": "failed@example.com",
-        "firstName": "Frieda",
-        "lastName": "Failed",
-        "institution": "core-team",
-        "retry": true,
-        "roles": [
-          "backend",
-          "teacher",
-          "content",
-          "unknown"
-        ]
       }
     ]
   }
