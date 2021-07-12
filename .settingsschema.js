@@ -106,6 +106,12 @@ const settingsSchema = schema({
       clientsCollectionName: String,
       authCodesCollectionName: String
     })
+  }),
+  status: schema({
+    active: Boolean,
+    interval: Number,
+    secret: String,
+    url: String
   })
 })
 

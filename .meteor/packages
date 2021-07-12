@@ -50,3 +50,6 @@ force-ssl@1.1.0
 leaonline:testing
 lmieulet:meteor-coverage
 meteortesting:mocha
+
+jkuester:http
+leaonline:status
