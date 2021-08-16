@@ -30,7 +30,9 @@ cd leaonline-accounts && meteor npm install
 
 In development this project creates initial accounts without a password.
 If you want to use them you need to check the console after the first startup
-and click the link to set a new password. 
+and click the link to set a new password.
+
+The account names / emails are located in the [`settings.json`](./settings.json) file.
 
 ## Run tests
 
