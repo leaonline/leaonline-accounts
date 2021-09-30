@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'
+import { Mongo } from 'meteor/mongo'
 import { OAuth2Server } from 'meteor/leaonline:oauth2-server'
 import { canUserAccessClient } from '../../api/accounts/canUserAccessClient'
 import { OAuth } from '../../api/oauth/OAuth'
@@ -11,7 +12,7 @@ const oauth2server = new OAuth2Server({
     accessTokensCollection: new Mongo.Collection(null),
     refreshTokensCollection: new Mongo.Collection(null),
     clientsCollectionName: model.clientsCollectionName,
-    authCodesCollection: new Mongo.Collection(null),
+    authCodesCollection: new Mongo.Collection(null)
   },
   routes: routes,
   debug: debug

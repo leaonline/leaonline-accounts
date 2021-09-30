@@ -25,8 +25,7 @@ cd leaonline-accounts && meteor npm install
 ./run.sh
 ```
 
-### Initial accounts in development
-<a name="initial-accounts"></a>
+### Initial accounts in development<a name="initial-accounts"></a>
 
 In development this project creates initial accounts without a password.
 If you want to use them you need to check the console after the first startup
