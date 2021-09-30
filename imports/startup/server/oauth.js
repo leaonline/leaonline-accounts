@@ -7,7 +7,12 @@ const { clients, server, model, debug } = Meteor.settings.oauth
 const routes = Meteor.settings.public.oauth
 const oauth2server = new OAuth2Server({
   serverOptions: server,
-  model: model,
+  model: {
+    accessTokensCollection: new Mongo.Collection(null),
+    refreshTokensCollection: new Mongo.Collection(null),
+    clientsCollectionName: model.clientsCollectionName,
+    authCodesCollection: new Mongo.Collection(null),
+  },
   routes: routes,
   debug: debug
 })
