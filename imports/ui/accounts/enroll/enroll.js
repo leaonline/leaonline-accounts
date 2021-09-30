@@ -30,6 +30,9 @@ Template.enroll.helpers({
   },
   ready () {
     return Template.instance().state.get('ready')
+  },
+  successful () {
+    return Template.instance().state.get('successful')
   }
 })
 
@@ -47,6 +50,7 @@ Template.enroll.events({
       }
       else {
         console.log('successful!', Meteor.user())
+        templateInstance.state.set('successful', true)
       }
     })
   }

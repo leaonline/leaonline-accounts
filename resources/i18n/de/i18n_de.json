@@ -15,6 +15,7 @@
   "enrollment": {
     "title": "Bei lea.online registrieren",
     "setPassword": "Passwort setzen",
+    "success": "Sie haben die Registrierung erfolgreich abgeschlossen! Sie können dieses Fenster nun schließen.",
     "info": "Um Ihre Registrierung abzuschließen bitten wir Sie, folgende Felder auszufüllen:"
   },
   "authenticate": {

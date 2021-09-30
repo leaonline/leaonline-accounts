@@ -10,7 +10,9 @@ const users = Meteor.settings.accounts.users
 const info = createInfoLog('Accounts')
 const inviteUser = createInviteUser({
   createUserHandler: createUser,
-  rolesHandler: ({ userId, roles, institution }) => assignRole(userId, roles, institution),
+  rolesHandler: ({ userId, roles, institution }) => {
+    roles.forEach(role => assignRole(userId, role, institution))
+  },
   errorHandler: ({ userId, email, institution, error }) => {
     console.error(error) // TODO LOG ERROR
 

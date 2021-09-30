@@ -1,24 +1,36 @@
 <template name="enroll">
     <h1>{{i18n "enrollment.title"}}</h1>
 
-    <p>
-        <span><i class="fa fa-fw fa-fas fa-info-circle"></i></span>
-        {{i18n "enrollment.info"}}
-    </p>
-
-    {{#unless ready}}
-        <span>
-            <i class="fa fa-fw fa-spinner fa-pulse"></i> {{i18n "common.loading"}}
-        </span>
+    {{#if successful}}
+        <div class="alert alert-success">
+            <span><i class="fa fa-fw fa-fas fa-check"></i></span>
+            {{i18n "enrollment.success"}}
+        </div>
     {{else}}
-        <form id="enrollmentForm">
-            <label>Password</label>
-            <input id="password-input" name="new-password" type="password">
-            <button type="submit">{{i18n "enrollment.setPassword"}}</button>
-        </form>
-        {{#with error}}
-            <h5>{{this.error}}</h5>
-            <p>{{this.reason}}</p>
-        {{/with}}
-    {{/unless}}
+        <p>
+            <span><i class="fa fa-fw fa-fas fa-info-circle"></i></span>
+            {{i18n "enrollment.info"}}
+        </p>
+
+        {{#unless ready}}
+            <span>
+            <i class="fa fa-fw fa-spinner fa-pulse"></i> {{i18n
+                    "common.loading"}}
+        </span>
+        {{else}}
+            <form id="enrollmentForm">
+                <label> {{i18n "user.password"}}</label>
+                <input id="password-input"
+                       name="new-password"
+                       type="password"
+                       class="form-control">
+                <button class="btn btn-primary"
+                        type="submit">{{i18n "enrollment.setPassword"}}</button>
+            </form>
+            {{#with error}}
+                <h5>{{this.error}}</h5>
+                <p>{{this.reason}}</p>
+            {{/with}}
+        {{/unless}}
+    {{/if}}
 </template>

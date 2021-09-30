@@ -13,7 +13,20 @@ Accounts.emailTemplates.enrollAccount.subject = (user) => {
 Accounts.emailTemplates.enrollAccount.text = (user, url) => {
   const cleanUrl = url.replace('/#/', '/')
   if (Meteor.isDevelopment) {
-    console.log('enrollAccount', user, cleanUrl)
+    console.log(`
+================================================================================
+DEV: ENROL ACCOUNT
+================================================================================
+
+Username: ${user.username}
+email:    ${user.emails[0].address}
+roles:    ${user.roles}
+
+Please use the following link to set a password for your user:
+${cleanUrl}
+
+Please DO NOT TRY TO USE THE LINK BELOW from the email output as it often 
+contains line breaks and may be incomplete.`)
   }
   return 'You have been selected to participate in building a better future!' +
     ' To activate your account, simply click the link below:\n\n' +
