@@ -4,24 +4,24 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-base@1.4.0             # Packages every Meteor app needs to have
+meteor-base@1.5.1             # Packages every Meteor app needs to have
 mobile-experience@1.1.0       # Packages for a great mobile UX
-mongo@1.11.0                   # The database Meteor supports right now
+mongo@1.13.0                   # The database Meteor supports right now
 blaze-html-templates@1.0.4 # Compile .html files into Meteor Blaze views
 reactive-var@1.0.11            # Reactive variable for tracker
 tracker@1.2.0                 # Meteor's client-side reactive programming library
 
 # standard-minifier-css@1.6.0   # CSS minifier run for production mode
-standard-minifier-js@2.6.0    # JS minifier run for production mode
+standard-minifier-js@2.7.1    # JS minifier run for production mode
 es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
-ecmascript@0.15.1              # Enable ECMAScript2015+ syntax in app code
+ecmascript@0.16.0              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.5.0            # Server-side component of the `meteor shell` command
 
 # ACCOUNTS
-accounts-base@1.9.0
-accounts-password@1.7.0
-alanning:roles@3.2.3
-leaonline:oauth2-server
+accounts-base@2.2.0
+accounts-password@2.2.0
+alanning:roles@3.4.0
+leaonline:oauth2-server@4.0.0
 
 # UI
 ostrio:flow-router-extra
@@ -48,8 +48,8 @@ force-ssl@1.1.0
 # TESTING
 #========================================
 leaonline:testing
-lmieulet:meteor-coverage
+lmieulet:meteor-coverage@4.1.0
 meteortesting:mocha
 
-jkuester:http
+http@2.0.0
 leaonline:status
