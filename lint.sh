@@ -2,6 +2,8 @@
 
 set -e
 
+FIX_MODE=0
+
 while getopts "f" opt; do
   case $opt in
     f)
@@ -14,13 +16,13 @@ while getopts "f" opt; do
   esac
 done
 
-if [ "FIX_MODE" -eq "0" ];
+if [ "$FIX_MODE" -eq 1 ];
 then
-    meteor npm run lint:code
-    meteor npm run lint:style
-    else
     meteor npm run lint:code-fix
     meteor npm run lint:style-fix
+    else
+    meteor npm run lint:code
+    meteor npm run lint:style
 fi
 
 
