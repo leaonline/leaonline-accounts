@@ -14,12 +14,12 @@
     "lint:markdown-fix": "markdownlint --fix \"**/*.md\" --config ./.markdownlint.json"
   },
   "dependencies": {
-    "@babel/runtime": "^7.14.0",
-    "@fortawesome/fontawesome-free": "^5.15.3",
+    "@babel/runtime": "^7.16.0",
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "bcrypt": "^5.0.1",
     "bootstrap": "^4.6.0",
     "jquery": "^3.6.0",
-    "meteor-node-stubs": "^1.0.3",
+    "meteor-node-stubs": "^1.1.0",
     "popper.js": "^1.16.1",
     "simpl-schema": "^1.12.0"
   },

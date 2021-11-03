@@ -52,4 +52,4 @@ lmieulet:meteor-coverage@4.1.0
 meteortesting:mocha
 
 http@2.0.0
-leaonline:status
+# leaonline:status
