@@ -21,6 +21,7 @@ OAuth.getIdentity = userId => {
     email: user.emails?.[0]?.address,
     firstName: user.firstName,
     lastName: user.lastName,
-    name: `${user.firstName} ${user.lastName}`
+    name: `${user.firstName} ${user.lastName}`,
+    roles: [].concat(user.roles || [])
   }
 }

@@ -39,7 +39,8 @@ describe('OAuth', function () {
         username: Random.id(6),
         firstName: Random.id(6),
         lastName: Random.id(6),
-        emails: [{ address: [Random.id(6)] }]
+        emails: [{ address: [Random.id(6)] }],
+        roles: ['foo', 'bar']
       }
       stub(Meteor.users, 'findOne', () => user)
       const result = OAuth.getIdentity(Random.id())
@@ -49,7 +50,8 @@ describe('OAuth', function () {
         email: user.emails?.[0]?.address,
         firstName: user.firstName,
         lastName: user.lastName,
-        name: `${user.firstName} ${user.lastName}`
+        name: `${user.firstName} ${user.lastName}`,
+        roles: ['foo', 'bar']
       })
     })
   })
