@@ -10,6 +10,7 @@ export const assignRole = (userId, role, institution) => {
     throw new Meteor.Error('assignRole.failed', 'assignRole.unkownUser')
   }
 
+  console.debug('[addUsersToRoles]:', userId, role, institution)
   Roles.addUsersToRoles(userId, role, institution)
 
   if (!Roles.userIsInRole(userId, role, institution)) {

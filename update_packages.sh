@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------------------
 # update meteor core and related packages
 # -----------------------------------------------------------------------------
-PACKAGE_DIRS="../lib:../liboauth:../libext:/../meteor-autoform-themes"
+PACKAGE_DIRS="../lib:../liboauth:../libext"
 
 update_meteor () {
     METEOR_PACKAGE_DIRS=${PACKAGE_DIRS} meteor update --all-packages

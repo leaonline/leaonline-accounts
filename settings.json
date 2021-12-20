@@ -117,7 +117,7 @@
       },
       {
         "email": "tteacher@example.com",
-        "firstName": "Terry",
+        "firstName": "Tina",
         "lastName": "Teacher",
         "institution": "Five Star Education",
         "roles": [
@@ -131,8 +131,17 @@
         "institution": "core-team",
         "roles": [
           "backend",
-          "teacher",
           "content"
+        ]
+      },
+      {
+        "email": "external@example.com",
+        "firstName": "Emil",
+        "lastName": "External",
+        "institution": "VHS XYZ",
+        "roles": [
+          "teacher",
+          "backend"
         ]
       }
     ]
