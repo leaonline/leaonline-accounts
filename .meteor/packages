@@ -48,8 +48,8 @@ force-ssl@1.1.0
 # TESTING
 #========================================
 leaonline:testing
-lmieulet:meteor-coverage@4.1.0
+lmieulet:meteor-coverage@3.2.0
 meteortesting:mocha
 
-http@2.0.0
+http@2.0.0!
 # leaonline:status

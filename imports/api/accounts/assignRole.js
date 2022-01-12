@@ -3,11 +3,11 @@ import { Meteor } from 'meteor/meteor'
 
 export const assignRole = (userId, role, institution) => {
   if (!Meteor.roles.find(role).count()) {
-    throw new Meteor.Error('assignRole.failed', 'assignRole.unknownRole', role)
+    throw new Meteor.Error('assignRole.failed', 'assignRole.unknownRole', { role })
   }
 
   if (!Meteor.users.find(userId).count()) {
-    throw new Meteor.Error('assignRole.failed', 'assignRole.unkownUser')
+    throw new Meteor.Error('assignRole.failed', 'assignRole.unkownUser', { userId })
   }
 
   console.debug('[addUsersToRoles]:', userId, role, institution)
