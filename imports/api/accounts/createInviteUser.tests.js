@@ -124,7 +124,7 @@ describe(createInviteUser.name, function () {
     const returnValue = invite(invitationDoc)
     if (returnValue) done(new Error('failed'))
   })
-  it('send an email on success', function (done) {
+  it('send an email on success if no password was given', function (done) {
     stub(Accounts, 'sendEnrollmentEmail', () => done())
     const invite = createInviteUser({
       createUserHandler: () => {},
@@ -132,5 +132,18 @@ describe(createInviteUser.name, function () {
       rolesHandler: () => {}
     })
     invite(invitationDoc)
+  })
+  it('send no email on success if a password was given', function (done) {
+    stub(Accounts, 'sendEnrollmentEmail', () => done(new Error('unexpected')))
+    const invite = createInviteUser({
+      createUserHandler: () => {},
+      errorHandler: () => {},
+      rolesHandler: () => {}
+    })
+
+    invitationDoc.password = 'password'
+
+    invite(invitationDoc)
+    setTimeout(() => done(), 5)
   })
 })

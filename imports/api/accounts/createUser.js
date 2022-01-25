@@ -18,17 +18,17 @@ export const createUser = (userCredentials = {}) => {
     firstName: String,
     lastName: String,
     institution: String,
-    username: Match.Maybe(String)
+    username: Match.Maybe(String),
+    password: Match.Maybe(String)
   }))
 
-  const { email, username, ...profile } = userCredentials
+  const { email, username, password, ...profile } = userCredentials
 
   if (Accounts.findUserByEmail(email) || (username && Accounts.findUserByUsername(username))) {
     throw new Meteor.Error('createUser.failed', 'createUser.userExists')
   }
 
-  const password = Random.id(32)
-  const userDef = { email, password }
+  const userDef = { email, password: password || Random.id(32) }
   if (username) {
     userDef.username = username
   }

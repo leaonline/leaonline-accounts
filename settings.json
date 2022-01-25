@@ -143,6 +143,18 @@
           "teacher",
           "backend"
         ]
+      },
+      {
+        "email": "test@example.com",
+        "firstName": "Tim",
+        "lastName": "Tester",
+        "institution": "core-team",
+        "password": "password",
+        "roles": [
+          "backend",
+          "content",
+          "teacher"
+        ]
       }
     ]
   },

@@ -37,10 +37,12 @@ export const createInviteUser = (handlers = {}) => {
       lastName: String,
       institution: String,
       username: Match.Maybe(String),
+      password: Match.Maybe(String),
       roles: [String]
     }))
 
     const { institution, roles } = userDefinitions
+    const invitationRequired = !(userDefinitions.password)
 
     let userId
     try {
@@ -50,7 +52,9 @@ export const createInviteUser = (handlers = {}) => {
       // delegate roles assignment to external implementation
       handlers.rolesHandler({ userId, roles, institution })
 
-      Accounts.sendEnrollmentEmail(userId)
+      if (invitationRequired) {
+        Accounts.sendEnrollmentEmail(userId)
+      }
       return userId
     }
     catch (error) {

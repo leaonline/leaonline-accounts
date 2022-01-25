@@ -43,6 +43,10 @@ const settingsSchema = schema({
         type: String,
         optional: true
       },
+      password: {
+        type: String,
+        optional: true
+      },
       email: {
         type: String,
         regEx: SimpleSchema.RegEx.EmailWithTLD
