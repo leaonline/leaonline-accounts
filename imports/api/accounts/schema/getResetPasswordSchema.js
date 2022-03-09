@@ -1,3 +1,4 @@
+/* global AutoForm */
 import { i18n } from '../../i18n/i18n'
 
 export const getResetPasswordSchema = () => ({
@@ -16,7 +17,7 @@ export const getResetPasswordSchema = () => ({
     },
     custom () {
       if (!this.isSet || !this.value) return false
-      const pwField = global.AutoForm.getFieldValue('password')
+      const pwField = AutoForm.getFieldValue('password')
       return this.value === pwField
     }
   }

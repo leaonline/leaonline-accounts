@@ -155,6 +155,18 @@
           "content",
           "teacher"
         ]
+      },
+      {
+        "email": "jcash@example.com",
+        "firstName": "Johnny",
+        "lastName": "Cash",
+        "institution": "core-team",
+        "roles": [
+          "backend",
+          "content",
+          "teacher",
+          "otulea"
+        ]
       }
     ]
   },

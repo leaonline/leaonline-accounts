@@ -1,3 +1,4 @@
+import '../imports/startup/server/i18n'
 import '../imports/startup/server/settingsSchema'
 import '../imports/startup/server/roles'
 import '../imports/startup/server/accounts/config'

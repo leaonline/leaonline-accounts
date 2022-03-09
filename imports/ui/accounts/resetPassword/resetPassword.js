@@ -38,5 +38,8 @@ Template.resetPassword.events({
       if (err) return templateInstance.state.set('errors', [err])
       templateInstance.state.set('resetComplete', true)
     })
+  },
+  'click .close-btn' () {
+    window.close()
   }
 })
