@@ -16,7 +16,18 @@ const settingsSchema = schema({
       identityUrl: relativeUrl,
       errorUrl: relativeUrl,
       fallbackUrl: relativeUrl
-    })
+    }),
+    password: schema({
+      min: SimpleSchema.Integer,
+      max: SimpleSchema.Integer,
+      icon: String,
+      confirm: Boolean,
+      blacklist: [String],
+    }),
+    links: Array,
+    'links.$': Object,
+    'links.$.label': String,
+    'links.$.url': String
   }),
   accounts: schema({
     emailTemplates: schema({

@@ -1,36 +1,43 @@
 <template name="enroll">
-    <h1>{{i18n "enrollment.title"}}</h1>
+    <div class="container bg-white p-5 vh-100">
+        <h1>{{i18n "enrollment.title"}}</h1>
 
-    {{#if successful}}
-        <div class="alert alert-success">
-            <span><i class="fa fa-fw fa-fas fa-check"></i></span>
-            {{i18n "enrollment.success"}}
-        </div>
-    {{else}}
-        <p>
-            <span><i class="fa fa-fw fa-fas fa-info-circle"></i></span>
-            {{i18n "enrollment.info"}}
-        </p>
+        {{#if successful}}
+            <div class="alert alert-success">
+                <span><i class="fa fa-fw fa-fas fa-check"></i></span>
+                {{i18n "enrollment.success"}}
+            </div>
 
-        {{#unless ready}}
-            <span>
-            <i class="fa fa-fw fa-spinner fa-pulse"></i> {{i18n
-                    "common.loading"}}
-        </span>
+            {{#each link in links}}
+                <div class="d-block text-center">
+                    <a class="btn btn-primary" href="{{link.url}}"
+                       title="{{link.label}}">
+                        {{link.label}}
+                    </a>
+                </div>
+            {{/each}}
         {{else}}
-            <form id="enrollmentForm">
-                <label> {{i18n "user.password"}}</label>
-                <input id="password-input"
-                       name="new-password"
-                       type="password"
-                       class="form-control">
-                <button class="btn btn-primary"
-                        type="submit">{{i18n "enrollment.setPassword"}}</button>
-            </form>
-            {{#with error}}
-                <h5>{{this.error}}</h5>
-                <p>{{this.reason}}</p>
-            {{/with}}
-        {{/unless}}
-    {{/if}}
+            <p>
+                <span>
+                    <i class="fa fa-fw fa-fas fa-info-circle"></i>
+                </span>
+                {{i18n "enrollment.info"}}
+            </p>
+            {{#unless ready}}
+                <span>
+                    <i class="fa fa-fw fa-spinner fa-pulse"></i>
+                    {{i18n "common.loading"}}
+                </span>
+            {{else}}
+                {{> quickForm id="enrollmentForm" type="normal" schema=setPasswordSchema buttonClasses="d-none" validation="submit"}}
+                <button class="btn btn-primary" form="enrollmentForm"
+                        type="submit">{{i18n
+                        "enrollment.setPassword"}}</button>
+                {{#with error}}
+                    <h5>{{this.error}}</h5>
+                    <p>{{this.reason}}</p>
+                {{/with}}
+            {{/unless}}
+        {{/if}}
+    </div>
 </template>

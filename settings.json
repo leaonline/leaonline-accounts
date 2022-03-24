@@ -7,7 +7,31 @@
       "identityUrl": "/oauth/ident",
       "errorUrl": "/oauth/error",
       "fallbackUrl": "/oauth/*"
-    }
+    },
+    "password": {
+      "min": 10,
+      "max": 128,
+      "icon": "lock",
+      "confirm": true,
+      "blacklist": [
+        "^\\d+$",
+        "^[a-zA-Z]+$",
+        "^.*p(a|@|4)(s|5)+w(o|0)r(d|t).*$",
+        "^.*h(e|3|a|4|@)llo.*$",
+        "^.*f(i|1)ck(e|3)n.*$",
+        "^.*1234.*$",
+        "^.*abcd.*$",
+        "^.*qwer.*$",
+        "^.*asdf.*$",
+        "^.*yxcv.*$"
+      ]
+    },
+    "links": [
+      {
+        "label": "Zum lea.online Dashboard",
+        "url": "http://localhost:5555/"
+      }
+    ]
   },
   "oauth": {
     "debug": true,
@@ -145,25 +169,23 @@
         ]
       },
       {
-        "email": "test@example.com",
-        "firstName": "Tim",
-        "lastName": "Tester",
+        "email": "whoever@example.com",
+        "firstName": "Who",
+        "lastName": "Ever",
         "institution": "core-team",
-        "password": "password",
         "roles": [
           "backend",
           "content",
-          "teacher"
+          "teacher",
+          "otulea"
         ]
       },
       {
-        "email": "jcash@example.com",
-        "firstName": "Johnny",
-        "lastName": "Cash",
-        "institution": "core-team",
+        "email": "bla@example.com",
+        "firstName": "Doctor",
+        "lastName": "Who",
+        "institution": "externals",
         "roles": [
-          "backend",
-          "content",
           "teacher",
           "otulea"
         ]

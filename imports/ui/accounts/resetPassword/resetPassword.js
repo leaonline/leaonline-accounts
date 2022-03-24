@@ -6,11 +6,16 @@ import { getResetPasswordSchema } from '../../../api/accounts/schema/getResetPas
 import { formIsValid } from '../../utils/formIsValid'
 import './resetPassword.html'
 
-const resetPasswordSchema = Schema.create(getResetPasswordSchema())
+let resetPasswordSchema
 
 Template.resetPassword.onCreated(function () {
   const instance = this
   instance.state = new ReactiveDict()
+
+  const data = Template.currentData()
+  const { email } = data.queryParams
+  resetPasswordSchema = Schema.create(getResetPasswordSchema(email))
+  instance.state.set('ready', true)
 })
 
 Template.resetPassword.helpers({
@@ -22,6 +27,9 @@ Template.resetPassword.helpers({
   },
   resetComplete () {
     return Template.instance().state.get('resetComplete')
+  },
+  ready () {
+    return Template.instance().state.get('ready')
   }
 })
 

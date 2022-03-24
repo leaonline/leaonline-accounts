@@ -8,3 +8,5 @@ export const Schema = {}
 Schema.create = function (definitions, options) {
   return new SimpleSchema(definitions, Object.assign({ tracker: Tracker }, options))
 }
+
+export const ErrorTypes = SimpleSchema.ErrorTypes

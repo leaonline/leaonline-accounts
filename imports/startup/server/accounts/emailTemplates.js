@@ -12,7 +12,9 @@ Accounts.emailTemplates.enrollAccount.subject = (/* user */) => {
 }
 
 Accounts.emailTemplates.enrollAccount.text = (user, url) => {
-  const cleanUrl = url.replace('/#/', '/')
+  const email = user.emails[0]?.address
+  const cleanUrl = url.replace('/#/', '/') + `?email=${encodeURIComponent(email)}`
+
   if (Meteor.isDevelopment) {
     console.log(`
 ================================================================================
@@ -51,10 +53,13 @@ Accounts.emailTemplates.resetPassword.subject = (user) => {
 }
 
 Accounts.emailTemplates.resetPassword.text = (user, url) => {
-  const cleanUrl = url.replace('/#/', '/')
+  const email = user.emails[0]?.address
+  const cleanUrl = url.replace('/#/', '/') + `?email=${encodeURIComponent(email)}`
+
   if (Meteor.isDevelopment) {
     console.log('resetPassword', user, cleanUrl)
   }
+
   const name = `${user.firstName} ${user.lastName}`
   const options = { name, siteName: settings.siteName, url: cleanUrl }
   return i18n.get('accounts.resetPassword.text', options)
