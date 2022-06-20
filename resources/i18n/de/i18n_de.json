@@ -1,7 +1,9 @@
 {
   "actions": {
     "close": "Schließen",
-    "submit": "Abschicken"
+    "submit": "Abschicken",
+    "logout": "Abmelden",
+    "cancel": "Abbrechen"
   },
   "common": {
     "loading": "Wird geladen..."
@@ -38,6 +40,11 @@
     "toLogin": "zurück zur Anmeldung"
   },
   "user": {
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "institution": "Einrichtung",
+    "verified": "Registriert",
+    "roles": "Rollen",
     "email": "Email",
     "password": "Passwort",
     "confirmPassword": "Passwort erneut eingeben"

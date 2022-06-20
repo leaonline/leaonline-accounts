@@ -133,60 +133,10 @@
         "lastName": "Administrator",
         "institution": "core-team",
         "roles": [
+          "admin",
           "backend",
           "teacher",
           "content",
-          "otulea"
-        ]
-      },
-      {
-        "email": "tteacher@example.com",
-        "firstName": "Tina",
-        "lastName": "Teacher",
-        "institution": "Five Star Education",
-        "roles": [
-          "teacher"
-        ]
-      },
-      {
-        "email": "eeditor@example.com",
-        "firstName": "Elaine",
-        "lastName": "Editor",
-        "institution": "core-team",
-        "roles": [
-          "backend",
-          "content"
-        ]
-      },
-      {
-        "email": "external@example.com",
-        "firstName": "Emil",
-        "lastName": "External",
-        "institution": "VHS XYZ",
-        "roles": [
-          "teacher",
-          "backend"
-        ]
-      },
-      {
-        "email": "whoever@example.com",
-        "firstName": "Who",
-        "lastName": "Ever",
-        "institution": "core-team",
-        "roles": [
-          "backend",
-          "content",
-          "teacher",
-          "otulea"
-        ]
-      },
-      {
-        "email": "bla@example.com",
-        "firstName": "Doctor",
-        "lastName": "Who",
-        "institution": "externals",
-        "roles": [
-          "teacher",
           "otulea"
         ]
       }

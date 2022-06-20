@@ -4,6 +4,9 @@ const { oauth } = Meteor.settings.public
 
 export const Routes = {}
 
+Routes.defaultLayout = 'layout'
+Routes.authLayout = 'authLayout'
+
 const _routes = {}
 
 _routes.authorize = {
@@ -14,7 +17,7 @@ _routes.authorize = {
   include () {
     return import('../../ui/oauth/authorize/authorize')
   },
-  layout: 'authLayout'
+  layout: Routes.authLayout
 }
 
 _routes.enrol = {
@@ -34,6 +37,16 @@ _routes.resetPassword = {
   isPage: true,
   include () {
     return import('../../ui/accounts/resetPassword/resetPassword')
+  }
+}
+
+_routes.admin = {
+  path: () => '/admin',
+  template: 'admin',
+  label: 'pages.admin.title',
+  isPage: true,
+  include () {
+    return import('../../ui/admin/admin')
   }
 }
 

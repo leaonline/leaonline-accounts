@@ -10,36 +10,45 @@ import { allUserRoles } from './allUserRoles'
  * - lastName
  * - roles
  *
- * @param config
- * @param user
+ * @param update
+ * @param original
  * @param debug
  */
-export const updateUser = (config, user, debug = () => {}) => {
+export const updateUser = (update, original, debug = () => {}) => {
   let updateRequired = false
   let rolesChanged = false
+  let institutionChanged = false
   const modifier = {}
 
-  if (config.firstName !== user.firstName) {
+  if (update.firstName !== original.firstName) {
     updateRequired = true
     modifier.$set = modifier.$set || {}
-    modifier.$set.firstName = config.firstName
+    modifier.$set.firstName = update.firstName
   }
 
-  if (config.lastName !== user.lastName) {
+  if (update.lastName !== original.lastName) {
     updateRequired = true
     modifier.$set = modifier.$set || {}
-    modifier.$set.lastName = config.lastName
+    modifier.$set.lastName = update.lastName
   }
 
+  if (original.institution !== update.institution) {
+    updateRequired = true
+    institutionChanged = true
+    modifier.$set = modifier.$set || {}
+    modifier.$set.institution = update.institution
+  }
   // take away old roles
-  const allRoles = allUserRoles(user._id, user.institution)
-  const rolesToRemove = allRoles.filter(role => !config.roles.includes(role))
+  const allRoles = allUserRoles(original._id, original.institution)
+  const rolesToRemove = allRoles.filter(role => institutionChanged || !original.roles.includes(role))
 
   if (rolesToRemove.length > 0) {
-    debug(config.email, { rolesToRemove })
+    debug(original.email, { rolesToRemove, institution: original.institution })
 
-    const removed = removeRoles(user._id, rolesToRemove, user.institution)
-    const verified = rolesToRemove.every(role => !hasRole(user._id, role, user.institution))
+    // note that we need to use original here, because
+    // if institution changes, we would not remove the original roles
+    const removed = removeRoles(original._id, rolesToRemove, original.institution)
+    const verified = rolesToRemove.every(role => !hasRole(original._id, role, original.institution))
     updateRequired = removed && verified
 
     if (!updateRequired) {
@@ -51,13 +60,13 @@ export const updateUser = (config, user, debug = () => {}) => {
 
   // adding new roles works the following way:
   // all roles in config are checked if user has this role
-  const rolesToAdd = config.roles.filter(role => !hasRole(user._id, role, user.institution))
+  const rolesToAdd = update.roles.filter(role => institutionChanged || !hasRole(original._id, role, original.institution))
 
   if (rolesToAdd.length > 0) {
-    debug(config.email, { rolesToAdd })
+    debug(update.email, { rolesToAdd, institution: update.institution })
 
-    const assigned = assignRoles(user._id, config.roles, user.institution)
-    const verified = rolesToAdd.every(role => hasRole(user._id, role, user.institution))
+    const assigned = assignRoles(original._id, update.roles, update.institution)
+    const verified = rolesToAdd.every(role => hasRole(original._id, role, update.institution))
     updateRequired = assigned && verified
 
     if (!updateRequired) {
@@ -70,11 +79,11 @@ export const updateUser = (config, user, debug = () => {}) => {
   if (updateRequired) {
     if (rolesChanged) {
       modifier.$set = modifier.$set || {}
-      modifier.$set.roles = allUserRoles(user._id, user.institution)
+      modifier.$set.roles = allUserRoles(original._id, update.institution)
     }
 
     debug('changes detected', modifier)
-    const updated = Meteor.users.update(user._id, modifier)
+    const updated = Meteor.users.update(original._id, modifier)
     debug({
       modifier,
       rolesToAdd,

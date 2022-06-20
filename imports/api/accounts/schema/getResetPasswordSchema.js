@@ -1,10 +1,10 @@
-/* global AutoForm */
 import { Meteor } from 'meteor/meteor'
 import { i18n } from '../../i18n/i18n'
 import { ErrorTypes } from '../../schema/Schema'
 
 const { min, max, blacklist, icon } = Meteor.settings.public.password
 const createBlacklist = (list) => {
+  // eslint-disable-next-line security/detect-non-literal-regexp
   const regexes = list.map(entry => new RegExp(entry.trim().toLowerCase(), 'i'))
   const test = (value) => value && !regexes.some(regExp => regExp.test(value))
   const message = (value) => i18n.get('password.guess', { password: value })
@@ -61,7 +61,7 @@ export const getResetPasswordSchema = (email) => {
 
         if (rules) {
           let failedRule
-          let passed = rules.every(rule => {
+          const passed = rules.every(rule => {
             if (!rule.test(value)) {
               failedRule = rule
               return false

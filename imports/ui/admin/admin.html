@@ -1,0 +1,79 @@
+<template name="admin">
+    {{#unless currentUser}}
+        {{> login }}
+    {{else}}
+        {{#with error}}
+            <div class="alert alert-danger">
+                <div class="alert-heading">{{i18n this.error}}</div>
+                {{i18n this.reason}}
+            </div>
+        {{/with}}
+
+        {{! create and edit form }}
+        {{#with userForm}}
+            {{> quickForm id="userForm"
+                    schema=userSchema
+                    type="normal"
+                    doc=this.doc
+                    buttonClasses="d-none"}}
+            <div class="d-flex justify-content-between">
+                <button type="submit" form="userForm" class="btn btn-primary">
+                    {{i18n "actions.submit"}}
+                </button>
+                <button class="btn btn-outline-secondary user-btn"
+                        data-type="cancel">
+                    {{i18n "actions.cancel"}}
+                </button>
+            </div>
+        {{else}}
+        {{! list users }}
+            <table class="table table-bordered table-hover">
+                <thead>
+                <th>{{i18n "user.lastName"}}</th>
+                <th>{{i18n "user.firstName"}}</th>
+                <th>{{i18n "user.institution"}}</th>
+                <th>{{i18n "user.email"}}</th>
+                <th>{{i18n "user.verified"}}</th>
+                <th>{{i18n "user.roles"}}</th>
+                <th class="text-right">
+                    <button class="btn btn-sm btn-success user-btn"
+                            data-type="create">
+                        <i class="fas fa-fw fa-plus"></i>
+                        <i class="fas fa-fw fa-user"></i>
+                    </button>
+                </th>
+                </thead>
+                <tbody>
+                {{#each user in users}}
+                    <tr>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.institution}}</td>
+                        <td>{{user.email}}</td>
+                        <td>
+                            {{#if user.verified}}
+                                <i class="fas fa-fw fa-check"></i>
+                            {{/if}}
+                        </td>
+                        <td>{{user.roles}}</td>
+                        <th class="text-right no-wrap">
+                            <button class="btn btn-sm btn-outline-secondary border-0 user-btn"
+                                    data-user="{{user._id}}"
+                                    data-type="update">
+                                <i class="fas fa-fw fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger border-0 user-btn"
+                                    data-user="{{user._id}}"
+                                    data-type="remove">
+                                <i class="fas fa-fw fa-trash"></i>
+                            </button>
+                        </th>
+                    </tr>
+                {{else}}
+                    <tr><td>{{i18n "common.noEntries"}}</td></tr>
+                {{/each}}
+                </tbody>
+            </table>
+        {{/with}}
+    {{/unless}}
+</template>

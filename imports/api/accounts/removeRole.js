@@ -1,7 +1,12 @@
 import { Roles } from 'meteor/alanning:roles'
 import { Meteor } from 'meteor/meteor'
+import { createLog } from '../log/createLog'
+
+const debug = createLog('removeUsersFromRoles', { type: 'debug' })
 
 export const removeRole = (userId, role, institution) => {
+  debug(userId, role, institution)
+
   if (!Meteor.roles.find(role).count()) {
     throw new Meteor.Error('removeRole.failed', 'removeRole.unknownRole', role)
   }

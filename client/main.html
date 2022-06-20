@@ -1,15 +1,44 @@
 <head>
-    <title>authserver</title>
+    <meta charset="utf-8">
+    <meta name="application-name" content="lea.online Accounts">
+    <meta name="description" content="lea.online Accounts Server">
+    <meta name="viewport"
+          content="initial-scale=1, maximum-scale=5, minimum-scale=-5"/>
+    <meta name="theme-color" content="#FF00AA">
+    <link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
+    <link rel="icon" href="/icons/favicon.svg" sizes="any" type="image/svg+xml">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png">
+    <link rel="icon" type="image/png" size="192x192" href="/icons/favicon-192.png">
+    <link rel="mask-icon" href="/icons/mask-icon.svg" color="#f5f5f5">
+    <link rel="fluid-icon" href="/icons/fluidicon.png" title="otu.lea">
+
+    <title>lea.online Accounts</title>
+
+    <noscript>
+        <style>
+            body:lang(de):before {
+                content: "Diese Anwendung benötigt JavaScript!";
+            }
+
+            body:lang(en):before {
+                content: "This application requires JavaScript!";
+            }
+        </style>
+    </noscript>
+    <meteor-bundled-js/>
 </head>
 
 <template name="layout">
-    <div class="container">
+    <div class="container-fluid p-0 m-0">
         {{#if currentUser}}
-            <div class="d-block text-right">
+            <div class="d-flex justify-content-between bg-dark text-light p-2">
+                <span>{{currentRoute}}</span>
                 {{> logout}}
             </div>
         {{/if}}
-        {{> yield}}
+        <div class="container p-1">
+            {{> yield}}
+        </div>
     </div>
 </template>
 

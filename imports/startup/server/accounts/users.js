@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import { createInviteUser } from '../../../api/accounts/createInviteUser'
-import { createInfoLog } from '../../../api/log/createLog'
+import { createLog } from '../../../api/log/createLog'
 import { rollback } from '../../../api/accounts/rollback'
 import { assignRole } from '../../../api/accounts/assignRole'
 import { createUser } from '../../../api/accounts/createUser'
@@ -9,7 +9,7 @@ import { updateUser } from '../../../api/accounts/updateUser'
 import { cleanupRoles } from '../../../api/accounts/cleanupRoles'
 
 const users = Meteor.settings.accounts.users
-const info = createInfoLog('Accounts')
+const info = createLog('Accounts')
 const inviteUser = createInviteUser({
   createUserHandler: createUser,
   rolesHandler: ({ userId, roles, institution }) => {
