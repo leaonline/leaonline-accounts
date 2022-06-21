@@ -128,7 +128,6 @@ Admin.methods.removeUser = {
         throw new Meteor.Error('errors.permissionDenied', 'admin.noUpdateOnAdmin')
       }
 
-
       // remove all roles
       removeRoles(userDoc._id, userDoc.roles, userDoc.institution)
       Meteor.users.remove({ _id: userId })

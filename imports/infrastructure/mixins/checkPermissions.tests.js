@@ -4,6 +4,7 @@ import { Random } from 'meteor/random'
 import { expect } from 'chai'
 import { checkPermissions } from './checkPermissions'
 import { stub, restoreAll } from '../../../tests/testUtils.tests'
+import { Roles } from 'meteor/alanning:roles'
 
 describe(checkPermissions.name, function () {
   afterEach(function () {
@@ -54,7 +55,7 @@ describe(checkPermissions.name, function () {
     let userCalled = false
     const user = { _id: Random.id() }
     stub(Meteor.users, 'findOne', () => {
-      userCalled = true
+      userCalled = true // should not be called
       return user
     })
     stub(Roles, 'userIsInRole', () => false)
@@ -66,6 +67,6 @@ describe(checkPermissions.name, function () {
 
     const updatedOptions = checkPermissions(options)
     expect(() => updatedOptions.run()).to.throw('errors.insufficientPrivileges')
+    expect(userCalled).to.equal(false)
   })
-
 })

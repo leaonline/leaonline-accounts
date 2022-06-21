@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 import { createUserSchema } from './createUserSchema'
 import { Schema } from '../../schema/Schema'
 import { expect } from 'chai'
@@ -24,6 +25,7 @@ describe('createUserSchema', function () {
   it('throws on invalid credentials', function () {
     Object.keys(doc).forEach(key => {
       const copy = { ...doc }
+      // eslint-disable-next-line security/detect-object-injection
       delete copy[key]
       expect(() => schema.validate(copy)).to.throw('is required')
     })

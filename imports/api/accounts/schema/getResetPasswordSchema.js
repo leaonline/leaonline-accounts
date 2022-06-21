@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { i18n } from '../../i18n/i18n'
-import { ErrorTypes } from '../../schema/Schema'
-import { RegEx } from '../../schema/Schema'
+import { ErrorTypes, RegEx } from '../../schema/Schema'
 
 const { min, max, blacklist, icon } = Meteor.settings.public.password
 const createBlacklist = (list) => {

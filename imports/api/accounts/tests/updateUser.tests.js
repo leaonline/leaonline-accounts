@@ -197,7 +197,7 @@ describe(updateUser.name, function () {
     })
   })
   it('migrates roles if institution has changed', function () {
-    Meteor.users.update(userId, { $set: { institution: 'inst', roles: ['foo', 'bar'] }})
+    Meteor.users.update(userId, { $set: { institution: 'inst', roles: ['foo', 'bar'] } })
 
     expect(Meteor.users.findOne(userId)).to.deep.equal({
       _id: currentUser._id,
@@ -223,5 +223,4 @@ describe(updateUser.name, function () {
       institution: 'inst-foo'
     })
   })
-
 })
