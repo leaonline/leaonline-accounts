@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
 import { expect } from 'chai'
 import { checkPermissions } from './checkPermissions'
-import { stub, restoreAll } from '../../../tests/helpers.tests'
+import { stub, restoreAll } from '../../../tests/testUtils.tests'
 
 describe(checkPermissions.name, function () {
   afterEach(function () {
@@ -20,96 +20,52 @@ describe(checkPermissions.name, function () {
     const updatedOptions = checkPermissions(options)
     expect(updatedOptions.run()).to.equal(value)
   })
-  it('runs the function if there is a user', function () {
+  it('runs the function if there is a user with roles', function () {
     let userCalled = false
-    stub(Meteor, 'user', () => {
+    const user = { _id: Random.id() }
+    stub(Meteor.users, 'findOne', () => {
       userCalled = true
+      return user
     })
+    stub(Roles, 'userIsInRole', () => true)
     const value = Random.id()
     const options = {
+      roles: ['foo'],
       run: () => value
     }
 
     const updatedOptions = checkPermissions(options)
     expect(updatedOptions.run.call({ userId: Random.id() })).to.equal(value)
-    expect(userCalled).to.equal(false)
-  })
-  it('falls back using Meteor.user in case', function () {
-    let userCalled = false
-    stub(Meteor, 'user', () => {
-      userCalled = true
-      return { _id: Random.id(), username: Random.id() }
-    })
-    const value = Random.id()
-    const options = {
-      run: () => value
-    }
-
-    const updatedOptions = checkPermissions(options)
-    expect(updatedOptions.run()).to.equal(value)
     expect(userCalled).to.equal(true)
   })
   it('throws if there is no logged in user', function () {
-    stub(Meteor, 'user', () => undefined)
+    stub(Meteor.users, 'findOne', () => undefined)
     const options = {
+      roles: ['foo'],
       run: () => {
         throw new Error('unexpected call')
       }
     }
 
     const updatedOptions = checkPermissions(options)
-    expect(() => updatedOptions.run()).to.throw('errors.userNotExists')
+    expect(() => updatedOptions.run()).to.throw('errors.insufficientPrivileges')
   })
-  it('throws if the method is backend-flagged but the user is no backend-user', function () {
-    const user = { _id: Random.id(), username: Random.id() }
+  it('throws if the user is not in roles', function () {
     let userCalled = false
-    let usersCalled = false
-    stub(Meteor, 'user', () => {
+    const user = { _id: Random.id() }
+    stub(Meteor.users, 'findOne', () => {
       userCalled = true
       return user
     })
-    stub(Meteor.users, 'findOne', () => {
-      usersCalled = true
-      return user
-    })
-
+    stub(Roles, 'userIsInRole', () => false)
     const value = Random.id()
     const options = {
-      backend: true,
+      roles: ['foo'],
       run: () => value
     }
 
     const updatedOptions = checkPermissions(options)
-    expect(() => updatedOptions.run()).to.throw('errors.backendOnly')
-    expect(userCalled).to.equal(true)
-    expect(usersCalled).to.equal(true)
+    expect(() => updatedOptions.run()).to.throw('errors.insufficientPrivileges')
   })
-  it('passes if the method is backend-flagged and the user is a backend user', function () {
-    const user = {
-      _id: Random.id(),
-      username: Random.id(),
-      services: { lea: {} }
-    }
-    let userCalled = false
-    let usersCalled = false
-    stub(Meteor, 'user', () => {
-      userCalled = true
-      return user
-    })
-    stub(Meteor.users, 'findOne', () => {
-      usersCalled = true
-      return user
-    })
 
-    const value = Random.id()
-    const options = {
-      backend: true,
-      run: () => value
-    }
-
-    const updatedOptions = checkPermissions(options)
-    expect(updatedOptions.run()).to.equal(value)
-    expect(userCalled).to.equal(true)
-    expect(usersCalled).to.equal(true)
-  })
 })

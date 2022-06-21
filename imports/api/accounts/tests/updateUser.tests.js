@@ -1,14 +1,14 @@
 /* eslint-env mocha */
-import { updateUser } from './updateUser'
+import { updateUser } from '../updateUser'
 import { expect } from 'chai'
 import { Random } from 'meteor/random'
 import {
   mockCollection,
   clearCollection,
   restoreCollection
-} from '../../../tests/mockCollection'
+} from '../../../../tests/mockCollection'
 import { Meteor } from 'meteor/meteor'
-import { hasRole } from './hasRole'
+import { hasRole } from '../hasRole'
 
 describe(updateUser.name, function () {
   before(function () {
@@ -196,4 +196,32 @@ describe(updateUser.name, function () {
       roles: ['bar']
     })
   })
+  it('migrates roles if institution has changed', function () {
+    Meteor.users.update(userId, { $set: { institution: 'inst', roles: ['foo', 'bar'] }})
+
+    expect(Meteor.users.findOne(userId)).to.deep.equal({
+      _id: currentUser._id,
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      roles: ['foo', 'bar'],
+      institution: 'inst'
+    })
+
+    const config = {
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      roles: ['foo', 'bar'],
+      institution: 'inst-foo'
+    }
+    updateUser(config, currentUser)
+
+    expect(Meteor.users.findOne(userId)).to.deep.equal({
+      _id: currentUser._id,
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      roles: ['foo', 'bar'],
+      institution: 'inst-foo'
+    })
+  })
+
 })

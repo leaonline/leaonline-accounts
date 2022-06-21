@@ -1,3 +1,5 @@
+import { RegEx } from '../../schema/Schema'
+
 export const createUserSchema = {
   firstName: {
     type: String
@@ -9,14 +11,16 @@ export const createUserSchema = {
     type: String
   },
   email: {
-    type: String
+    type: String,
+    regEx: RegEx.EmailWithTLD
   },
   username: {
     type: String,
     optional: true
   },
   roles: {
-    type: Array
+    type: Array,
+    minCount: 1
   },
   'roles.$': {
     type: String,

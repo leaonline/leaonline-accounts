@@ -2,8 +2,8 @@
 import { Accounts } from 'meteor/accounts-base'
 import { expect } from 'chai'
 import { Random } from 'meteor/random'
-import { stub, restoreAll } from '../../../tests/testUtils.tests'
-import { createInviteUser } from './createInviteUser'
+import { stub, restoreAll } from '../../../../tests/testUtils.tests'
+import { createInviteUser } from '../createInviteUser'
 
 describe(createInviteUser.name, function () {
   let invitationDoc

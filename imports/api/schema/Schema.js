@@ -10,3 +10,7 @@ Schema.create = function (definitions, options) {
 }
 
 export const ErrorTypes = SimpleSchema.ErrorTypes
+
+export const RegEx = SimpleSchema.RegEx
+
+export const Integer = SimpleSchema.Integer

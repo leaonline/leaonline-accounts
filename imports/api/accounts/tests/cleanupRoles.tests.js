@@ -1,12 +1,12 @@
 /* eslint-env mocha */
-import { cleanupRoles } from './cleanupRoles'
+import { cleanupRoles } from '../cleanupRoles'
 import { expect } from 'chai'
 import { Random } from 'meteor/random'
 import {
   mockCollection,
   clearCollection,
   restoreCollection
-} from '../../../tests/mockCollection'
+} from '../../../../tests/mockCollection'
 import { Meteor } from 'meteor/meteor'
 
 describe(cleanupRoles.name, function () {

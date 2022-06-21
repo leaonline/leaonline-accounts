@@ -4,8 +4,8 @@ import { Accounts } from 'meteor/accounts-base'
 import { expect } from 'chai'
 import { Random } from 'meteor/random'
 import { Roles } from 'meteor/alanning:roles'
-import { stub, restoreAll } from '../../../tests/testUtils.tests'
-import { rollback } from './rollback'
+import { stub, restoreAll } from '../../../../tests/testUtils.tests'
+import { rollback } from '../rollback'
 
 describe(rollback.name, function () {
   let userId

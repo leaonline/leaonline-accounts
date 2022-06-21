@@ -3,8 +3,8 @@ import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import { expect } from 'chai'
 import { Random } from 'meteor/random'
-import { stub, restoreAll } from '../../../tests/testUtils.tests'
-import { createUser } from './createUser'
+import { stub, restoreAll } from '../../../../tests/testUtils.tests'
+import { createUser } from '../createUser'
 
 describe(createUser.name, function () {
   let userDoc

@@ -3,8 +3,8 @@ import { Meteor } from 'meteor/meteor'
 import { Roles } from 'meteor/alanning:roles'
 import { Random } from 'meteor/random'
 import { expect } from 'chai'
-import { assignRole } from './assignRole'
-import { restoreAll, stub } from '../../../tests/testUtils.tests'
+import { assignRole } from '../assignRole'
+import { restoreAll, stub } from '../../../../tests/testUtils.tests'
 
 describe(assignRole.name, function () {
   let userId

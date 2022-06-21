@@ -15,9 +15,8 @@ describe(environmentExtensionMixin.name, function () {
     const options = {
       name: Random.id(8),
       run: function () {
-        expect(this.info).to.be.a('function')
-        expect(this.getDocument).to.be.a('function')
-        expect(this.checkDocument).to.be.a('function')
+        expect(this.debug).to.be.a('function')
+        expect(this.error).to.be.a('function')
         // preserves original env
         expect(this.userId).to.equal(userId)
       }
@@ -40,5 +39,17 @@ describe(environmentExtensionMixin.name, function () {
 
     const updated = environmentExtensionMixin(options)
     updated.run(...testArgs)
+  })
+  it('rethrows errors and logs them', function () {
+    const errorId = Random.id()
+    const options = {
+      name: Random.id(8),
+      run: function () {
+        throw new Error(errorId)
+      }
+    }
+
+    const updated = environmentExtensionMixin(options)
+    expect(() => updated.run()).to.throw(errorId)
   })
 })

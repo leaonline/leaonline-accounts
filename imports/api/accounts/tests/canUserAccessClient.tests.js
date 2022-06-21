@@ -2,8 +2,8 @@
 import { expect } from 'chai'
 import { Random } from 'meteor/random'
 import { Roles } from 'meteor/alanning:roles'
-import { canUserAccessClient } from './canUserAccessClient'
-import { restoreAll, stub } from '../../../tests/testUtils.tests'
+import { canUserAccessClient } from '../canUserAccessClient'
+import { restoreAll, stub } from '../../../../tests/testUtils.tests'
 
 describe(canUserAccessClient.name, function () {
   let user

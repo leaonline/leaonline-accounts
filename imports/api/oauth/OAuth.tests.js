@@ -11,12 +11,7 @@ describe('OAuth', function () {
       expect(OAuth.getClientKey(Random.id())).to.equal(undefined)
     })
     it('returns all keys for clients in settings', function () {
-      if (!Meteor.settings.oauth?.clients?.length) {
-        expect.fail()
-      }
-
       Meteor.settings.oauth.clients.forEach(({ clientId, key }) => {
-        if (!clientId || !key) expect.fail()
         expect(OAuth.getClientKey(clientId)).to.equal(key)
       })
     })
@@ -30,8 +25,9 @@ describe('OAuth', function () {
       expect(OAuth.getIdentity()).to.equal(undefined)
       expect(OAuth.getIdentity(Random.id())).to.equal(undefined)
 
-      overrideStub(Meteor.users, 'findOne', () => ({}))
+      overrideStub(Meteor.users, 'findOne', () => {})
       expect(OAuth.getIdentity()).to.equal(undefined)
+      expect(OAuth.getIdentity(Random.id())).to.equal(undefined)
     })
     it('returns a valid identity', function () {
       const user = {
