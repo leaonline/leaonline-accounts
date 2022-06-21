@@ -18,3 +18,6 @@ Object.values(clients).forEach(entry => {
   const { key } = entry
   createRole(key)
 })
+
+// for this application
+createRole('admin')
