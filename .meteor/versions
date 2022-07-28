@@ -48,7 +48,7 @@ jkuester:autoform-password2@2.1.0
 jquery@3.0.0
 launch-screen@1.3.0
 leaonline:method-factory@1.1.0
-leaonline:oauth2-server@4.2.0
+leaonline:oauth2-server@4.2.1
 leaonline:ratelimit-factory@1.0.0
 leaonline:testing@1.0.0
 leaonline:theme@1.0.0
