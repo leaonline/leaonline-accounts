@@ -92,14 +92,14 @@ Admin.methods.updateUser = {
         throw new Meteor.Error('errors.permissionDenied', 'errors.docNotFound')
       }
 
-      const isAdmin = userDoc.roles.includes('admin')
+      const isAdmin = userDoc.roles?.includes('admin')
       // no updates on an admin
       if (isAdmin) {
         throw new Meteor.Error('errors.permissionDenied', 'admin.noUpdateOnAdmin')
       }
 
       // no lifting of user to become admin
-      if (!isAdmin && updateDoc.roles.includes('admin')) {
+      if (!isAdmin && updateDoc.roles?.includes('admin')) {
         throw new Meteor.Error('errors.permissionDenied', 'admin.noLifting')
       }
 
@@ -124,7 +124,7 @@ Admin.methods.removeUser = {
         throw new Meteor.Error('errors.permissionDenied', 'errors.docNotFound')
       }
 
-      if (userDoc.roles.includes('admin')) {
+      if (userDoc.roles?.includes('admin')) {
         throw new Meteor.Error('errors.permissionDenied', 'admin.noUpdateOnAdmin')
       }
 

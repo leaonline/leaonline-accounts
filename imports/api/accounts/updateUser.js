@@ -38,9 +38,10 @@ export const updateUser = (update, original, debug = () => {}) => {
     modifier.$set = modifier.$set || {}
     modifier.$set.institution = update.institution
   }
+
   // take away old roles
   const allRoles = allUserRoles(original._id, original.institution)
-  const rolesToRemove = allRoles.filter(role => institutionChanged || !original.roles.includes(role))
+  const rolesToRemove = allRoles.filter(role => institutionChanged || !original.roles?.includes(role))
 
   if (rolesToRemove.length > 0) {
     debug(original.email, { rolesToRemove, institution: original.institution })
