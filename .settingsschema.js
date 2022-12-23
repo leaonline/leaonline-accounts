@@ -86,7 +86,7 @@ const settingsSchema = schema({
       },
       secret: {
         type: String,
-        regEx: SimpleSchema.RegEx.idOfLength(32, null)
+        min: 32
       },
       url: {
         type: String,
