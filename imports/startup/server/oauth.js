@@ -14,8 +14,8 @@ const oauth2server = new OAuth2Server({
     clientsCollectionName: model.clientsCollectionName,
     authCodesCollection: new Mongo.Collection(null)
   },
-  routes: routes,
-  debug: debug
+  routes,
+  debug
 })
 
 oauth2server.validateUser(function (userData) {

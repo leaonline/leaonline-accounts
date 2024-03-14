@@ -14,8 +14,8 @@ export const environmentExtensionMixin = function (options) {
   const envOptions = env || {}
   const { devOnly = true } = envOptions
 
-  const debug = createLog(options.name, { type: 'debug', devOnly: devOnly })
-  const error = createLog(options.name, { type: 'error', devOnly: devOnly })
+  const debug = createLog(options.name, { type: 'debug', devOnly })
+  const error = createLog(options.name, { type: 'error', devOnly })
   const runFct = options.run
 
   options.run = function run (...args) {

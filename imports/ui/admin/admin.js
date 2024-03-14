@@ -26,7 +26,7 @@ Template.admin.onCreated(function () {
 
     callMethod({
       name: Admin.methods.getUsers,
-      args: args,
+      args,
       failure: err => instance.state.set({ error: toSerializedError(err) }),
       success: users => {
         users.forEach(user => {

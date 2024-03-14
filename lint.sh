@@ -25,5 +25,5 @@ then
     meteor npm run lint:style
 fi
 
-
-meteor npm run lint:markdown
+# TODO figure out why markdownlint did no major bump yet migrated to ESM
+# meteor npm run lint:markdown

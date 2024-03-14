@@ -7,5 +7,5 @@ const de = { ...i18nDE, ...emailTemplatesLanguage }
 
 i18n.load({
   settings: i18nConfig,
-  de: de
+  de
 })

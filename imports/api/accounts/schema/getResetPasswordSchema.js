@@ -46,7 +46,7 @@ export const getResetPasswordSchema = (email) => {
       label: () => i18n.get('user.password'),
       autoform: {
         type: 'password2',
-        rules: rules,
+        rules,
         autocomplete: true,
         autofocus: true,
         userIcon: icon

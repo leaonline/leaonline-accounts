@@ -84,7 +84,7 @@ Template.login.events({
     const loginFormValues = AutoForm.getFormValues('loginForm')
     const { email } = loginFormValues.insertDoc
     templateInstance.state.set({
-      email: email,
+      email,
       viewState: ViewStates.forgotPassword,
       errors: null
     })
