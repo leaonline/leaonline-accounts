@@ -16,10 +16,10 @@
   "dependencies": {
     "@babel/runtime": "^7.16.0",
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "bcrypt": "5.0.0",
+    "bcrypt": "^5.1.1",
     "bootstrap": "^4.6.0",
-    "jquery": "^3.6.0",
-    "meteor-node-stubs": "^1.1.0",
+    "jquery": "^3.7.1",
+    "meteor-node-stubs": "^1.2.7",
     "popper.js": "^1.16.1",
     "simpl-schema": "^1.12.2"
   },
@@ -36,14 +36,15 @@
     "chai": "^4.3.6",
     "eslint-plugin-security": "^1.5.0",
     "markdown-cli": "^1.6.0",
-    "markdownlint-cli": "^0.31.1",
+    "markdownlint-cli": "^0.39.0",
     "puppeteer": "^10.4.0",
-    "sinon": "^14.0.0",
+    "sinon": "^17.0.1",
     "snazzy": "^9.0.0",
+    "standard": "^17.1.0",
     "standardx": "^7.0.0",
-    "stylelint": "^14.9.1",
-    "stylelint-config-sass-guidelines": "^9.0.1",
-    "stylelint-config-standard": "^26.0.0"
+    "stylelint": "^16.2.1",
+    "stylelint-config-sass-guidelines": "^11.1.0",
+    "stylelint-config-standard": "^36.0.0"
   },
   "babel": {
     "env": {
