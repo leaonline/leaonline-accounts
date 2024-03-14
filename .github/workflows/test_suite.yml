@@ -8,7 +8,6 @@ on:
   pull_request:
 
 jobs:
-
   tests:
     name: Meteor ${{ matrix.meteor }} tests
     runs-on: ubuntu-latest
@@ -16,22 +15,22 @@ jobs:
 
       # CHECKOUTS
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Checkout leaonline:testing repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: leaonline/testing
           path: github/testing
 
       - name: Checkout leaonline:utils repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: leaonline/utils
           path: github/utils
 
       - name: Checkout leaonline:theme repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: leaonline/theme
           path: github/theme
@@ -39,7 +38,7 @@ jobs:
       # CACHING
       - name: Install Meteor
         id: cache-meteor-install
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.meteor
           key: v1-meteor-${{ hashFiles('.meteor/versions') }}
@@ -48,7 +47,7 @@ jobs:
 
       - name: Cache NPM dependencies
         id: cache-meteor-npm
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: v1-npm-${{ hashFiles('package-lock.json') }}
@@ -57,7 +56,7 @@ jobs:
 
       - name: Cache Meteor build
         id: cache-meteor-build
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             .meteor/local/resolver-result-cache.json
@@ -71,13 +70,13 @@ jobs:
       - name: Setup meteor
         uses: meteorengineer/setup-meteor@v1
         with:
-          meteor-release: '2.1.1'
+          meteor-release: '2.9.1'
 
       - name: Install NPM Dependencies
         run: meteor npm ci
 
       - name: Run Tests
-        run: sh ./test.sh -c
+        run: sh ./test.sh -c -o
 
       - name: Upload coverage
         uses: actions/upload-artifact@v2
@@ -91,7 +90,7 @@ jobs:
     needs: [tests]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Download coverage
         uses: actions/download-artifact@v2
