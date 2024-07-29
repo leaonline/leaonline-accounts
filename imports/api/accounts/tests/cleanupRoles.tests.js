@@ -26,24 +26,24 @@ describe(cleanupRoles.name, function () {
     Meteor.roleAssignment = restoreCollection({ name: 'role-assignment' })
   })
 
-  afterEach(function () {
-    clearCollection({ collection: Meteor.users })
-    clearCollection({ collection: Meteor.roleAssignment })
+  afterEach(async () => {
+    await clearCollection({ collection: Meteor.users })
+    await clearCollection({ collection: Meteor.roleAssignment })
   })
 
-  it('removes roles for which no users exist anymore', function () {
-    Meteor.users.insert({ _id: Random.id(), roles: ['foo', 'bar'] })
+  it('removes roles for which no users exist anymore', async () => {
+    await Meteor.users.insertAsync({ _id: Random.id(), roles: ['foo', 'bar'] })
 
-    expect(cleanupRoles()).to.equal(0)
+    expect(await cleanupRoles()).to.equal(0)
 
-    Meteor.roleAssignment.insert({
+    Meteor.roleAssignment.insertAsync({
       user: {
         _id: Random.id()
       }
     })
 
-    expect(Meteor.roleAssignment.find().count()).to.equal(1)
-    expect(cleanupRoles()).to.equal(1)
-    expect(Meteor.roleAssignment.find().count()).to.equal(0)
+    expect(await Meteor.roleAssignment.countDocuments({})).to.equal(1)
+    expect(await cleanupRoles()).to.equal(1)
+    expect(await Meteor.roleAssignment.countDocuments({})).to.equal(0)
   })
 })

@@ -1,19 +1,22 @@
 import { Roles } from 'meteor/alanning:roles'
 import { Meteor } from 'meteor/meteor'
 
-export const assignRole = (userId, role, institution) => {
-  if (!Meteor.roles.find(role).count()) {
+export const assignRole = async (userId, role, institution, debug = () => {}) => {
+  debug('assignRole:', { userId, role, institution })
+  const rolesCount = await Meteor.roles.countDocuments({ _id: role })
+  if (!rolesCount) {
     throw new Meteor.Error('assignRole.failed', 'assignRole.unknownRole', { role })
   }
 
-  if (!Meteor.users.find(userId).count()) {
-    throw new Meteor.Error('assignRole.failed', 'assignRole.unkownUser', { userId })
+  const usersCount = await Meteor.users.countDocuments({ _id: userId })
+  if (!usersCount) {
+    throw new Meteor.Error('assignRole.failed', 'assignRole.unknownUser', { userId })
   }
 
-  console.debug('[addUsersToRoles]:', userId, role, institution)
-  Roles.addUsersToRoles(userId, role, institution)
+  await Roles.addUsersToRolesAsync(userId, role, institution)
+  const isInRole = await Roles.userIsInRoleAsync(userId, role, institution)
 
-  if (!Roles.userIsInRole(userId, role, institution)) {
+  if (!isInRole) {
     const details = JSON.stringify({ userId, role, institution })
     throw new Meteor.Error('assignRole.failed', 'assignRole.roleNotAssigned', details)
   }

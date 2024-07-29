@@ -4,7 +4,7 @@ import { Roles } from 'meteor/alanning:roles'
 import { Random } from 'meteor/random'
 import { expect } from 'chai'
 import { assignRole } from '../assignRole'
-import { restoreAll, stub } from '../../../../tests/testUtils.tests'
+import { restoreAll, stub, expectThrow } from '../../../../tests/testUtils.tests'
 
 describe(assignRole.name, function () {
   let userId
@@ -21,25 +21,34 @@ describe(assignRole.name, function () {
     restoreAll()
   })
 
-  it('throws if the given role is not found', function () {
-    expect(() => assignRole(userId, role, institution)).to.throw('assignRole.unknownRole')
+  it('throws if the given role is not found', async () => {
+    await expectThrow({
+      fn: () => assignRole(userId, role, institution),
+      message: 'assignRole.unknownRole'
+    })
   })
-  it('throws if the given user is not found', function () {
-    stub(Meteor.roles, 'find', () => ({ count: () => 1 }))
-    expect(() => assignRole(userId, role, institution)).to.throw('assignRole.unkownUser')
+  it('throws if the given user is not found', async () => {
+    stub(Meteor.roles, 'countDocuments', async () => 1)
+    await expectThrow({
+      fn: () => assignRole(userId, role, institution),
+      message: 'assignRole.unknownUser'
+    })
   })
-  it('throws if the user role is not assigned', function () {
-    stub(Meteor.roles, 'find', () => ({ count: () => 1 }))
-    stub(Meteor.users, 'find', () => ({ count: () => 1 }))
-    stub(Roles, 'addUsersToRoles', () => true)
-    stub(Roles, 'userIsInRole', () => false)
-    expect(() => assignRole(userId, role, institution)).to.throw('assignRole.roleNotAssigned')
+  it('throws if the user role is not assigned', async () => {
+    stub(Meteor.roles, 'countDocuments', async () => 1)
+    stub(Meteor.users, 'countDocuments', async () => 1)
+    stub(Roles, 'addUsersToRolesAsync', () => true)
+    stub(Roles, 'userIsInRoleAsync', () => false)
+    await expectThrow({
+      fn: () => assignRole(userId, role, institution),
+      message: 'assignRole.roleNotAssigned'
+    })
   })
-  it('returns true if the role is assigned', function () {
-    stub(Meteor.roles, 'find', () => ({ count: () => 1 }))
-    stub(Meteor.users, 'find', () => ({ count: () => 1 }))
-    stub(Roles, 'addUsersToRoles', () => true)
-    stub(Roles, 'userIsInRole', () => true)
-    expect(assignRole(userId, role, institution)).to.equal(true)
+  it('returns true if the role is assigned', async () => {
+    stub(Meteor.roles, 'countDocuments', async () => 1)
+    stub(Meteor.users, 'countDocuments', async () => 1)
+    stub(Roles, 'addUsersToRolesAsync', () => true)
+    stub(Roles, 'userIsInRoleAsync', () => true)
+    expect(await assignRole(userId, role, institution)).to.equal(true)
   })
 })

@@ -23,14 +23,14 @@ Admin.methods.getUsers = {
   run: onServerExec(function () {
     const fields = { services: 0, oauth: 0 }
 
-    return function ({ ids } = {}) {
+    return async function ({ ids } = {}) {
       const query = {
         _id: { $nin: [this.userId] }
       }
 
       if (ids?.length) { query._id.$in = ids }
 
-      return Meteor.users.find(query, { fields }).fetch()
+      return Meteor.users.find(query, { fields }).fetchAsync()
     }
   })
 }
@@ -53,7 +53,7 @@ Admin.methods.createUser = {
      * @param options.lastName
      * @param options.institution
      */
-    return function (options = {}) {
+    return async function (options = {}) {
       // we never let any use create an admin,
       // even if they are admin!
       // The only way to lift a user to admin is by
@@ -64,9 +64,9 @@ Admin.methods.createUser = {
         options.roles.splice(adminIndex, 1)
       }
 
-      const userId = createUser(options)
-      assignRoles(userId, options.roles, options.institution)
-      Accounts.sendEnrollmentEmail(userId)
+      const userId = await createUser(options)
+      await assignRoles(userId, options.roles, options.institution)
+      await Accounts.sendEnrollmentEmail(userId)
       return userId
     }
   })
@@ -84,9 +84,9 @@ Admin.methods.updateUser = {
   run: onServerExec(function () {
     import { updateUser } from '../accounts/updateUser'
 
-    return function (options = {}) {
+    return async function (options = {}) {
       const { _id, ...updateDoc } = options
-      const userDoc = Meteor.users.findOne(_id)
+      const userDoc = await Meteor.users.findOneAsync(_id)
 
       if (!userDoc) {
         throw new Meteor.Error('errors.permissionDenied', 'errors.docNotFound')
@@ -117,8 +117,8 @@ Admin.methods.removeUser = {
   run: onServerExec(function () {
     import { removeRoles } from '../accounts/removeRoles'
 
-    return function ({ userId } = {}) {
-      const userDoc = Meteor.users.findOne(userId)
+    return async function ({ userId } = {}) {
+      const userDoc = await Meteor.users.findOneAsync(userId)
 
       if (!userDoc) {
         throw new Meteor.Error('errors.permissionDenied', 'errors.docNotFound')
@@ -129,8 +129,8 @@ Admin.methods.removeUser = {
       }
 
       // remove all roles
-      removeRoles(userDoc._id, userDoc.roles, userDoc.institution)
-      Meteor.users.remove({ _id: userId })
+      await removeRoles(userDoc._id, userDoc.roles, userDoc.institution)
+      await Meteor.users.removeAsync({ _id: userId })
     }
   })
 }

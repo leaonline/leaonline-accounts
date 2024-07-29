@@ -2,6 +2,7 @@
 import { expect } from 'chai'
 import { Random } from 'meteor/random'
 import { environmentExtensionMixin } from './environmentExtensionMixin'
+import { expectThrow } from '../../../tests/testUtils.tests'
 
 describe(environmentExtensionMixin.name, function () {
   it('returns the options if set to null', function () {
@@ -10,46 +11,51 @@ describe(environmentExtensionMixin.name, function () {
     expect(environmentExtensionMixin(options)).to.deep.equal(options)
     expect(environmentExtensionMixin(options2)).to.deep.equal(options2)
   })
-  it('assigns helper functions to the environment', function () {
+  it('assigns helper functions to the environment', async () => {
     const userId = Random.id()
     const options = {
       name: Random.id(8),
-      run: function () {
+      run: async function () {
         expect(this.debug).to.be.a('function')
         expect(this.error).to.be.a('function')
         // preserves original env
         expect(this.userId).to.equal(userId)
+        return this.userId
       }
     }
 
     const updated = environmentExtensionMixin(options)
-    updated.run.call({ userId })
+    const value = await updated.run.call({ userId })
+    expect(value).to.equal(userId)
   })
-  it('passes all parameters', function () {
+  it('passes all parameters', async () => {
     const testArgs = []
     testArgs.length = 5 + Math.floor(Math.random() * 10)
     testArgs.fill(-99)
 
     const options = {
       name: Random.id(8),
-      run: function (...args) {
+      run: async function (...args) {
         expect(args).to.deep.equal(testArgs)
       }
     }
 
     const updated = environmentExtensionMixin(options)
-    updated.run(...testArgs)
+    await updated.run(...testArgs)
   })
-  it('rethrows errors and logs them', function () {
-    const errorId = Random.id()
+  it('rethrows errors and logs them', async () => {
+    const errorId = `expected error - ${Random.id()}`
     const options = {
       name: Random.id(8),
-      run: function () {
+      run: async function () {
         throw new Error(errorId)
       }
     }
 
     const updated = environmentExtensionMixin(options)
-    expect(() => updated.run()).to.throw(errorId)
+    await expectThrow({
+      fn: () => updated.run(),
+      message: errorId
+    })
   })
 })

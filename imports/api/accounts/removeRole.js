@@ -4,25 +4,25 @@ import { createLog } from '../log/createLog'
 
 const debug = createLog('removeUsersFromRoles', { type: 'debug' })
 
-export const removeRole = (userId, role, institution) => {
+export const removeRole = async (userId, role, institution) => {
   debug(userId, role, institution)
 
-  if (!Meteor.roles.find(role).count()) {
+  if (!(await Meteor.roles.countDocuments({ _id: role }))) {
     throw new Meteor.Error('removeRole.failed', 'removeRole.unknownRole', role)
   }
 
-  if (!Meteor.users.find(userId).count()) {
-    throw new Meteor.Error('removeRole.failed', 'removeRole.unkownUser')
+  if (!(await Meteor.users.countDocuments({ _id: userId }))) {
+    throw new Meteor.Error('removeRole.failed', 'removeRole.unknownUser')
   }
 
-  if (!Roles.userIsInRole(userId, role, institution)) {
+  if (!(await Roles.userIsInRoleAsync(userId, role, institution))) {
     const details = JSON.stringify({ userId, role, institution })
     throw new Meteor.Error('removeRole.failed', 'removeRole.roleNotAssigned', details)
   }
 
-  Roles.removeUsersFromRoles(userId, role, institution)
+  await Roles.removeUsersFromRolesAsync(userId, role, institution)
 
-  if (Roles.userIsInRole(userId, role, institution)) {
+  if (await Roles.userIsInRoleAsync(userId, role, institution)) {
     const details = JSON.stringify({ userId, role, institution })
     throw new Meteor.Error('removeRole.failed', 'removeRole.roleNotRemoved', details)
   }

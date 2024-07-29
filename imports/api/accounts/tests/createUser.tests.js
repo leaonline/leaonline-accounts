@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import { expect } from 'chai'
 import { Random } from 'meteor/random'
-import { stub, restoreAll } from '../../../../tests/testUtils.tests'
+import { stub, restoreAll, expectThrow } from '../../../../tests/testUtils.tests'
 import { createUser } from '../createUser'
 
 describe(createUser.name, function () {
@@ -22,45 +22,68 @@ describe(createUser.name, function () {
   afterEach(function () {
     restoreAll()
   })
-  it('throws on incomplete params', function () {
+  it('throws on incomplete params', async () => {
     delete userDoc.username
-    ;[undefined, {}].forEach(doc => {
-      expect(() => createUser(doc)).to.throw('Missing key \'email\'')
-    })
+    const docs = [undefined, {}]
+    for (const doc of docs) {
+      await expectThrow({
+        fn: () => createUser(doc),
+        message: 'Missing key \'email\''
+      })
+    }
 
     delete userDoc.institution
-    expect(() => createUser(userDoc)).to.throw('Missing key \'institution\'')
+    await expectThrow({
+      fn: () => createUser(userDoc),
+      message: 'Missing key \'institution\''
+    })
 
     delete userDoc.lastName
-    expect(() => createUser(userDoc)).to.throw('Missing key \'lastName\'')
+    await expectThrow({
+      fn: () => createUser(userDoc),
+      message: 'Missing key \'lastName\''
+    })
 
     delete userDoc.firstName
-    expect(() => createUser(userDoc)).to.throw('Missing key \'firstName\'')
+    await expectThrow({
+      fn: () => createUser(userDoc),
+      message: 'Missing key \'firstName\''
+    })
   })
-  it('throws if email alredy exists', function () {
-    stub(Accounts, 'findUserByEmail', () => true)
-    expect(() => createUser(userDoc)).to.throw('createUser.userExists')
+  it('throws if email alredy exists', async () => {
+    stub(Accounts, 'findUserByEmail', async () => true)
+    await expectThrow({
+      fn: () => createUser(userDoc),
+      message: 'createUser.userExists'
+    })
   })
-  it('throws if username already exists', function () {
-    stub(Accounts, 'findUserByEmail', () => false)
-    stub(Accounts, 'findUserByUsername', () => true)
-    expect(() => createUser(userDoc)).to.throw('createUser.userExists')
+  it('throws if username already exists', async () => {
+    stub(Accounts, 'findUserByEmail', async () => false)
+    stub(Accounts, 'findUserByUsername', async () => true)
+    await expectThrow({
+      fn: () => createUser(userDoc),
+      message: 'createUser.userExists'
+    })
   })
-  it('throws if user profile is not updated', function () {
-    stub(Accounts, 'findUserByEmail', () => false)
-    stub(Accounts, 'findUserByUsername', () => false)
-    stub(Accounts, 'createUser', () => userId)
-    stub(Meteor.users, 'update', () => 0)
-    expect(() => createUser(userDoc)).to.throw('createUser.updateFailed')
+  it('throws if user profile is not updated', async () => {
+    stub(Accounts, 'findUserByEmail', async () => false)
+    stub(Accounts, 'findUserByUsername', async () => false)
+    stub(Accounts, 'createUserAsync', async () => userId)
+    stub(Meteor.users, 'updateAsync', async () => 0)
+
+    await expectThrow({
+      fn: () => createUser(userDoc),
+      message: 'createUser.updateFailed'
+    })
   })
-  it('creates a new user', function () {
-    stub(Accounts, 'findUserByEmail', () => false)
-    stub(Accounts, 'findUserByUsername', () => false)
-    stub(Accounts, 'createUser', () => userId)
-    stub(Meteor.users, 'update', () => 1)
-    expect(createUser(userDoc)).to.equal(userId)
+  it('creates a new user', async () => {
+    stub(Accounts, 'findUserByEmail', async () => false)
+    stub(Accounts, 'findUserByUsername', async () => false)
+    stub(Accounts, 'createUserAsync', async () => userId)
+    stub(Meteor.users, 'updateAsync', async () => 1)
+    expect(await createUser(userDoc)).to.equal(userId)
 
     delete userDoc.username
-    expect(createUser(userDoc)).to.equal(userId)
+    expect(await createUser(userDoc)).to.equal(userId)
   })
 })

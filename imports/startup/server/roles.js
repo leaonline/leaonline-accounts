@@ -4,20 +4,20 @@ import { Meteor } from 'meteor/meteor'
 
 const { clients } = Meteor.settings.oauth
 
-const createRole = name => {
+const createRole = async name => {
   check(name, String)
-  if (Meteor.roles.findOne(name)) {
+  if (await Meteor.roles.findOneAsync(name)) {
     return console.info(`[Roles]: top-level role ${name} already exists`)
   }
 
-  Roles.createRole(name)
+  await Roles.createRoleAsync(name)
   console.info(`[Roles]: created top-level role ${name}`)
 }
 
-Object.values(clients).forEach(entry => {
+for (const entry of clients) {
   const { key } = entry
-  createRole(key)
-})
+  await createRole(key)
+}
 
 // for this application
-createRole('admin')
+await createRole('admin')

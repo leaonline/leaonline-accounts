@@ -23,9 +23,15 @@ export const restoreCollection = context => {
   return originalCollection
 }
 
-export const clearCollection = context => {
-  const collection = typeof context.collection === 'function'
-    ? context.collection()
-    : context.collection
-  return collection.remove({})
+export const clearCollection = async context => {
+  let collection
+  if (context.collection instanceof Mongo.Collection) {
+    collection = context.collection
+  }
+  if (!collection) {
+    collection = typeof context.collection === 'function'
+      ? context.collection()
+      : context.collection
+  }
+  return collection.removeAsync({})
 }

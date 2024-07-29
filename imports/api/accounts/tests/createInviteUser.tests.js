@@ -2,7 +2,7 @@
 import { Accounts } from 'meteor/accounts-base'
 import { expect } from 'chai'
 import { Random } from 'meteor/random'
-import { stub, restoreAll } from '../../../../tests/testUtils.tests'
+import { stub, restoreAll, expectThrow } from '../../../../tests/testUtils.tests'
 import { createInviteUser } from '../createInviteUser'
 
 describe(createInviteUser.name, function () {
@@ -20,130 +20,135 @@ describe(createInviteUser.name, function () {
   afterEach(function () {
     restoreAll()
   })
-  it('throws on incomplete params', function () {
-    [undefined, {},
+  it('throws on incomplete params', async () => {
+    const allHandlers = [undefined, {},
       { rolesHandler: () => {} },
       { rolesHandler: () => {}, createUserHandler: () => {} },
-      { rolesHandler: () => {}, errorHandler: () => {} }].forEach(handlers => {
-      expect(() => createInviteUser(handlers)).to.throw('Match error: Missing key')
-    })
+      { rolesHandler: () => {}, errorHandler: () => {} }]
+    for (const handlers of allHandlers) {
+      await expectThrow({
+        fn: () => createInviteUser(handlers),
+        message: 'Match error: Missing key'
+      })
+    }
   })
-  it('returns a function to invite', function () {
+  it('returns a function to invite', async () => {
     expect(createInviteUser({
       createUserHandler: () => {},
       errorHandler: () => {},
       rolesHandler: () => {}
     })).to.be.a('function')
   })
-  it('throws if invitation credentials are incomplete', function () {
+  it('throws if invitation credentials are incomplete', async () => {
     const invite = createInviteUser({
       createUserHandler: () => {},
       errorHandler: () => {},
       rolesHandler: () => {}
     })
-
-    ;[undefined, {}].forEach(doc => expect(() => invite(doc)).to.throw('Missing key'))
+    const args = [undefined, {}]
+    for (const doc of args) {
+      await expectThrow({
+        fn: () => invite(doc),
+        message: 'Missing key'
+      })
+    }
   })
-  it('will delegate user creation', function (done) {
-    stub(Accounts, 'sendEnrollmentEmail', () => {})
+  it('will delegate user creation', async () => {
+    stub(Accounts, 'sendEnrollmentEmail', async () => {})
     const invite = createInviteUser({
-      createUserHandler: ({ email, username, firstName, lastName, institution }) => {
+      createUserHandler: async ({ email, username, firstName, lastName, institution }) => {
         expect(email).to.equal(invitationDoc.email)
         expect(username).to.equal(invitationDoc.username)
         expect(firstName).to.equal(invitationDoc.firstName)
         expect(lastName).to.equal(invitationDoc.lastName)
         expect(institution).to.equal(invitationDoc.institution)
-        done()
       },
-      errorHandler: ({ error }) => done(error),
-      rolesHandler: () => {}
+      errorHandler: async ({ error }) => expect.fail(error?.message),
+      rolesHandler: async () => {}
     })
 
-    invite(invitationDoc)
+    await invite(invitationDoc)
   })
-  it('will delegate roles assignment', function (done) {
+  it('will delegate roles assignment', async () => {
     let newUserId
-    stub(Accounts, 'sendEnrollmentEmail', () => {})
+    stub(Accounts, 'sendEnrollmentEmail', async () => {})
     const invite = createInviteUser({
-      createUserHandler: () => {
+      createUserHandler: async () => {
         newUserId = Random.id()
         return newUserId
       },
-      errorHandler: ({ error }) => done(error),
-      rolesHandler: ({ userId, roles, institution }) => {
+      errorHandler: async ({ error }) => expect.fail(error?.message),
+      rolesHandler: async ({ userId, roles, institution }) => {
         expect(userId).to.equal(newUserId)
         expect(roles).to.deep.equal(invitationDoc.roles)
         expect(institution).to.equal(invitationDoc.institution)
-        done()
       }
     })
 
-    invite(invitationDoc)
+    await invite(invitationDoc)
   })
-  it('will delegate error handling on failed user creation', function (done) {
-    stub(Accounts, 'sendEnrollmentEmail', () => {})
+  it('will delegate error handling on failed user creation', async () => {
+    stub(Accounts, 'sendEnrollmentEmail', async () => {})
     const errorId = Random.id(8)
     const invite = createInviteUser({
-      createUserHandler: () => {
+      createUserHandler: async () => {
         throw new Error(errorId)
       },
-      rolesHandler: () => {
-        done(new Error('unexpected rolesHandler'))
+      rolesHandler: async () => {
+        expect.fail('unexpected rolesHandler')
       },
-      errorHandler: ({ userId, institution, error }) => {
+      errorHandler: async ({ userId, institution, error }) => {
         expect(userId).to.equal(undefined)
         expect(institution).to.equal(invitationDoc.institution)
         expect(error.message).to.equal(errorId)
-        done()
       }
     })
 
-    const returnValue = invite(invitationDoc)
-    if (returnValue) done(new Error('unexpected complete'))
+    const returnValue = await invite(invitationDoc)
+    if (returnValue) expect.fail('unexpected complete')
   })
-  it('will delegate error handling on failed roles assigment', function (done) {
-    stub(Accounts, 'sendEnrollmentEmail', () => {})
+  it('will delegate error handling on failed roles assigment', async () => {
+    stub(Accounts, 'sendEnrollmentEmail', async () => {})
+
     const errorId = Random.id(8)
     let newUserId
     const invite = createInviteUser({
-      createUserHandler: () => {
+      createUserHandler: async () => {
         newUserId = Random.id()
         return newUserId
       },
-      rolesHandler: () => {
-        throw new Error(errorId)
+      rolesHandler: async () => {
+        expect.fail(errorId)
       },
-      errorHandler: ({ userId, institution, error }) => {
+      errorHandler: async ({ userId, institution, error }) => {
         expect(userId).to.equal(newUserId)
         expect(institution).to.equal(invitationDoc.institution)
         expect(error.message).to.equal(errorId)
-        done()
       }
     })
 
-    const returnValue = invite(invitationDoc)
-    if (returnValue) done(new Error('failed'))
+    const returnValue = await invite(invitationDoc)
+    if (returnValue) expect.fail('failed')
   })
-  it('send an email on success if no password was given', function (done) {
-    stub(Accounts, 'sendEnrollmentEmail', () => done())
+  it('send an email on success if no password was given', async () => {
+    const emailSent = stub(Accounts, 'sendEnrollmentEmail', () => {})
     const invite = createInviteUser({
-      createUserHandler: () => {},
-      errorHandler: () => {},
-      rolesHandler: () => {}
+      createUserHandler: async () => {},
+      errorHandler: async () => {},
+      rolesHandler: async () => {}
     })
-    invite(invitationDoc)
+    await invite(invitationDoc)
+    expect(emailSent.calledOnce).to.equal(true)
   })
-  it('send no email on success if a password was given', function (done) {
-    stub(Accounts, 'sendEnrollmentEmail', () => done(new Error('unexpected')))
+  it('send no email on success if a password was given', async () => {
+    stub(Accounts, 'sendEnrollmentEmail', () => expect.fail('unexpected'))
     const invite = createInviteUser({
-      createUserHandler: () => {},
-      errorHandler: () => {},
-      rolesHandler: () => {}
+      createUserHandler: async () => {},
+      errorHandler: async () => {},
+      rolesHandler: async () => {}
     })
 
     invitationDoc.password = 'password'
-
-    invite(invitationDoc)
-    setTimeout(() => done(), 5)
+    await invite(invitationDoc)
   })
 })

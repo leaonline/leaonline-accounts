@@ -12,10 +12,12 @@ const users = Meteor.settings.accounts.users
 const info = createLog('Accounts')
 const inviteUser = createInviteUser({
   createUserHandler: createUser,
-  rolesHandler: ({ userId, roles, institution }) => {
-    roles.forEach(role => assignRole(userId, role, institution))
+  rolesHandler: async ({ userId, roles, institution }) => {
+    for (const role of roles) {
+      await assignRole(userId, role, institution)
+    }
   },
-  errorHandler: ({ userId, email, institution, error }) => {
+  errorHandler: async ({ userId, email, institution, error }) => {
     console.error(error) // TODO LOG ERROR
 
     info(`invitation failed for ${email} (userId=${userId})`)
@@ -23,36 +25,36 @@ const inviteUser = createInviteUser({
   }
 })
 
-Meteor.startup(() => {
+Meteor.startup(async () => {
   info('check accounts')
-  users.forEach(configUser => {
+  for (const configUser of users) {
     const { email, retry } = configUser
-    const existingUser = Accounts.findUserByEmail(email)
+    const existingUser = await Accounts.findUserByEmail(email)
 
     if (existingUser && !retry) {
       // skip this user as she already exists
       info(`User exists for mail ${email}, check for changes`)
 
-      updateUser(configUser, existingUser, info)
+      await updateUser(configUser, existingUser, info)
     }
 
     // there is a retry option BUT ONLY for users that have yet no valid email
     // addresss, for example due to a failed creation
     if (existingUser && retry && !(existingUser.emails[0]?.verified)) {
       info(`retry - remove user for ${email}`)
-      Meteor.users.remove(existingUser._id)
+      await Meteor.users.removeAsync(existingUser._id)
     }
 
     if (!existingUser) {
       info(`invite user with email ${email}`)
-      const userId = inviteUser(configUser)
+      const userId = await inviteUser(configUser)
 
       if (userId) {
         info(`user created with id ${userId} - for ${email}`)
       }
     }
-  })
+  }
 
   // finally always cleanup Roles after all changes have been applied
-  cleanupRoles(info)
+  await cleanupRoles(info)
 })

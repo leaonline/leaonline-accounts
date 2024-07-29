@@ -10,11 +10,11 @@ import { allUserRoles } from './allUserRoles'
  * - lastName
  * - roles
  *
- * @param update
- * @param original
- * @param debug
+ * @param update {object} the object containing fields to update
+ * @param original {object} the original user document
+ * @param debug {function?} pass a debugging fn
  */
-export const updateUser = (update, original, debug = () => {}) => {
+export const updateUser = async (update, original, debug = () => {}) => {
   let updateRequired = false
   let rolesChanged = false
   let institutionChanged = false
@@ -39,17 +39,22 @@ export const updateUser = (update, original, debug = () => {}) => {
     modifier.$set.institution = update.institution
   }
 
-  // take away old roles
-  const allRoles = allUserRoles(original._id, original.institution)
-  const rolesToRemove = allRoles.filter(role => institutionChanged || !original.roles?.includes(role))
+  // get users current roles for matching
+  const currentRoles = await allUserRoles(original._id, original.institution)
 
+  // take away old roles
+  const rolesToRemove = currentRoles.filter(role => institutionChanged || !update.roles.includes(role))
   if (rolesToRemove.length > 0) {
     debug(original.email, { rolesToRemove, institution: original.institution })
 
     // note that we need to use original here, because
     // if institution changes, we would not remove the original roles
-    const removed = removeRoles(original._id, rolesToRemove, original.institution)
-    const verified = rolesToRemove.every(role => !hasRole(original._id, role, original.institution))
+    const removed = await removeRoles(original._id, rolesToRemove, original.institution)
+    let verified = true
+    for (const role of rolesToRemove) {
+      const assigned = await hasRole(original._id, role, original.institution)
+      if (assigned) verified = false
+    }
     updateRequired = removed && verified
 
     if (!updateRequired) {
@@ -61,16 +66,27 @@ export const updateUser = (update, original, debug = () => {}) => {
 
   // adding new roles works the following way:
   // all roles in config are checked if user has this role
-  const rolesToAdd = update.roles.filter(role => institutionChanged || !hasRole(original._id, role, original.institution))
+  const rolesToAdd = []
+
+  for (const role of update.roles) {
+    if (institutionChanged || !currentRoles.includes(role)) {
+      rolesToAdd.push(role)
+    }
+  }
 
   if (rolesToAdd.length > 0) {
     debug(update.email, { rolesToAdd, institution: update.institution })
 
-    const assigned = assignRoles(original._id, update.roles, update.institution)
-    const verified = rolesToAdd.every(role => hasRole(original._id, role, update.institution))
+    const assigned = await assignRoles(original._id, update.roles, update.institution)
+    let verified = true
+    for (const role of rolesToAdd) {
+      const has = await hasRole(original._id, role, update.institution)
+      if (!has) verified = false
+    }
     updateRequired = assigned && verified
 
     if (!updateRequired) {
+      debug('failed', { rolesToAdd, assigned, verified })
       throw new Meteor.Error('updateUser.error', 'updateUser.assignRoleFailed', { rolesToAdd, assigned, verified })
     }
 
@@ -80,11 +96,11 @@ export const updateUser = (update, original, debug = () => {}) => {
   if (updateRequired) {
     if (rolesChanged) {
       modifier.$set = modifier.$set || {}
-      modifier.$set.roles = allUserRoles(original._id, update.institution)
+      modifier.$set.roles = await allUserRoles(original._id, update.institution)
     }
 
     debug('changes detected', modifier)
-    const updated = Meteor.users.update(original._id, modifier)
+    const updated = await Meteor.users.updateAsync(original._id, modifier)
     debug({
       modifier,
       rolesToAdd,

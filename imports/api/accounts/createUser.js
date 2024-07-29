@@ -4,15 +4,16 @@ import { check, Match } from 'meteor/check'
 import { Random } from 'meteor/random'
 
 /**
- *
- * @param userCredentials.email
- * @param userCredentials.username
- * @param userCredentials.firstName
- * @param userCredentials.lastName
- * @param userCredentials.institution
- * @return {any}
+ * Creates a new user (account) by given credentials.
+ * @param userCredentials.email {string}
+ * @param userCredentials.username {string?}
+ * @param userCredentials.firstName {string}
+ * @param userCredentials.lastName {string}
+ * @param userCredentials.institution {string}
+ * @param userCredentials.password {string?}
+ * @return {string} userId
  */
-export const createUser = (userCredentials = {}) => {
+export const createUser = async (userCredentials = {}) => {
   check(userCredentials, Match.ObjectIncluding({
     email: String,
     firstName: String,
@@ -24,17 +25,17 @@ export const createUser = (userCredentials = {}) => {
 
   const { email, username, password, ...profile } = userCredentials
 
-  if (Accounts.findUserByEmail(email) || (username && Accounts.findUserByUsername(username))) {
+  if (await Accounts.findUserByEmail(email) || (username && await Accounts.findUserByUsername(username))) {
     throw new Meteor.Error('createUser.failed', 'createUser.userExists')
   }
 
-  const userDef = { email, password: password || Random.id(32) }
+  const userDef = { email, password: (password || Random.id(32)) }
   if (username) {
     userDef.username = username
   }
 
-  const userId = Accounts.createUser(userDef)
-  const updated = Meteor.users.update(userId, { $set: profile })
+  const userId = await Accounts.createUserAsync(userDef)
+  const updated = await Meteor.users.updateAsync(userId, { $set: profile })
 
   if (!updated) {
     throw new Meteor.Error('createUser.failed', 'createUser.updateFailed')

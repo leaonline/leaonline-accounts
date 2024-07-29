@@ -1,4 +1,5 @@
-const SimpleSchema = require('simpl-schema')
+import SimpleSchema from 'meteor/aldeed:simple-schema'
+
 const oauthFlows = ['authorization_code']
 const schema = def => new SimpleSchema(def)
 

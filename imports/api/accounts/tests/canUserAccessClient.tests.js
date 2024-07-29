@@ -15,17 +15,17 @@ describe(canUserAccessClient.name, function () {
   afterEach(function () {
     restoreAll()
   })
-  it('returns false if the user or client are not defined', function () {
-    expect(canUserAccessClient({})).to.equal(false)
-    expect(canUserAccessClient({ user })).to.equal(false)
-    expect(canUserAccessClient({ client })).to.equal(false)
+  it('returns false if the user or client are not defined', async () => {
+    expect(await canUserAccessClient({})).to.equal(false)
+    expect(await canUserAccessClient({ user })).to.equal(false)
+    expect(await canUserAccessClient({ client })).to.equal(false)
   })
-  it('returns false if the user has not the clientKey as role', function () {
-    stub(Roles, 'userIsInRole', () => false)
-    expect(canUserAccessClient({ client, user })).to.equal(false)
+  it('returns false if the user has not the clientKey as role', async () => {
+    stub(Roles, 'userIsInRoleAsync', () => false)
+    expect(await canUserAccessClient({ client, user })).to.equal(false)
   })
-  it('returns true if the user has the clientKey as role', function () {
-    stub(Roles, 'userIsInRole', () => true)
-    expect(canUserAccessClient({ client, user })).to.equal(true)
+  it('returns true if the user has the clientKey as role', async () => {
+    stub(Roles, 'userIsInRoleAsync', () => true)
+    expect(await canUserAccessClient({ client, user })).to.equal(true)
   })
 })

@@ -11,9 +11,10 @@ import { check, Match } from 'meteor/check'
  *
  * Finally sends an Email on succeeded creation.
  *
- * @param handlers.rolesHandler
- * @param handlers.createUserHandler
- * @param handlers.errorHandler
+ * @param handlers {object}
+ * @param handlers.rolesHandler {function}
+ * @param handlers.createUserHandler {function}
+ * @param handlers.errorHandler {function}
  * @return {function({
     email: String,
     firstName: String,
@@ -30,7 +31,7 @@ export const createInviteUser = (handlers = {}) => {
     errorHandler: Function
   }))
 
-  return (userDefinitions = {}) => {
+  return async (userDefinitions = {}) => {
     check(userDefinitions, Match.ObjectIncluding({
       email: String,
       firstName: String,
@@ -47,18 +48,18 @@ export const createInviteUser = (handlers = {}) => {
     let userId
     try {
       // delegate user creation to external implementaiton
-      userId = handlers.createUserHandler(userDefinitions)
+      userId = await handlers.createUserHandler(userDefinitions)
 
       // delegate roles assignment to external implementation
-      handlers.rolesHandler({ userId, roles, institution })
+      await handlers.rolesHandler({ userId, roles, institution })
 
       if (invitationRequired) {
-        Accounts.sendEnrollmentEmail(userId)
+        await Accounts.sendEnrollmentEmail(userId)
       }
       return userId
     }
     catch (error) {
-      handlers.errorHandler({ userId, error, ...userDefinitions })
+      await handlers.errorHandler({ userId, error, ...userDefinitions })
     }
   }
 }

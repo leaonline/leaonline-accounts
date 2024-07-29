@@ -4,7 +4,7 @@ import { removeRole } from '../removeRole'
 import { Roles } from 'meteor/alanning:roles'
 import { Random } from 'meteor/random'
 import { expect } from 'chai'
-import { restoreAll, stub } from '../../../../tests/testUtils.tests'
+import { restoreAll, stub, expectThrow } from '../../../../tests/testUtils.tests'
 
 describe(removeRole.name, function () {
   let userId
@@ -21,32 +21,44 @@ describe(removeRole.name, function () {
     restoreAll()
   })
 
-  it('throws if role does not exist', function () {
-    expect(() => removeRole(userId, role, institution)).to.throw('removeRole.unknownRole')
+  it('throws if role does not exist', async () => {
+    await expectThrow({
+      fn: () => removeRole(userId, role, institution),
+      message: 'removeRole.unknownRole'
+    })
   })
-  it('throws if user does not exist', function () {
-    stub(Meteor.roles, 'find', () => ({ count: () => 1 }))
-    expect(() => removeRole(userId, role, institution)).to.throw('removeRole.unkownUser')
+  it('throws if user does not exist', async () => {
+    stub(Meteor.roles, 'countDocuments', async () => 1)
+    await expectThrow({
+      fn: () => removeRole(userId, role, institution),
+      message: 'removeRole.unknownUser'
+    })
   })
-  it('throws if user has not role', function () {
-    stub(Meteor.roles, 'find', () => ({ count: () => 1 }))
-    stub(Meteor.users, 'find', () => ({ count: () => 1 }))
-    stub(Roles, 'userIsInRole', () => false)
-    expect(() => removeRole(userId, role, institution)).to.throw('removeRole.roleNotAssigned')
+  it('throws if user has not role', async () => {
+    stub(Meteor.roles, 'countDocuments', async () => 1)
+    stub(Meteor.users, 'countDocuments', async () => 1)
+    stub(Roles, 'userIsInRoleAsync', () => false)
+    await expectThrow({
+      fn: () => removeRole(userId, role, institution),
+      message: 'removeRole.roleNotAssigned'
+    })
   })
-  it('throws if the role has not been removed', function () {
-    stub(Meteor.roles, 'find', () => ({ count: () => 1 }))
-    stub(Meteor.users, 'find', () => ({ count: () => 1 }))
-    stub(Roles, 'removeUsersFromRoles', () => true)
-    stub(Roles, 'userIsInRole', () => true)
-    expect(() => removeRole(userId, role, institution)).to.throw('removeRole.roleNotRemoved')
+  it('throws if the role has not been removed', async () => {
+    stub(Meteor.roles, 'countDocuments', async () => 1)
+    stub(Meteor.users, 'countDocuments', async () => 1)
+    stub(Roles, 'removeUsersFromRolesAsync', () => true)
+    stub(Roles, 'userIsInRoleAsync', () => true)
+    await expectThrow({
+      fn: () => removeRole(userId, role, institution),
+      message: 'removeRole.roleNotRemoved'
+    })
   })
-  it('removes the role from user', function () {
-    stub(Meteor.roles, 'find', () => ({ count: () => 1 }))
-    stub(Meteor.users, 'find', () => ({ count: () => 1 }))
-    stub(Roles, 'removeUsersFromRoles', () => true)
+  it('removes the role from user', async () => {
+    stub(Meteor.roles, 'countDocuments', async () => 1)
+    stub(Meteor.users, 'countDocuments', async () => 1)
+    stub(Roles, 'removeUsersFromRolesAsync', () => true)
     let count = 0
-    stub(Roles, 'userIsInRole', () => !(count++))
-    expect(removeRole(userId, role, institution)).to.equal(true)
+    stub(Roles, 'userIsInRoleAsync', () => !(count++))
+    expect(await removeRole(userId, role, institution)).to.equal(true)
   })
 })

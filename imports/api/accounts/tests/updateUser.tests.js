@@ -9,73 +9,65 @@ import {
 } from '../../../../tests/mockCollection'
 import { Meteor } from 'meteor/meteor'
 import { hasRole } from '../hasRole'
+import { Roles } from 'meteor/alanning:roles'
 
 describe(updateUser.name, function () {
-  before(function () {
+  before(async function () {
     Meteor.users = mockCollection({
       name: 'users',
       collection: Meteor.users
     })
-    Meteor.roleAssignment = mockCollection({
-      name: 'role-assignment',
-      collection: Meteor.roleAssignment
-    })
-    Meteor.roles = mockCollection({
-      name: 'roles',
-      collection: Meteor.roles
-    })
+    await Roles.createRoleAsync('foo')
+    await Roles.createRoleAsync('bar')
   })
 
-  after(function () {
+  after(async () => {
     Meteor.users = restoreCollection({ name: 'users' })
-    Meteor.roleAssignment = restoreCollection({ name: 'role-assignment' })
-    Meteor.roles = restoreCollection({ name: 'roles' })
+    await Roles.deleteRoleAsync('foo')
+    await Roles.deleteRoleAsync('bar')
   })
 
   let userId
   let currentUser
 
-  beforeEach(function () {
-    userId = Meteor.users.insert({
+  beforeEach(async () => {
+    userId = await Meteor.users.insertAsync({
       firstName: Random.id(),
       lastName: Random.id(),
       roles: []
     })
-    currentUser = Meteor.users.findOne(userId)
-    Meteor.roles.insert({ _id: 'foo', children: [] })
-    Meteor.roles.insert({ _id: 'bar', children: [] })
+    currentUser = await Meteor.users.findOneAsync(userId)
   })
 
-  afterEach(function () {
-    clearCollection({ collection: Meteor.users })
-    clearCollection({ collection: Meteor.roleAssignment })
-    clearCollection({ collection: Meteor.roles })
+  afterEach(async () => {
+    await clearCollection({ collection: Meteor.users })
+    await clearCollection({ collection: Meteor.roleAssignment })
   })
 
-  it('does nothing if nothing changes', function () {
+  it('does nothing if nothing changes', async () => {
     const config = {
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
       roles: currentUser.roles
     }
 
-    const updated = updateUser(config, currentUser)
+    const updated = await updateUser(config, currentUser)
     expect(updated).to.equal(0)
 
-    const updatedUser = Meteor.users.findOne(userId)
+    const updatedUser = await Meteor.users.findOneAsync(userId)
     expect(updatedUser).to.deep.equal(currentUser)
   })
-  it('updates firstName if different', function () {
+  it('updates firstName if different', async () => {
     const config = {
       firstName: 'foo',
       lastName: currentUser.lastName,
       roles: currentUser.roles
     }
 
-    const updated = updateUser(config, currentUser)
+    const updated = await updateUser(config, currentUser)
     expect(updated).to.equal(1)
 
-    const updatedUser = Meteor.users.findOne(userId)
+    const updatedUser = await Meteor.users.findOneAsync(userId)
     expect(updatedUser).to.deep.equal({
       _id: currentUser._id,
       firstName: 'foo',
@@ -83,17 +75,17 @@ describe(updateUser.name, function () {
       roles: []
     })
   })
-  it('updates lastName if different', function () {
+  it('updates lastName if different', async () => {
     const config = {
       firstName: currentUser.firstName,
       lastName: 'foo',
       roles: currentUser.roles
     }
 
-    const updated = updateUser(config, currentUser)
+    const updated = await updateUser(config, currentUser)
     expect(updated).to.equal(1)
 
-    const updatedUser = Meteor.users.findOne(userId)
+    const updatedUser = await Meteor.users.findOneAsync(userId)
     expect(updatedUser).to.deep.equal({
       _id: currentUser._id,
       firstName: currentUser.firstName,
@@ -101,17 +93,17 @@ describe(updateUser.name, function () {
       roles: []
     })
   })
-  it('add roles', function () {
+  it('adds new roles', async () => {
     const config = {
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
       roles: ['foo']
     }
 
-    const updated = updateUser(config, currentUser)
+    const updated = await updateUser(config, currentUser)
     expect(updated).to.equal(1)
 
-    const updatedUser = Meteor.users.findOne(userId)
+    const updatedUser = await Meteor.users.findOneAsync(userId)
     expect(updatedUser).to.deep.equal({
       _id: currentUser._id,
       firstName: currentUser.firstName,
@@ -120,38 +112,39 @@ describe(updateUser.name, function () {
     })
 
     config.roles.push('bar')
-    const updated2 = updateUser(config, updatedUser)
+    const updated2 = await updateUser(config, updatedUser)
     expect(updated2).to.equal(1)
 
-    const updatedUser2 = Meteor.users.findOne(userId)
+    const updatedUser2 = await Meteor.users.findOneAsync(userId)
     expect(updatedUser2).to.deep.equal({
       _id: currentUser._id,
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
-      roles: ['foo', 'bar']
+      roles: ['bar', 'foo']
     })
 
-    expect(hasRole(userId, ['foo', 'bar'])).to.equal(true)
+    expect(await hasRole(userId, ['foo', 'bar'])).to.equal(true)
   })
-  it('removes roles', function () {
+  it('removes roles', async () => {
     const config = {
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
       roles: ['foo', 'bar']
     }
-    updateUser(config, currentUser)
 
-    expect(Meteor.users.findOne(userId)).to.deep.equal({
+    await updateUser(config, currentUser)
+    let userDoc = await Meteor.users.findOneAsync(userId)
+    expect(userDoc).to.deep.equal({
       _id: currentUser._id,
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
-      roles: ['foo', 'bar']
+      roles: ['bar', 'foo']
     })
 
     config.roles.pop()
-    updateUser(config, currentUser)
-
-    expect(Meteor.users.findOne(userId)).to.deep.equal({
+    await updateUser(config, userDoc)
+    userDoc = await Meteor.users.findOneAsync(userId)
+    expect(userDoc).to.deep.equal({
       _id: currentUser._id,
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
@@ -159,24 +152,25 @@ describe(updateUser.name, function () {
     })
 
     config.roles.pop()
-    updateUser(config, currentUser)
+    await updateUser(config, userDoc)
 
-    expect(Meteor.users.findOne(userId)).to.deep.equal({
+    userDoc = await Meteor.users.findOneAsync(userId)
+    expect(userDoc).to.deep.equal({
       _id: currentUser._id,
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
       roles: []
     })
   })
-  it('updates multiple values at once', function () {
+  it('updates multiple values at once', async () => {
     const config = {
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
       roles: ['foo']
     }
-    updateUser(config, currentUser)
+    await updateUser(config, currentUser)
 
-    expect(Meteor.users.findOne(userId)).to.deep.equal({
+    expect(await Meteor.users.findOneAsync(userId)).to.deep.equal({
       _id: currentUser._id,
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
@@ -187,19 +181,19 @@ describe(updateUser.name, function () {
     config.firstName = 'John'
     config.lastName = 'Doe'
 
-    updateUser(config, currentUser)
+    await updateUser(config, currentUser)
 
-    expect(Meteor.users.findOne(userId)).to.deep.equal({
+    expect(await Meteor.users.findOneAsync(userId)).to.deep.equal({
       _id: currentUser._id,
       firstName: 'John',
       lastName: 'Doe',
       roles: ['bar']
     })
   })
-  it('migrates roles if institution has changed', function () {
-    Meteor.users.update(userId, { $set: { institution: 'inst', roles: ['foo', 'bar'] } })
+  it('migrates roles if institution has changed', async () => {
+    await Meteor.users.updateAsync(userId, { $set: { institution: 'inst', roles: ['foo', 'bar'] } })
 
-    expect(Meteor.users.findOne(userId)).to.deep.equal({
+    expect(await Meteor.users.findOneAsync(userId)).to.deep.equal({
       _id: currentUser._id,
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
@@ -213,13 +207,13 @@ describe(updateUser.name, function () {
       roles: ['foo', 'bar'],
       institution: 'inst-foo'
     }
-    updateUser(config, currentUser)
+    await updateUser(config, currentUser)
 
-    expect(Meteor.users.findOne(userId)).to.deep.equal({
+    expect(await Meteor.users.findOneAsync(userId)).to.deep.equal({
       _id: currentUser._id,
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
-      roles: ['foo', 'bar'],
+      roles: ['bar', 'foo'],
       institution: 'inst-foo'
     })
   })
