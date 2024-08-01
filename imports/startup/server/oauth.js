@@ -12,33 +12,29 @@ const oauth2server = new OAuth2Server({
     accessTokensCollection: new Mongo.Collection(null),
     refreshTokensCollection: new Mongo.Collection(null),
     clientsCollectionName: model.clientsCollectionName,
-    authCodesCollection: new Mongo.Collection(null)
+    authCodesCollection: new Mongo.Collection(null),
+    debug: false
   },
   routes,
-  debug
+  debug: true
 })
 
 oauth2server.validateUser(function (userData) {
   return canUserAccessClient(userData)
 })
 
-oauth2server.authenticatedRoute().get(routes.identityUrl, function (req, res) {
+oauth2server.authenticatedRoute().get(routes.identityUrl, async function (req, res) {
   const userId = req?.data?.user?.id
-  const user = OAuth.getIdentity(userId)
-  const status = user ? 200 : 404
+  const user = await OAuth.getIdentity(userId)
 
-  res.writeHead(status, {
-    'Content-Type': 'application/json'
-  })
+  res.status(user ? 200 : 404)
+  res.set({ 'Content-Type': 'application/json' })
 
   const body = user
-    ? JSON.stringify(user)
-    : JSON.stringify({
-      error: 'user not found',
-      response: `request user [${userId}] not found`
-    })
+    ? user
+    : { error: 'user not found', response: `request user [${userId}] not found` }
 
-  res.end(body)
+  res.json(body)
 })
 
 Meteor.startup(() => {

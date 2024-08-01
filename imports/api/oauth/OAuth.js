@@ -1,18 +1,48 @@
 import { Meteor } from 'meteor/meteor'
 
+/**
+ * In-memory registry for OAuth workflow.
+ */
+export const OAuth = {}
+
+/** @private */
 const settings = Meteor.settings.oauth.clients
+/** @private */
 const clients = new Map()
 
 settings.forEach(entry => {
   clients.set(entry.clientId, entry.key)
 })
 
-export const OAuth = {}
 
-OAuth.getClientKey = clientId => clients.get(clientId)
+/**
+ * Returns the "primary" for a client by clientId.
+ * This key is usually not stored in the OAuth clients
+ * collection.
+ * @param clientId {string}
+ * @return {string|undefined}
+ */
+const getClientKey = clientId => clients.get(clientId)
 
-OAuth.getIdentity = userId => {
-  const user = userId && Meteor.users.findOne(userId)
+/**
+ * Returns the "identity" of a user by given userId.
+ * Note, the returned document is stripped from sensitive
+ * fields like {services}.
+ *
+ * @async
+ * @param userId {string}
+ * @return {Promise<{
+ *  firstName:string,
+ *  lastName:string,
+ *  roles: string[],
+ *  name: string,
+ *  id:string,
+ *  login:string?,
+ *  email: string
+ *  }>}
+ */
+const getIdentity = async userId => {
+  const user = userId && await Meteor.users.findOneAsync(userId)
   if (!user) return
 
   return {
@@ -25,3 +55,5 @@ OAuth.getIdentity = userId => {
     roles: [].concat(user.roles || [])
   }
 }
+
+Object.assign(OAuth, { getClientKey, getIdentity })

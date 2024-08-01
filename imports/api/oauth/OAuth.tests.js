@@ -20,16 +20,16 @@ describe('OAuth', function () {
     afterEach(function () {
       restoreAll()
     })
-    it('returns undefined if no user is found', function () {
-      stub(Meteor.users, 'findOne', () => {})
-      expect(OAuth.getIdentity()).to.equal(undefined)
-      expect(OAuth.getIdentity(Random.id())).to.equal(undefined)
+    it('returns undefined if no user is found', async function () {
+      stub(Meteor.users, 'findOneAsync', async () => {})
+      expect(await OAuth.getIdentity()).to.equal(undefined)
+      expect(await OAuth.getIdentity(Random.id())).to.equal(undefined)
 
-      overrideStub(Meteor.users, 'findOne', () => {})
-      expect(OAuth.getIdentity()).to.equal(undefined)
-      expect(OAuth.getIdentity(Random.id())).to.equal(undefined)
+      overrideStub(Meteor.users, 'findOneAsync', async () => {})
+      expect(await OAuth.getIdentity()).to.equal(undefined)
+      expect(await OAuth.getIdentity(Random.id())).to.equal(undefined)
     })
-    it('returns a valid identity', function () {
+    it('returns a valid identity', async function () {
       const user = {
         _id: Random.id(6),
         username: Random.id(6),
@@ -38,8 +38,8 @@ describe('OAuth', function () {
         emails: [{ address: [Random.id(6)] }],
         roles: ['foo', 'bar']
       }
-      stub(Meteor.users, 'findOne', () => user)
-      const result = OAuth.getIdentity(Random.id())
+      stub(Meteor.users, 'findOneAsync', () => user)
+      const result = await OAuth.getIdentity(Random.id())
       expect(result).to.deep.equal({
         id: user._id,
         login: user.username,
