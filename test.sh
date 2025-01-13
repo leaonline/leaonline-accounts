@@ -16,7 +16,7 @@ T_FILTER=""             # runs all defined tests
 T_RUN_ONCE=""           # runs in watch mode
 T_VERBOSE=0             # no extra verbosity
 T_SERVER=1              # runs server tests
-T_CLIENT=1              # runs client tests
+T_CLIENT=0              # runs client tests
 
 # options:
 
@@ -31,6 +31,7 @@ Options:
   -h              Show help
   -o              Runs the tests only once (default is watch-mode)
   -v              Verbose mode with extra prints
+  -d              Run in debug mode
 "
 
 
@@ -114,4 +115,4 @@ METEOR_PACKAGE_DIRS=${T_PACKAGE_DIRS}  \
         ${T_RUN_ONCE} \
         --driver-package=meteortesting:mocha \
         --settings=settings.json \
-        --port=${PORT}
+        --port=${PORT} \

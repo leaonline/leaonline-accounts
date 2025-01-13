@@ -13,7 +13,7 @@ const oauth2server = new OAuth2Server({
     refreshTokensCollection: new Mongo.Collection(null),
     clientsCollectionName: model.clientsCollectionName,
     authCodesCollection: new Mongo.Collection(null),
-    debug: false
+    debug: true
   },
   routes,
   debug: true
@@ -37,9 +37,8 @@ oauth2server.authenticatedRoute().get(routes.identityUrl, async function (req, r
   res.json(body)
 })
 
-Meteor.startup(() => {
-  Object.values(clients).forEach(entry => {
-    console.log(`[OAuth2Server]: register client <${entry.title}>`)
-    oauth2server.registerClient(entry)
-  })
+Meteor.startup(async () => {
+  for (const client of clients) {
+    await oauth2server.registerClient(client)
+  }
 })
