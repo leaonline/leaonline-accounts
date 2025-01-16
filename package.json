@@ -6,8 +6,8 @@
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
-    "lint:code": "standardx -v | snazzy",
-    "lint:code-fix": "standardx --fix -v | snazzy",
+    "lint:code": "npx @biomejs/biome check ./",
+    "lint:code-fix": "npx @biomejs/biome check --write ./src",
     "lint:style": "stylelint \"**/*.scss\"",
     "lint:style-fix": "stylelint --fix \"**/*.scss\"",
     "lint:markdown": "markdownlint \"**/*.md\" --config ./.markdownlint.json",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.24.8",
+    "@biomejs/biome": "1.9.4",
     "babel-plugin-istanbul": "^6.0.0",
     "chai": "^4.3.6",
     "eslint-plugin-security": "^1.5.0",
