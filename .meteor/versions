@@ -52,7 +52,7 @@ leaonline:method-factory@2.0.0
 leaonline:oauth2-server@6.0.0-rc.1
 leaonline:ratelimit-factory@2.0.0
 leaonline:testing@2.0.0
-leaonline:theme@1.1.0
+leaonline:theme@2.0.0
 leaonline:utils@2.0.0
 localstorage@1.2.1
 logging@1.3.5

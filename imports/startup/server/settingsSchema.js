@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor'
-import validateSettings from '../../../.settingsschema'
+import createSettingsValidator from '../../../.settingsschema'
+import SimpleSchema from 'meteor/aldeed:simple-schema'
 
-validateSettings(Meteor.settings)
+const validate = createSettingsValidator(SimpleSchema)
+validate(Meteor.settings)

@@ -38,6 +38,7 @@
     "markdown-cli": "^1.6.0",
     "markdownlint-cli": "^0.39.0",
     "puppeteer": "^10.4.0",
+    "simpl-schema": "^1.13.1",
     "sinon": "^17.0.1",
     "snazzy": "^9.0.0",
     "standard": "^17.1.0",
