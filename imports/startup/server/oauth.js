@@ -19,11 +19,9 @@ const oauth2server = new OAuth2Server({
   debug: true
 })
 
-oauth2server.validateUser(function (userData) {
-  return canUserAccessClient(userData)
-})
+oauth2server.validateUser((userData) => canUserAccessClient(userData))
 
-oauth2server.authenticatedRoute().get(routes.identityUrl, async function (req, res) {
+oauth2server.authenticatedRoute().get(routes.identityUrl, async (req, res) => {
   const userId = req?.data?.user?.id
   const user = await OAuth.getIdentity(userId)
 
