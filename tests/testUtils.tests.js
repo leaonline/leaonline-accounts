@@ -4,4 +4,4 @@ export {
 	restore,
 	restoreAll,
 	expectThrow,
-} from "meteor/leaonline:testing";
+} from 'meteor/leaonline:testing'

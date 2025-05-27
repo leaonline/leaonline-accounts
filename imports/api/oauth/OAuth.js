@@ -1,18 +1,18 @@
-import { Meteor } from "meteor/meteor";
+import { Meteor } from 'meteor/meteor'
 
 /**
  * In-memory registry for OAuth workflow.
  */
-export const OAuth = {};
+export const OAuth = {}
 
 /** @private */
-const settings = Meteor.settings.oauth.clients;
+const settings = Meteor.settings.oauth.clients
 /** @private */
-const clients = new Map();
+const clients = new Map()
 
-settings.forEach((entry) => {
-	clients.set(entry.clientId, entry.key);
-});
+for (const entry of settings) {
+	clients.set(entry.clientId, entry.key)
+}
 
 /**
  * Returns the "primary" for a client by clientId.
@@ -21,7 +21,7 @@ settings.forEach((entry) => {
  * @param clientId {string}
  * @return {string|undefined}
  */
-const getClientKey = (clientId) => clients.get(clientId);
+const getClientKey = (clientId) => clients.get(clientId)
 
 /**
  * Returns the "identity" of a user by given userId.
@@ -41,8 +41,8 @@ const getClientKey = (clientId) => clients.get(clientId);
  *  }>}
  */
 const getIdentity = async (userId) => {
-	const user = userId && (await Meteor.users.findOneAsync(userId));
-	if (!user) return;
+	const user = userId && (await Meteor.users.findOneAsync(userId))
+	if (!user) return
 
 	return {
 		id: user._id,
@@ -52,7 +52,7 @@ const getIdentity = async (userId) => {
 		lastName: user.lastName,
 		name: `${user.firstName} ${user.lastName}`,
 		roles: [].concat(user.roles || []),
-	};
-};
+	}
+}
 
-Object.assign(OAuth, { getClientKey, getIdentity });
+Object.assign(OAuth, { getClientKey, getIdentity })

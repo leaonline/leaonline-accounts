@@ -1,66 +1,64 @@
-import { Meteor } from "meteor/meteor";
+import { Meteor } from 'meteor/meteor'
 
-const { oauth } = Meteor.settings.public;
+const { oauth } = Meteor.settings.public
 
-export const Routes = {};
+export const Routes = {}
 
-Routes.defaultLayout = "layout";
-Routes.authLayout = "authLayout";
+Routes.defaultLayout = 'layout'
+Routes.authLayout = 'authLayout'
 
-const _routes = {};
+const _routes = {}
 
 _routes.authorize = {
-	template: "authorize",
+	template: 'authorize',
 	path: () => oauth.dialogUrl,
-	label: "Authorize",
+	label: 'Authorize',
 	isPage: true,
 	include() {
-		return import("../../ui/oauth/authorize/authorize");
+		return import('../../ui/oauth/authorize/authorize')
 	},
 	layout: Routes.authLayout,
-};
+}
 
 _routes.enrol = {
-	path: (token = ":token") => `/enroll-account/${token}`,
-	template: "enroll",
-	label: "pages.enroll.title",
+	path: (token = ':token') => `/enroll-account/${token}`,
+	template: 'enroll',
+	label: 'pages.enroll.title',
 	isPage: true,
 	include() {
-		return import("../../ui/accounts/enroll/enroll");
+		return import('../../ui/accounts/enroll/enroll')
 	},
-};
+}
 
 _routes.resetPassword = {
-	path: (token = ":token") => `/reset-password/${token}`,
-	template: "resetPassword",
-	label: "pages.resetPassword.title",
+	path: (token = ':token') => `/reset-password/${token}`,
+	template: 'resetPassword',
+	label: 'pages.resetPassword.title',
 	isPage: true,
 	include() {
-		return import("../../ui/accounts/resetPassword/resetPassword");
+		return import('../../ui/accounts/resetPassword/resetPassword')
 	},
-};
+}
 
 _routes.admin = {
-	path: () => "/admin",
-	template: "admin",
-	label: "pages.admin.title",
+	path: () => '/admin',
+	template: 'admin',
+	label: 'pages.admin.title',
 	isPage: true,
 	include() {
-		return import("../../ui/admin/admin");
+		return import('../../ui/admin/admin')
 	},
-};
+}
 
-Routes.all = function () {
-	return Object.assign({}, _routes);
-};
+Routes.all = () => Object.assign({}, _routes)
 
-Routes.each = function (fn) {
-	Routes.toArray().forEach(fn);
-};
+Routes.each = (fn) => {
+	Routes.toArray().forEach(fn)
+}
 
-Routes.toArray = function () {
-	const all = Routes.all();
-	return Object.values(all);
-};
+Routes.toArray = () => {
+	const all = Routes.all()
+	return Object.values(all)
+}
 
-Object.assign(Routes, _routes);
+Object.assign(Routes, _routes)

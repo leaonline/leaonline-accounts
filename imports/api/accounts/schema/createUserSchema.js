@@ -1,4 +1,4 @@
-import { RegEx } from "../../schema/Schema";
+import { RegEx } from '../../schema/Schema'
 
 export const createUserSchema = {
 	firstName: {
@@ -22,8 +22,8 @@ export const createUserSchema = {
 		type: Array,
 		minCount: 1,
 	},
-	"roles.$": {
+	'roles.$': {
 		type: String,
-		allowedValues: ["admin", "backend", "content", "otulea", "teacher"],
+		allowedValues: ['admin', 'backend', 'content', 'otulea', 'teacher'],
 	},
-};
+}

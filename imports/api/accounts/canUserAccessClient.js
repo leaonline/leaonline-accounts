@@ -1,6 +1,6 @@
-import { Meteor } from "meteor/meteor";
-import { Roles } from "meteor/alanning:roles";
-import { OAuth } from "../oauth/OAuth";
+import { Meteor } from 'meteor/meteor'
+import { Roles } from 'meteor/alanning:roles'
+import { OAuth } from '../oauth/OAuth'
 
 /**
  * Determines, whether a given user is allowed to access
@@ -14,28 +14,24 @@ import { OAuth } from "../oauth/OAuth";
  */
 export const canUserAccessClient = async ({ user, client }) => {
 	if (!user?._id || !client?.clientId) {
-		return false;
+		return false
 	}
 
-	const { clientId } = client;
-	const { institution } = user;
-	const userId = user._id;
-	const clientKey = OAuth.getClientKey(clientId);
-	const isInRole = await Roles.userIsInRoleAsync(
-		userId,
-		clientKey,
-		institution,
-	);
+	const { clientId } = client
+	const { institution } = user
+	const userId = user._id
+	const clientKey = OAuth.getClientKey(clientId)
+	const isInRole = await Roles.userIsInRoleAsync(userId, clientKey, institution)
 
 	if (!isInRole) {
 		// in this case we revoke the token to
 		// reduce the chance of access
 		await Meteor.users.updateAsync(
 			{ _id: userId },
-			{ $set: { "services.resume.loginTokens": [] } },
-		);
-		return false;
-	} else {
-		return true;
+			{ $set: { 'services.resume.loginTokens': [] } },
+		)
+		return false
 	}
-};
+
+	return true
+}

@@ -1,40 +1,39 @@
-import { Meteor } from "meteor/meteor";
-import { i18n } from "../../i18n/i18n";
-import { ErrorTypes, RegEx } from "../../schema/Schema";
+import { Meteor } from 'meteor/meteor'
+import { i18n } from '../../i18n/i18n'
+import { ErrorTypes, RegEx } from '../../schema/Schema'
 
-const { min, max, blacklist, icon } = Meteor.settings.public.password;
+const { min, max, blacklist, icon } = Meteor.settings.public.password
 const createBlacklist = (list) => {
 	// eslint-disable-next-line security/detect-non-literal-regexp
 	const regexes = list.map(
-		(entry) => new RegExp(entry.trim().toLowerCase(), "i"),
-	);
-	const test = (value) =>
-		value && !regexes.some((regExp) => regExp.test(value));
-	const message = (value) => i18n.get("password.guess", { password: value });
-	return { test, message };
-};
+		(entry) => new RegExp(entry.trim().toLowerCase(), 'i'),
+	)
+	const test = (value) => value && !regexes.some((regExp) => regExp.test(value))
+	const message = (value) => i18n.get('password.guess', { password: value })
+	return { test, message }
+}
 
 export const getResetPasswordSchema = (email) => {
-	const list = [...blacklist];
+	const list = [...blacklist]
 	if (email) {
-		const split = email.toLowerCase().split("@");
-		list.push(split[0]);
+		const split = email.toLowerCase().split('@')
+		list.push(split[0])
 
-		const domain = split[1].split(".");
-		list.push(domain[0]);
+		const domain = split[1].split('.')
+		list.push(domain[0])
 	}
 
 	const rules = [
 		{
 			test: (value) => value && value.length >= min,
-			message: () => i18n.get("password.min", { min }),
+			message: () => i18n.get('password.min', { min }),
 		},
 		{
 			test: (value) => value && value.length <= max,
-			message: () => i18n.get("password.max", { max }),
+			message: () => i18n.get('password.max', { max }),
 		},
 		createBlacklist(list),
-	];
+	]
 
 	return {
 		email: {
@@ -42,42 +41,42 @@ export const getResetPasswordSchema = (email) => {
 			label: false,
 			optional: true,
 			regEx: RegEx.EmailWithTLD,
-			autoform: { type: "email", class: "d-none", defaultValue: email },
+			autoform: { type: 'email', class: 'd-none', defaultValue: email },
 		},
 		password: {
 			type: String,
-			label: () => i18n.get("user.password"),
+			label: () => i18n.get('user.password'),
 			autoform: {
-				type: "password2",
+				type: 'password2',
 				rules,
 				autocomplete: true,
 				autofocus: true,
 				userIcon: icon,
 			},
 			custom() {
-				const isUnset = !this.isSet || !this.value;
-				const value = this.value;
+				const isUnset = !this.isSet || !this.value
+				const value = this.value
 
 				// check optional
 				if (isUnset) {
-					return ErrorTypes.REQUIRED;
+					return ErrorTypes.REQUIRED
 				}
 
 				if (rules) {
-					let failedRule;
+					let failedRule
 					const passed = rules.every((rule) => {
 						if (!rule.test(value)) {
-							failedRule = rule;
-							return false;
+							failedRule = rule
+							return false
 						}
-						return true;
-					});
+						return true
+					})
 
 					if (!passed) {
-						return failedRule.message(value);
+						return failedRule.message(value)
 					}
 				}
 			},
 		},
-	};
-};
+	}
+}

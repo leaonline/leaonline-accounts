@@ -1,7 +1,7 @@
-import { Meteor } from "meteor/meteor";
-import { Accounts } from "meteor/accounts-base";
-import { check, Match } from "meteor/check";
-import { Random } from "meteor/random";
+import { Meteor } from 'meteor/meteor'
+import { Accounts } from 'meteor/accounts-base'
+import { check, Match } from 'meteor/check'
+import { Random } from 'meteor/random'
 
 /**
  * Creates a new user (account) by given credentials.
@@ -24,28 +24,28 @@ export const createUser = async (userCredentials = {}) => {
 			username: Match.Maybe(String),
 			password: Match.Maybe(String),
 		}),
-	);
+	)
 
-	const { email, username, password, ...profile } = userCredentials;
+	const { email, username, password, ...profile } = userCredentials
 
 	if (
 		(await Accounts.findUserByEmail(email)) ||
 		(username && (await Accounts.findUserByUsername(username)))
 	) {
-		throw new Meteor.Error("createUser.failed", "createUser.userExists");
+		throw new Meteor.Error('createUser.failed', 'createUser.userExists')
 	}
 
-	const userDef = { email, password: password || Random.id(32) };
+	const userDef = { email, password: password || Random.id(32) }
 	if (username) {
-		userDef.username = username;
+		userDef.username = username
 	}
 
-	const userId = await Accounts.createUserAsync(userDef);
-	const updated = await Meteor.users.updateAsync(userId, { $set: profile });
+	const userId = await Accounts.createUserAsync(userDef)
+	const updated = await Meteor.users.updateAsync(userId, { $set: profile })
 
 	if (!updated) {
-		throw new Meteor.Error("createUser.failed", "createUser.updateFailed");
+		throw new Meteor.Error('createUser.failed', 'createUser.updateFailed')
 	}
 
-	return userId;
-};
+	return userId
+}

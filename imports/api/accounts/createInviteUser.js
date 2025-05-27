@@ -1,5 +1,5 @@
-import { Accounts } from "meteor/accounts-base";
-import { check, Match } from "meteor/check";
+import { Accounts } from 'meteor/accounts-base'
+import { check, Match } from 'meteor/check'
 
 /**
  * Creates an invitation method, that first delegates user creation and role
@@ -32,7 +32,7 @@ export const createInviteUser = (handlers = {}) => {
 			createUserHandler: Function,
 			errorHandler: Function,
 		}),
-	);
+	)
 
 	return async (userDefinitions = {}) => {
 		check(
@@ -46,25 +46,25 @@ export const createInviteUser = (handlers = {}) => {
 				password: Match.Maybe(String),
 				roles: [String],
 			}),
-		);
+		)
 
-		const { institution, roles } = userDefinitions;
-		const invitationRequired = !userDefinitions.password;
+		const { institution, roles } = userDefinitions
+		const invitationRequired = !userDefinitions.password
 
-		let userId;
+		let userId
 		try {
 			// delegate user creation to external implementaiton
-			userId = await handlers.createUserHandler(userDefinitions);
+			userId = await handlers.createUserHandler(userDefinitions)
 
 			// delegate roles assignment to external implementation
-			await handlers.rolesHandler({ userId, roles, institution });
+			await handlers.rolesHandler({ userId, roles, institution })
 
 			if (invitationRequired) {
-				await Accounts.sendEnrollmentEmail(userId);
+				await Accounts.sendEnrollmentEmail(userId)
 			}
-			return userId;
+			return userId
 		} catch (error) {
-			await handlers.errorHandler({ userId, error, ...userDefinitions });
+			await handlers.errorHandler({ userId, error, ...userDefinitions })
 		}
-	};
-};
+	}
+}
