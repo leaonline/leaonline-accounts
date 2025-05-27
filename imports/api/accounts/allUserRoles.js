@@ -1,4 +1,4 @@
-import { Roles } from 'meteor/alanning:roles'
+import { Roles } from "meteor/alanning:roles";
 
 /**
  *
@@ -6,4 +6,5 @@ import { Roles } from 'meteor/alanning:roles'
  * @param scope
  * @return {Promise<[string]>}
  */
-export const allUserRoles = (user, scope) => Roles.getRolesForUserAsync(user, scope)
+export const allUserRoles = (user, scope) =>
+	Roles.getRolesForUserAsync(user, scope);

@@ -1,52 +1,52 @@
 {
-  "actions": {
-    "close": "Schließen",
-    "submit": "Abschicken",
-    "logout": "Abmelden",
-    "cancel": "Abbrechen"
-  },
-  "common": {
-    "loading": "Wird geladen..."
-  },
-  "password": {
-    "min": "Min. {{min}} Zeichen lang",
-    "max": "Max. {{max}} Zeichen lang",
-    "guess": "Nicht leicht zu erraten"
-  },
-  "resetPassword": {
-    "title": "Ein neues Passwort setzen",
-    "complete": "Ihr Password wurde erfolgreich aktualisiert. Sie können dieses Fenster nun schließen.",
-    "info": "Sie können hier Ihr Passwort neu setzen. Bitte beachten Sie Groß- und Kleinschreibung und bestätigen Sie Ihr Passwort, indem Sie es erneut eingeben.\n\nSie können Ihr eingegebenes Passwort prüfen, indem Sie auf das Augen-Symbol klicken",
-    "reset": "Neues Passwort setzen"
-  },
-  "enrollment": {
-    "title": "Bei lea.online registrieren",
-    "setPassword": "Passwort setzen",
-    "success": "Sie haben die Registrierung erfolgreich abgeschlossen!",
-    "info": "Um Ihre Registrierung abzuschließen bitten wir Sie, folgende Felder auszufüllen:"
-  },
-  "authenticate": {
-    "hello": "Hallo, {{firstName}} {{lastName}}!",
-    "info": "Bitte wählen Sie, ob Sie mit dem genannten Konto lea.online verwenden, oder einen zuanderen Konto wechseln möchten.",
-    "useThisAccount": "Mit diesem Konto anmelden",
-    "switchAccount": "Mit anderem Konto anmelden"
-  },
-  "login": {
-    "title": "Bei lea.online anmelden",
-    "signIn": "Anmelden",
-    "forgotPassword": "Passwort vergessen?",
-    "requestPassword": "Link anfordern",
-    "requestSent": "Der Link wurde an die angegebene Emailadresse erfolgreich zugesendet.",
-    "toLogin": "zurück zur Anmeldung"
-  },
-  "user": {
-    "firstName": "Vorname",
-    "lastName": "Nachname",
-    "institution": "Einrichtung",
-    "verified": "Registriert",
-    "roles": "Rollen",
-    "email": "Email",
-    "password": "Passwort",
-    "confirmPassword": "Passwort erneut eingeben"
-  }
+	"actions": {
+		"close": "Schließen",
+		"submit": "Abschicken",
+		"logout": "Abmelden",
+		"cancel": "Abbrechen"
+	},
+	"common": {
+		"loading": "Wird geladen..."
+	},
+	"password": {
+		"min": "Min. {{min}} Zeichen lang",
+		"max": "Max. {{max}} Zeichen lang",
+		"guess": "Nicht leicht zu erraten"
+	},
+	"resetPassword": {
+		"title": "Ein neues Passwort setzen",
+		"complete": "Ihr Password wurde erfolgreich aktualisiert. Sie können dieses Fenster nun schließen.",
+		"info": "Sie können hier Ihr Passwort neu setzen. Bitte beachten Sie Groß- und Kleinschreibung und bestätigen Sie Ihr Passwort, indem Sie es erneut eingeben.\n\nSie können Ihr eingegebenes Passwort prüfen, indem Sie auf das Augen-Symbol klicken",
+		"reset": "Neues Passwort setzen"
+	},
+	"enrollment": {
+		"title": "Bei lea.online registrieren",
+		"setPassword": "Passwort setzen",
+		"success": "Sie haben die Registrierung erfolgreich abgeschlossen!",
+		"info": "Um Ihre Registrierung abzuschließen bitten wir Sie, folgende Felder auszufüllen:"
+	},
+	"authenticate": {
+		"hello": "Hallo, {{firstName}} {{lastName}}!",
+		"info": "Bitte wählen Sie, ob Sie mit dem genannten Konto lea.online verwenden, oder einen zuanderen Konto wechseln möchten.",
+		"useThisAccount": "Mit diesem Konto anmelden",
+		"switchAccount": "Mit anderem Konto anmelden"
+	},
+	"login": {
+		"title": "Bei lea.online anmelden",
+		"signIn": "Anmelden",
+		"forgotPassword": "Passwort vergessen?",
+		"requestPassword": "Link anfordern",
+		"requestSent": "Der Link wurde an die angegebene Emailadresse erfolgreich zugesendet.",
+		"toLogin": "zurück zur Anmeldung"
+	},
+	"user": {
+		"firstName": "Vorname",
+		"lastName": "Nachname",
+		"institution": "Einrichtung",
+		"verified": "Registriert",
+		"roles": "Rollen",
+		"email": "Email",
+		"password": "Passwort",
+		"confirmPassword": "Passwort erneut eingeben"
+	}
 }
