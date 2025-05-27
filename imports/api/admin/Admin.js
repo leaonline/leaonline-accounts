@@ -10,7 +10,7 @@ export const Admin = {
 
 Admin.methods = {}
 
-Admin.methods.getUsersAdmin = {
+Admin.methods.getUsers = {
 	name: 'admin.methods.getUsers',
 	schema: {
 		ids: {

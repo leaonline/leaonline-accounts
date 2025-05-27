@@ -23,7 +23,7 @@ describe(createUser.name, () => {
 		restoreAll()
 	})
 	it('throws on incomplete params', async () => {
-		userDoc.username = undefined
+		delete userDoc.username
 		const docs = [undefined, {}]
 		for (const doc of docs) {
 			await expectThrow({
@@ -32,19 +32,19 @@ describe(createUser.name, () => {
 			})
 		}
 
-		userDoc.institution = undefined
+		delete userDoc.institution
 		await expectThrow({
 			fn: () => createUser(userDoc),
 			message: "Missing key 'institution'",
 		})
 
-		userDoc.lastName = undefined
+		delete userDoc.lastName
 		await expectThrow({
 			fn: () => createUser(userDoc),
 			message: "Missing key 'lastName'",
 		})
 
-		userDoc.firstName = undefined
+		delete userDoc.firstName
 		await expectThrow({
 			fn: () => createUser(userDoc),
 			message: "Missing key 'firstName'",
@@ -83,7 +83,7 @@ describe(createUser.name, () => {
 		stub(Meteor.users, 'updateAsync', async () => 1)
 		expect(await createUser(userDoc)).to.equal(userId)
 
-		userDoc.username = undefined
+		delete userDoc.username
 		expect(await createUser(userDoc)).to.equal(userId)
 	})
 })

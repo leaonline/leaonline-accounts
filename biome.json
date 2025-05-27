@@ -20,8 +20,8 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
-			"nursery": {
-				"useImportRestrictions": "off"
+			"performance": {
+				"noDelete": "off"
 			}
 		}
 	},
