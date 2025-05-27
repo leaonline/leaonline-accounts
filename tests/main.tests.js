@@ -1,10 +1,9 @@
-import { Meteor } from 'meteor/meteor'
+import { onServerExec } from '../imports/api/utils/onServerExec'
 
-if (Meteor.isServer) {
-  (function () {
+onServerExec(() => {
     import './api/server/accounts.tests'
     import './api/server/contexts.tests'
     import './api/server/mixins.tests'
     import './api/server/oauth.tests'
-  })()
-}
+})
+
