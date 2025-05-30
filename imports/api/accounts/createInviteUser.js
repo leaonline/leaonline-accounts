@@ -25,41 +25,46 @@ import { check, Match } from 'meteor/check'
   })}
  */
 export const createInviteUser = (handlers = {}) => {
-  check(handlers, Match.ObjectIncluding({
-    rolesHandler: Function,
-    createUserHandler: Function,
-    errorHandler: Function
-  }))
+	check(
+		handlers,
+		Match.ObjectIncluding({
+			rolesHandler: Function,
+			createUserHandler: Function,
+			errorHandler: Function,
+		}),
+	)
 
-  return async (userDefinitions = {}) => {
-    check(userDefinitions, Match.ObjectIncluding({
-      email: String,
-      firstName: String,
-      lastName: String,
-      institution: String,
-      username: Match.Maybe(String),
-      password: Match.Maybe(String),
-      roles: [String]
-    }))
+	return async (userDefinitions = {}) => {
+		check(
+			userDefinitions,
+			Match.ObjectIncluding({
+				email: String,
+				firstName: String,
+				lastName: String,
+				institution: String,
+				username: Match.Maybe(String),
+				password: Match.Maybe(String),
+				roles: [String],
+			}),
+		)
 
-    const { institution, roles } = userDefinitions
-    const invitationRequired = !(userDefinitions.password)
+		const { institution, roles } = userDefinitions
+		const invitationRequired = !userDefinitions.password
 
-    let userId
-    try {
-      // delegate user creation to external implementaiton
-      userId = await handlers.createUserHandler(userDefinitions)
+		let userId
+		try {
+			// delegate user creation to external implementaiton
+			userId = await handlers.createUserHandler(userDefinitions)
 
-      // delegate roles assignment to external implementation
-      await handlers.rolesHandler({ userId, roles, institution })
+			// delegate roles assignment to external implementation
+			await handlers.rolesHandler({ userId, roles, institution })
 
-      if (invitationRequired) {
-        await Accounts.sendEnrollmentEmail(userId)
-      }
-      return userId
-    }
-    catch (error) {
-      await handlers.errorHandler({ userId, error, ...userDefinitions })
-    }
-  }
+			if (invitationRequired) {
+				await Accounts.sendEnrollmentEmail(userId)
+			}
+			return userId
+		} catch (error) {
+			await handlers.errorHandler({ userId, error, ...userDefinitions })
+		}
+	}
 }

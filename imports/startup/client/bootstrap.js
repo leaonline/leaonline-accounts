@@ -10,14 +10,14 @@ import './theme.scss'
 
 global.Popper = global.Popper || popper
 
-async function init () {
-  await AutoForm.load()
-  await AutoFormThemeBootstrap5.load()
-  await AutoFormPassword2.load()
-  AutoForm.setDefaultTemplate('bootstrap5')
+async function init() {
+	await AutoForm.load()
+	await AutoFormThemeBootstrap5.load()
+	await AutoFormPassword2.load()
+	AutoForm.setDefaultTemplate('bootstrap5')
 }
 
 Meteor.startup(async () => {
-  await init()
-  console.info({ AutoFormThemeBootstrap5 })
+	await init()
+	console.info({ AutoFormThemeBootstrap5 })
 })

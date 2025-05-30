@@ -1,4 +1,4 @@
 /* eslint-env mocha */
-describe('oauth', function () {
-  import '../../../imports/api/oauth/OAuth.tests'
+describe('oauth', () => {
+	require('../../../imports/api/oauth/OAuth.tests')
 })

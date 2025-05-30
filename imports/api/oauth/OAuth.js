@@ -10,10 +10,9 @@ const settings = Meteor.settings.oauth.clients
 /** @private */
 const clients = new Map()
 
-settings.forEach(entry => {
-  clients.set(entry.clientId, entry.key)
-})
-
+for (const entry of settings) {
+	clients.set(entry.clientId, entry.key)
+}
 
 /**
  * Returns the "primary" for a client by clientId.
@@ -22,7 +21,7 @@ settings.forEach(entry => {
  * @param clientId {string}
  * @return {string|undefined}
  */
-const getClientKey = clientId => clients.get(clientId)
+const getClientKey = (clientId) => clients.get(clientId)
 
 /**
  * Returns the "identity" of a user by given userId.
@@ -41,19 +40,19 @@ const getClientKey = clientId => clients.get(clientId)
  *  email: string
  *  }>}
  */
-const getIdentity = async userId => {
-  const user = userId && await Meteor.users.findOneAsync(userId)
-  if (!user) return
+const getIdentity = async (userId) => {
+	const user = userId && (await Meteor.users.findOneAsync(userId))
+	if (!user) return
 
-  return {
-    id: user._id,
-    login: user.username,
-    email: user.emails?.[0]?.address,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    name: `${user.firstName} ${user.lastName}`,
-    roles: [].concat(user.roles || [])
-  }
+	return {
+		id: user._id,
+		login: user.username,
+		email: user.emails?.[0]?.address,
+		firstName: user.firstName,
+		lastName: user.lastName,
+		name: `${user.firstName} ${user.lastName}`,
+		roles: [].concat(user.roles || []),
+	}
 }
 
 Object.assign(OAuth, { getClientKey, getIdentity })

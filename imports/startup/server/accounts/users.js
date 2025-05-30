@@ -11,50 +11,50 @@ import { cleanupRoles } from '../../../api/accounts/cleanupRoles'
 const users = Meteor.settings.accounts.users
 const info = createLog('Accounts')
 const inviteUser = createInviteUser({
-  createUserHandler: createUser,
-  rolesHandler: async ({ userId, roles, institution }) => {
-    for (const role of roles) {
-      await assignRole(userId, role, institution)
-    }
-  },
-  errorHandler: async ({ userId, email, institution, error }) => {
-    console.error(error) // TODO LOG ERROR
+	createUserHandler: createUser,
+	rolesHandler: async ({ userId, roles, institution }) => {
+		for (const role of roles) {
+			await assignRole(userId, role, institution)
+		}
+	},
+	errorHandler: async ({ userId, email, institution, error }) => {
+		console.error(error) // TODO LOG ERROR
 
-    info(`invitation failed for ${email} (userId=${userId})`)
-    return rollback({ userId, email, institution })
-  }
+		info(`invitation failed for ${email} (userId=${userId})`)
+		return rollback({ userId, email, institution })
+	},
 })
 
 Meteor.startup(async () => {
-  info('check accounts')
-  for (const configUser of users) {
-    const { email, retry } = configUser
-    const existingUser = await Accounts.findUserByEmail(email)
+	info('check accounts')
+	for (const configUser of users) {
+		const { email, retry } = configUser
+		const existingUser = await Accounts.findUserByEmail(email)
 
-    if (existingUser && !retry) {
-      // skip this user as she already exists
-      info(`User exists for mail ${email}, check for changes`)
+		if (existingUser && !retry) {
+			// skip this user as she already exists
+			info(`User exists for mail ${email}, check for changes`)
 
-      await updateUser(configUser, existingUser, info)
-    }
+			await updateUser(configUser, existingUser, info)
+		}
 
-    // there is a retry option BUT ONLY for users that have yet no valid email
-    // addresss, for example due to a failed creation
-    if (existingUser && retry && !(existingUser.emails[0]?.verified)) {
-      info(`retry - remove user for ${email}`)
-      await Meteor.users.removeAsync(existingUser._id)
-    }
+		// there is a retry option BUT ONLY for users that have yet no valid email
+		// addresss, for example due to a failed creation
+		if (existingUser && retry && !existingUser.emails[0]?.verified) {
+			info(`retry - remove user for ${email}`)
+			await Meteor.users.removeAsync(existingUser._id)
+		}
 
-    if (!existingUser) {
-      info(`invite user with email ${email}`)
-      const userId = await inviteUser(configUser)
+		if (!existingUser) {
+			info(`invite user with email ${email}`)
+			const userId = await inviteUser(configUser)
 
-      if (userId) {
-        info(`user created with id ${userId} - for ${email}`)
-      }
-    }
-  }
+			if (userId) {
+				info(`user created with id ${userId} - for ${email}`)
+			}
+		}
+	}
 
-  // finally always cleanup Roles after all changes have been applied
-  await cleanupRoles(info)
+	// finally always cleanup Roles after all changes have been applied
+	await cleanupRoles(info)
 })

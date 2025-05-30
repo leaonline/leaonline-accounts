@@ -1,165 +1,139 @@
 {
-  "public": {
-    "oauth": {
-      "dialogUrl": "/oauth/authorize",
-      "accessTokenUrl": "/oauth/token",
-      "authorizeUrl": "/oauth/authorize",
-      "identityUrl": "/oauth/ident",
-      "errorUrl": "/oauth/error",
-      "fallbackUrl": "/oauth/*"
-    },
-    "password": {
-      "min": 10,
-      "max": 128,
-      "icon": "lock",
-      "confirm": true,
-      "blacklist": [
-        "^\\d+$",
-        "^[a-zA-Z]+$",
-        "^.*p(a|@|4)(s|5)+w(o|0)r(d|t).*$",
-        "^.*h(e|3|a|4|@)llo.*$",
-        "^.*f(i|1)ck(e|3)n.*$",
-        "^.*1234.*$",
-        "^.*abcd.*$",
-        "^.*qwer.*$",
-        "^.*asdf.*$",
-        "^.*yxcv.*$"
-      ]
-    },
-    "links": [
-      {
-        "label": "Zum lea.online Dashboard",
-        "url": "http://localhost:5555/"
-      }
-    ]
-  },
-  "oauth": {
-    "debug": true,
-    "server": {
-      "addAcceptedScopesHeader": true,
-      "addAuthorizedScopesHeader": true,
-      "allowBearerTokensInQueryString": false,
-      "allowEmptyState": false,
-      "authorizationCodeLifetime": 300,
-      "accessTokenLifetime": 3600,
-      "refreshTokenLifetime": 1209600,
-      "allowExtendedTokenAttributes": false,
-      "requireClientAuthentication": true
-    },
-    "model": {
-      "accessTokensCollectionName": "oauth_access_tokens",
-      "refreshTokensCollectionName": "oauth_refresh_tokens",
-      "clientsCollectionName": "oauth_clients",
-      "authCodesCollectionName": "oauth_auth_codes",
-      "debug": false
-    },
-    "clients": [
-      {
-        "key": "backend",
-        "title": "leaonline.backend",
-        "description": "Backend Application",
-        "clientId": "porhLyvwTdhJgdda8",
-        "secret": "CegPW7FWebir7iYuPdubAR3wwzavRptB",
-        "url": "http://localhost:5050",
-        "redirectUris": [
-          "http://localhost:5050/_oauth/lea"
-        ],
-        "grants": [
-          "authorization_code"
-        ]
-      },
-      {
-        "key": "content",
-        "title": "leaonline.content",
-        "description": "Backend Application",
-        "clientId": "BnrC2xfCSqXDwhW4c",
-        "secret": "irbdLuwtTd5hCj9CWtSQwoaDgX4Akk5m",
-        "url": "http://localhost:3030",
-        "redirectUris": [
-          "http://localhost:3030/_oauth/lea"
-        ],
-        "grants": [
-          "authorization_code"
-        ]
-      },
-      {
-        "key": "teacher",
-        "title": "leaonline.teacher",
-        "description": "Teacher dashboard app",
-        "clientId": "iwtu4JCmyTDGg3eg6",
-        "secret": "xKX9q8ZQwaNdHoKcLywyrJeNh3T8F4Gk",
-        "url": "http://localhost:5555",
-        "redirectUris": [
-          "http://localhost:5555/_oauth/lea"
-        ],
-        "grants": [
-          "authorization_code"
-        ]
-      },
-      {
-        "key": "otulea",
-        "title": "otu.lea",
-        "description": "Diagnostic app",
-        "clientId": "Lb5soRv7RH2g8inRc",
-        "secret": "Y4yNeHM3bniSogeWacRcYZ3S5yz3TCuW",
-        "url": "http://localhost:8080",
-        "redirectUris": [
-          "http://localhost:8080/_oauth/lea"
-        ],
-        "grants": [
-          "authorization_code"
-        ]
-      },
-      {
-        "key": "app",
-        "title": "leaonline.app",
-        "description": "Mobile app (backend)",
-        "clientId": "DTFkydiJE7s4Tmpd3",
-        "secret": "j_6vW8UnPEa27FpznqQcAUdLzOhuFT4m",
-        "url": "http://localhost:8080",
-        "redirectUris": [
-          "http://localhost:8080/_oauth/lea"
-        ],
-        "grants": [
-          "authorization_code"
-        ]
-      }
-    ]
-  },
-  "accounts": {
-    "emailTemplates": {
-      "siteName": "lea.online network",
-      "from": "no-reply@leaonline.tld"
-    },
-    "config": {
-      "forbidClientAccountCreation": true,
-      "ambiguousErrorMessages": true,
-      "sendVerificationEmail": false,
-      "loginExpirationInDays": 90,
-      "passwordResetTokenExpirationInDays": 1,
-      "passwordEnrollTokenExpirationInDays": 14
-    },
-    "users": [
-      {
-        "username": "admin",
-        "email": "admin@example.com",
-        "firstName": "Arthur",
-        "lastName": "Administrator",
-        "institution": "core-team",
-        "roles": [
-          "admin",
-          "backend",
-          "teacher",
-          "content",
-          "otulea"
-        ]
-      }
-    ]
-  },
-  "status": {
-    "active": false,
-    "interval": 5000,
-    "secret": "lea.online.secret",
-    "url": "http://localhost:7070/collect"
-  }
+	"public": {
+		"oauth": {
+			"dialogUrl": "/oauth/authorize",
+			"accessTokenUrl": "/oauth/token",
+			"authorizeUrl": "/oauth/authorize",
+			"identityUrl": "/oauth/ident",
+			"errorUrl": "/oauth/error",
+			"fallbackUrl": "/oauth/*"
+		},
+		"password": {
+			"min": 10,
+			"max": 128,
+			"icon": "lock",
+			"confirm": true,
+			"blacklist": [
+				"^\\d+$",
+				"^[a-zA-Z]+$",
+				"^.*p(a|@|4)(s|5)+w(o|0)r(d|t).*$",
+				"^.*h(e|3|a|4|@)llo.*$",
+				"^.*f(i|1)ck(e|3)n.*$",
+				"^.*1234.*$",
+				"^.*abcd.*$",
+				"^.*qwer.*$",
+				"^.*asdf.*$",
+				"^.*yxcv.*$"
+			]
+		},
+		"links": [
+			{
+				"label": "Zum lea.online Dashboard",
+				"url": "http://localhost:5555/"
+			}
+		]
+	},
+	"oauth": {
+		"debug": true,
+		"server": {
+			"addAcceptedScopesHeader": true,
+			"addAuthorizedScopesHeader": true,
+			"allowBearerTokensInQueryString": false,
+			"allowEmptyState": false,
+			"authorizationCodeLifetime": 300,
+			"accessTokenLifetime": 3600,
+			"refreshTokenLifetime": 1209600,
+			"allowExtendedTokenAttributes": false,
+			"requireClientAuthentication": true
+		},
+		"model": {
+			"accessTokensCollectionName": "oauth_access_tokens",
+			"refreshTokensCollectionName": "oauth_refresh_tokens",
+			"clientsCollectionName": "oauth_clients",
+			"authCodesCollectionName": "oauth_auth_codes",
+			"debug": false
+		},
+		"clients": [
+			{
+				"key": "backend",
+				"title": "leaonline.backend",
+				"description": "Backend Application",
+				"clientId": "porhLyvwTdhJgdda8",
+				"secret": "CegPW7FWebir7iYuPdubAR3wwzavRptB",
+				"url": "http://localhost:5050",
+				"redirectUris": ["http://localhost:5050/_oauth/lea"],
+				"grants": ["authorization_code"]
+			},
+			{
+				"key": "content",
+				"title": "leaonline.content",
+				"description": "Backend Application",
+				"clientId": "BnrC2xfCSqXDwhW4c",
+				"secret": "irbdLuwtTd5hCj9CWtSQwoaDgX4Akk5m",
+				"url": "http://localhost:3030",
+				"redirectUris": ["http://localhost:3030/_oauth/lea"],
+				"grants": ["authorization_code"]
+			},
+			{
+				"key": "teacher",
+				"title": "leaonline.teacher",
+				"description": "Teacher dashboard app",
+				"clientId": "iwtu4JCmyTDGg3eg6",
+				"secret": "xKX9q8ZQwaNdHoKcLywyrJeNh3T8F4Gk",
+				"url": "http://localhost:5555",
+				"redirectUris": ["http://localhost:5555/_oauth/lea"],
+				"grants": ["authorization_code"]
+			},
+			{
+				"key": "otulea",
+				"title": "otu.lea",
+				"description": "Diagnostic app",
+				"clientId": "Lb5soRv7RH2g8inRc",
+				"secret": "Y4yNeHM3bniSogeWacRcYZ3S5yz3TCuW",
+				"url": "http://localhost:8080",
+				"redirectUris": ["http://localhost:8080/_oauth/lea"],
+				"grants": ["authorization_code"]
+			},
+			{
+				"key": "app",
+				"title": "leaonline.app",
+				"description": "Mobile app (backend)",
+				"clientId": "DTFkydiJE7s4Tmpd3",
+				"secret": "j_6vW8UnPEa27FpznqQcAUdLzOhuFT4m",
+				"url": "http://localhost:8080",
+				"redirectUris": ["http://localhost:8080/_oauth/lea"],
+				"grants": ["authorization_code"]
+			}
+		]
+	},
+	"accounts": {
+		"emailTemplates": {
+			"siteName": "lea.online network",
+			"from": "no-reply@leaonline.tld"
+		},
+		"config": {
+			"forbidClientAccountCreation": true,
+			"ambiguousErrorMessages": true,
+			"sendVerificationEmail": false,
+			"loginExpirationInDays": 90,
+			"passwordResetTokenExpirationInDays": 1,
+			"passwordEnrollTokenExpirationInDays": 14
+		},
+		"users": [
+			{
+				"username": "admin",
+				"email": "admin@example.com",
+				"firstName": "Arthur",
+				"lastName": "Administrator",
+				"institution": "core-team",
+				"roles": ["admin", "backend", "teacher", "content", "otulea"]
+			}
+		]
+	},
+	"status": {
+		"active": false,
+		"interval": 5000,
+		"secret": "lea.online.secret",
+		"url": "http://localhost:7070/collect"
+	}
 }

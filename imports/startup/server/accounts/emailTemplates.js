@@ -8,15 +8,15 @@ Accounts.emailTemplates.siteName = settings.siteName
 Accounts.emailTemplates.from = settings.from
 
 Accounts.emailTemplates.enrollAccount.subject = (/* user */) => {
-  return i18n.get('accounts.enroll.subject', settings)
+	return i18n.get('accounts.enroll.subject', settings)
 }
 
 Accounts.emailTemplates.enrollAccount.text = (user, url) => {
-  const email = user.emails[0]?.address
-  const cleanUrl = url.replace('/#/', '/') + `?email=${encodeURIComponent(email)}`
+	const email = user.emails[0]?.address
+	const cleanUrl = `${url.replace('/#/', '/')}?email=${encodeURIComponent(email)}`
 
-  if (Meteor.isDevelopment) {
-    console.log(`
+	if (Meteor.isDevelopment) {
+		console.log(`
 ================================================================================
 DEV: ENROL ACCOUNT
 ================================================================================
@@ -30,11 +30,11 @@ ${cleanUrl}
 
 Please DO NOT TRY TO USE THE LINK BELOW from the email output as it often 
 contains line breaks and may be incomplete.`)
-  }
+	}
 
-  const name = `${user.firstName} ${user.lastName}`
-  const options = { name, siteName: settings.siteName, url: cleanUrl }
-  return i18n.get('accounts.enroll.text', options)
+	const name = `${user.firstName} ${user.lastName}`
+	const options = { name, siteName: settings.siteName, url: cleanUrl }
+	return i18n.get('accounts.enroll.text', options)
 }
 
 // Accounts.emailTemplates.verifyEmail.subject = (/* user */) => {
@@ -49,18 +49,18 @@ contains line breaks and may be incomplete.`)
 // }
 
 Accounts.emailTemplates.resetPassword.subject = (user) => {
-  return i18n.get('accounts.resetPassword.subject', settings)
+	return i18n.get('accounts.resetPassword.subject', settings)
 }
 
 Accounts.emailTemplates.resetPassword.text = (user, url) => {
-  const email = user.emails[0]?.address
-  const cleanUrl = url.replace('/#/', '/') + `?email=${encodeURIComponent(email)}`
+	const email = user.emails[0]?.address
+	const cleanUrl = `${url.replace('/#/', '/')}?email=${encodeURIComponent(email)}`
 
-  if (Meteor.isDevelopment) {
-    console.log('resetPassword', user, cleanUrl)
-  }
+	if (Meteor.isDevelopment) {
+		console.log('resetPassword', user, cleanUrl)
+	}
 
-  const name = `${user.firstName} ${user.lastName}`
-  const options = { name, siteName: settings.siteName, url: cleanUrl }
-  return i18n.get('accounts.resetPassword.text', options)
+	const name = `${user.firstName} ${user.lastName}`
+	const options = { name, siteName: settings.siteName, url: cleanUrl }
+	return i18n.get('accounts.resetPassword.text', options)
 }

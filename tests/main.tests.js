@@ -1,10 +1,8 @@
-import { Meteor } from 'meteor/meteor'
+import { onServerExec } from '../imports/api/utils/onServerExec'
 
-if (Meteor.isServer) {
-  (function () {
-    import './api/server/accounts.tests'
-    import './api/server/contexts.tests'
-    import './api/server/mixins.tests'
-    import './api/server/oauth.tests'
-  })()
-}
+onServerExec(() => {
+	require('./api/server/accounts.tests')
+	require('./api/server/contexts.tests')
+	require('./api/server/mixins.tests')
+	require('./api/server/oauth.tests')
+})

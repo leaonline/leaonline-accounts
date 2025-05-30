@@ -1,12 +1,12 @@
 {
-  "accounts": {
-    "enroll": {
-      "subject": "Willkommen bei {{siteName}}.",
-      "text": "Hallo {{name}},\n\nUm die Registrierung abzuschlißen bitten wir Sie, Ihr Konto über folgenden Link zu aktivieren: {{url}}\n\nIhr {{siteName}} Team"
-    },
-    "resetPassword": {
-      "subject": "Ihr {{siteName}} Passwort zurücksetzen",
-      "text": "Hallo {{name}},\n\nSie können Ihr Passwort unter folgendem Link zurückstzen: {{url}}\n\nIhr {{siteName}} Team"
-    }
-  }
+	"accounts": {
+		"enroll": {
+			"subject": "Willkommen bei {{siteName}}.",
+			"text": "Hallo {{name}},\n\nUm die Registrierung abzuschlißen bitten wir Sie, Ihr Konto über folgenden Link zu aktivieren: {{url}}\n\nIhr {{siteName}} Team"
+		},
+		"resetPassword": {
+			"subject": "Ihr {{siteName}} Passwort zurücksetzen",
+			"text": "Hallo {{name}},\n\nSie können Ihr Passwort unter folgendem Link zurückstzen: {{url}}\n\nIhr {{siteName}} Team"
+		}
+	}
 }

@@ -6,6 +6,6 @@ import emailTemplatesLanguage from '../server/accounts/i18n/de'
 const de = { ...i18nDE, ...emailTemplatesLanguage }
 
 i18n.load({
-  settings: i18nConfig,
-  de
+	settings: i18nConfig,
+	de,
 })

@@ -1,12 +1,12 @@
 {
-  "notFound": "seite-nicht-gefunden",
-  "dashboard": "dashboard",
-  "login": "anmelden",
-  "status": "status",
-  "sessions": "benutzer-sessions",
-  "competencies": "kompetenzen",
-  "mediaLib": "medien-bibliothek",
-  "task": "aufgaben",
-  "taskSet": "aufgaben-sammlungen",
-  "loading": "lade"
+	"notFound": "seite-nicht-gefunden",
+	"dashboard": "dashboard",
+	"login": "anmelden",
+	"status": "status",
+	"sessions": "benutzer-sessions",
+	"competencies": "kompetenzen",
+	"mediaLib": "medien-bibliothek",
+	"task": "aufgaben",
+	"taskSet": "aufgaben-sammlungen",
+	"loading": "lade"
 }

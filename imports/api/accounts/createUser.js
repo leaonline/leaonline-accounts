@@ -14,32 +14,38 @@ import { Random } from 'meteor/random'
  * @return {string} userId
  */
 export const createUser = async (userCredentials = {}) => {
-  check(userCredentials, Match.ObjectIncluding({
-    email: String,
-    firstName: String,
-    lastName: String,
-    institution: String,
-    username: Match.Maybe(String),
-    password: Match.Maybe(String)
-  }))
+	check(
+		userCredentials,
+		Match.ObjectIncluding({
+			email: String,
+			firstName: String,
+			lastName: String,
+			institution: String,
+			username: Match.Maybe(String),
+			password: Match.Maybe(String),
+		}),
+	)
 
-  const { email, username, password, ...profile } = userCredentials
+	const { email, username, password, ...profile } = userCredentials
 
-  if (await Accounts.findUserByEmail(email) || (username && await Accounts.findUserByUsername(username))) {
-    throw new Meteor.Error('createUser.failed', 'createUser.userExists')
-  }
+	if (
+		(await Accounts.findUserByEmail(email)) ||
+		(username && (await Accounts.findUserByUsername(username)))
+	) {
+		throw new Meteor.Error('createUser.failed', 'createUser.userExists')
+	}
 
-  const userDef = { email, password: (password || Random.id(32)) }
-  if (username) {
-    userDef.username = username
-  }
+	const userDef = { email, password: password || Random.id(32) }
+	if (username) {
+		userDef.username = username
+	}
 
-  const userId = await Accounts.createUserAsync(userDef)
-  const updated = await Meteor.users.updateAsync(userId, { $set: profile })
+	const userId = await Accounts.createUserAsync(userDef)
+	const updated = await Meteor.users.updateAsync(userId, { $set: profile })
 
-  if (!updated) {
-    throw new Meteor.Error('createUser.failed', 'createUser.updateFailed')
-  }
+	if (!updated) {
+		throw new Meteor.Error('createUser.failed', 'createUser.updateFailed')
+	}
 
-  return userId
+	return userId
 }

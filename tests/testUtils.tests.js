@@ -1,1 +1,7 @@
-export { stub, overrideStub, restore, restoreAll, expectThrow } from 'meteor/leaonline:testing'
+export {
+	stub,
+	overrideStub,
+	restore,
+	restoreAll,
+	expectThrow,
+} from 'meteor/leaonline:testing'
