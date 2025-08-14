@@ -1,5 +1,6 @@
 {
 	"public": {
+		"roles": ["admin", "backend", "content", "otulea", "teacher"],
 		"oauth": {
 			"dialogUrl": "/oauth/authorize",
 			"accessTokenUrl": "/oauth/token",
@@ -90,8 +91,8 @@
 				"description": "Diagnostic app",
 				"clientId": "Lb5soRv7RH2g8inRc",
 				"secret": "Y4yNeHM3bniSogeWacRcYZ3S5yz3TCuW",
-				"url": "http://localhost:8080",
-				"redirectUris": ["http://localhost:8080/_oauth/lea"],
+				"url": "http://localhost:3000",
+				"redirectUris": ["http://localhost:3000/_oauth/lea"],
 				"grants": ["authorization_code"]
 			},
 			{

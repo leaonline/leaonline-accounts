@@ -24,6 +24,6 @@ export const createUserSchema = {
 	},
 	'roles.$': {
 		type: String,
-		allowedValues: ['admin', 'backend', 'content', 'otulea', 'teacher'],
+		allowedValues: Meteor.settings.public.roles,
 	},
 }

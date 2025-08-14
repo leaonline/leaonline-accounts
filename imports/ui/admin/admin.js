@@ -11,33 +11,39 @@ import { createUserSchema } from '../../api/accounts/schema/createUserSchema'
 import '../oauth/login/login'
 import './admin.html'
 
+const userSort = { lastName: 1, firstName: 1 }
+
 Template.admin.onCreated(function () {
-	this.userSchema = Schema.create(createUserSchema)
-	this.state = new ReactiveDict()
-	this.users = new Mongo.Collection(null)
-	this.success = () => {
+	const instance = this
+	instance.userSchema = Schema.create(createUserSchema)
+	instance.state = new ReactiveDict()
+	instance.users = new Mongo.Collection(null)
+	instance.success = () => {
 		window.alert('successful')
-		this.state.set({ error: null })
+		instance.state.set({ error: null })
 	}
-	this.fetchUsers = ({ ids } = {}) => {
+	instance.fetchUsers = ({ ids } = {}) => {
 		const args = {}
 		if (ids) args.ids = ids
 
 		callMethod({
 			name: Admin.methods.getUsers,
 			args,
-			failure: (err) => this.state.set({ error: toSerializedError(err) }),
+			prepare: () => instance.state.set({ usersLoading: true }),
+			receive: () => instance.state.set({ usersLoading: false }),
+			failure: (err) => instance.state.set({ error: toSerializedError(err) }),
 			success: (users) => {
 				for (const u of users) {
 					u.email = u.emails[0].address
 					u.verified = u.emails[0].verified
-					this.users.upsert(u._id, { $set: u })
+					instance.users.upsert(u._id, { $set: u })
 				}
+				instance.state.set({ error: null })
 			},
 		})
 	}
 
-	this.autorun((computation) => {
+	instance.autorun((computation) => {
 		const currentUser = Meteor.user()
 		if (!currentUser) {
 			return
@@ -45,19 +51,19 @@ Template.admin.onCreated(function () {
 
 		// TODO check if user is admin or skip already here
 		if (!currentUser.roles.includes('admin')) {
-			return this.state.set({
+			return instance.state.set({
 				error: toSerializedError(
 					new Meteor.Error('errors.permissionDenied', 'roles.notAdmin'),
 				),
 			})
 		}
 
-		this.fetchUsers()
+		instance.fetchUsers()
 		computation.stop()
 	})
 })
 
-const userSort = { lastName: 1, firstName: 1 }
+
 Template.admin.helpers({
 	users() {
 		return Template.instance().users.find({}, { sort: userSort })
@@ -71,6 +77,9 @@ Template.admin.helpers({
 	userSchema() {
 		return Template.instance().userSchema
 	},
+	usersLoading() {
+		return Template.instance().state.get('usersLoading')
+	}
 })
 
 Template.admin.events({

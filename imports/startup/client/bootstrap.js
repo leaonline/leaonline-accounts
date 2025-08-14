@@ -1,4 +1,4 @@
-/* global AutoForm */
+import { AutoForm } from 'meteor/aldeed:autoform'
 import { Meteor } from 'meteor/meteor'
 import '@fortawesome/fontawesome-free/js/all'
 import 'bootstrap'
@@ -10,14 +10,9 @@ import './theme.scss'
 
 global.Popper = global.Popper || popper
 
-async function init() {
+Meteor.startup(async () => {
 	await AutoForm.load()
 	await AutoFormThemeBootstrap5.load()
 	await AutoFormPassword2.load()
 	AutoForm.setDefaultTemplate('bootstrap5')
-}
-
-Meteor.startup(async () => {
-	await init()
-	console.info({ AutoFormThemeBootstrap5 })
 })

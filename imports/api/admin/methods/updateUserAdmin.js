@@ -1,5 +1,6 @@
 import { updateUser } from '../../accounts/updateUser'
 import { Meteor } from 'meteor/meteor'
+import { hasRole } from '../../accounts/hasRole'
 
 /**
  * Updates a user by given options (Admin-only)
@@ -14,14 +15,18 @@ export const updateUserAdmin = async function (options = {}) {
 		throw new Meteor.Error('errors.permissionDenied', 'errors.docNotFound')
 	}
 
-	const isAdmin = userDoc.roles?.includes('admin')
+	const self = await Meteor.users.findOneAsync(this.userId)
+	const targetIsAdmin = userDoc.roles?.includes('admin')
+	const becomeAdmin = updateDoc.roles?.includes('admin')
+	const selfIsAdmin = (targetIsAdmin || becomeAdmin) && (await hasRole(self?._id, 'admin', userDoc?.institution))
+
 	// no updates on an admin
-	if (isAdmin) {
+	if (targetIsAdmin && !selfIsAdmin) {
 		throw new Meteor.Error('errors.permissionDenied', 'admin.noUpdateOnAdmin')
 	}
 
 	// no lifting of user to become admin
-	if (!isAdmin && updateDoc.roles?.includes('admin')) {
+	if (becomeAdmin && !selfIsAdmin) {
 		throw new Meteor.Error('errors.permissionDenied', 'admin.noLifting')
 	}
 
