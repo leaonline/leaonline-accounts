@@ -27,21 +27,23 @@
             </div>
         {{else}}
         {{! list users }}
-            <table class="table table-bordered table-hover">
+            <table class="table table-borderless table-striped table-hover">
                 <thead>
+                <tr>
                 <th>{{i18n "user.lastName"}}</th>
                 <th>{{i18n "user.firstName"}}</th>
                 <th>{{i18n "user.institution"}}</th>
                 <th>{{i18n "user.email"}}</th>
-                <th>{{i18n "user.verified"}}</th>
+                <th class="text-center">{{i18n "user.verified"}}</th>
                 <th>{{i18n "user.roles"}}</th>
-                <th class="text-right">
+                <th class="text-end">
                     <button class="btn btn-sm btn-success user-btn"
                             data-type="create">
                         <i class="fas fa-fw fa-plus"></i>
                         <i class="fas fa-fw fa-user"></i>
                     </button>
                 </th>
+                </tr>
                 </thead>
                 <tbody>
                 {{#each user in users}}
@@ -50,13 +52,13 @@
                         <td>{{user.firstName}}</td>
                         <td>{{user.institution}}</td>
                         <td>{{user.email}}</td>
-                        <td>
+                        <td class="text-center">
                             {{#if user.verified}}
                                 <i class="fas fa-fw fa-check"></i>
                             {{/if}}
                         </td>
                         <td>{{user.roles}}</td>
-                        <th class="text-right no-wrap">
+                        <td class="text-end no-wrap">
                             <button class="btn btn-sm btn-outline-secondary border-0 user-btn"
                                     data-user="{{user._id}}"
                                     data-type="update">
@@ -67,10 +69,12 @@
                                     data-type="remove">
                                 <i class="fas fa-fw fa-trash"></i>
                             </button>
-                        </th>
+                        </td>
                     </tr>
+                {{else if usersLoading}}
+                    <tr><td colspan="7">{{> loading}}</td></tr>
                 {{else}}
-                    <tr><td>{{i18n "common.noEntries"}}</td></tr>
+                    <tr><td colspan="7">{{i18n "common.noEntries"}}</td></tr>
                 {{/each}}
                 </tbody>
             </table>

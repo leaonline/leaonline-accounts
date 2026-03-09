@@ -6,7 +6,8 @@
 		"cancel": "Abbrechen"
 	},
 	"common": {
-		"loading": "Wird geladen..."
+		"loading": "Wird geladen...",
+		"error": "Es ist ein Problem aufgetreten"
 	},
 	"password": {
 		"min": "Min. {{min}} Zeichen lang",

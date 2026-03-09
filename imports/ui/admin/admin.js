@@ -11,6 +11,8 @@ import { createUserSchema } from '../../api/accounts/schema/createUserSchema'
 import '../oauth/login/login'
 import './admin.html'
 
+const userSort = { lastName: 1, firstName: 1 }
+
 Template.admin.onCreated(function () {
 	this.userSchema = Schema.create(createUserSchema)
 	this.state = new ReactiveDict()
@@ -26,6 +28,8 @@ Template.admin.onCreated(function () {
 		callMethod({
 			name: Admin.methods.getUsers,
 			args,
+			prepare: () => this.state.set({ usersLoading: true }),
+			receive: () => this.state.set({ usersLoading: false }),
 			failure: (err) => this.state.set({ error: toSerializedError(err) }),
 			success: (users) => {
 				for (const u of users) {
@@ -33,6 +37,7 @@ Template.admin.onCreated(function () {
 					u.verified = u.emails[0].verified
 					this.users.upsert(u._id, { $set: u })
 				}
+				this.state.set({ error: null })
 			},
 		})
 	}
@@ -57,7 +62,6 @@ Template.admin.onCreated(function () {
 	})
 })
 
-const userSort = { lastName: 1, firstName: 1 }
 Template.admin.helpers({
 	users() {
 		return Template.instance().users.find({}, { sort: userSort })
@@ -70,6 +74,9 @@ Template.admin.helpers({
 	},
 	userSchema() {
 		return Template.instance().userSchema
+	},
+	usersLoading() {
+		return Template.instance().state.get('usersLoading')
 	},
 })
 

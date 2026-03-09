@@ -8,6 +8,13 @@ module.exports = (SimpleSchema) => (settings) => {
 
 	const settingsSchema = schema({
 		public: schema({
+			roles: {
+				type: Array,
+				minCount: 1,
+			},
+			'roles.$': {
+				type: String,
+			},
 			oauth: schema({
 				dialogUrl: relativeUrl,
 				accessTokenUrl: relativeUrl,
