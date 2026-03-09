@@ -13,7 +13,7 @@ module.exports = (SimpleSchema) => (settings) => {
 				minCount: 1,
 			},
 			'roles.$': {
-				type: String
+				type: String,
 			},
 			oauth: schema({
 				dialogUrl: relativeUrl,

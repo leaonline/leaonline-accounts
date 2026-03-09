@@ -14,36 +14,35 @@ import './admin.html'
 const userSort = { lastName: 1, firstName: 1 }
 
 Template.admin.onCreated(function () {
-	const instance = this
-	instance.userSchema = Schema.create(createUserSchema)
-	instance.state = new ReactiveDict()
-	instance.users = new Mongo.Collection(null)
-	instance.success = () => {
+	this.userSchema = Schema.create(createUserSchema)
+	this.state = new ReactiveDict()
+	this.users = new Mongo.Collection(null)
+	this.success = () => {
 		window.alert('successful')
-		instance.state.set({ error: null })
+		this.state.set({ error: null })
 	}
-	instance.fetchUsers = ({ ids } = {}) => {
+	this.fetchUsers = ({ ids } = {}) => {
 		const args = {}
 		if (ids) args.ids = ids
 
 		callMethod({
 			name: Admin.methods.getUsers,
 			args,
-			prepare: () => instance.state.set({ usersLoading: true }),
-			receive: () => instance.state.set({ usersLoading: false }),
-			failure: (err) => instance.state.set({ error: toSerializedError(err) }),
+			prepare: () => this.state.set({ usersLoading: true }),
+			receive: () => this.state.set({ usersLoading: false }),
+			failure: (err) => this.state.set({ error: toSerializedError(err) }),
 			success: (users) => {
 				for (const u of users) {
 					u.email = u.emails[0].address
 					u.verified = u.emails[0].verified
-					instance.users.upsert(u._id, { $set: u })
+					this.users.upsert(u._id, { $set: u })
 				}
-				instance.state.set({ error: null })
+				this.state.set({ error: null })
 			},
 		})
 	}
 
-	instance.autorun((computation) => {
+	this.autorun((computation) => {
 		const currentUser = Meteor.user()
 		if (!currentUser) {
 			return
@@ -51,18 +50,17 @@ Template.admin.onCreated(function () {
 
 		// TODO check if user is admin or skip already here
 		if (!currentUser.roles.includes('admin')) {
-			return instance.state.set({
+			return this.state.set({
 				error: toSerializedError(
 					new Meteor.Error('errors.permissionDenied', 'roles.notAdmin'),
 				),
 			})
 		}
 
-		instance.fetchUsers()
+		this.fetchUsers()
 		computation.stop()
 	})
 })
-
 
 Template.admin.helpers({
 	users() {
@@ -79,7 +77,7 @@ Template.admin.helpers({
 	},
 	usersLoading() {
 		return Template.instance().state.get('usersLoading')
-	}
+	},
 })
 
 Template.admin.events({
