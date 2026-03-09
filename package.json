@@ -15,13 +15,13 @@
 		"lint:markdown-fix": "markdownlint --fix \"**/*.md\" --config ./.markdownlint.json"
 	},
 	"dependencies": {
-		"@babel/runtime": "^7.27.3",
+		"@babel/runtime": "^7.28.6",
 		"@fortawesome/fontawesome-free": "^5.15.4",
 		"@popperjs/core": "^2.11.8",
 		"bcrypt": "^6.0.0",
-		"bootstrap": "^5.3.6",
+		"bootstrap": "^5.3.8",
 		"jquery": "^3.7.1",
-		"meteor-node-stubs": "^1.2.19"
+		"meteor-node-stubs": "^1.2.27"
 	},
 	"meteor": {
 		"mainModule": {
@@ -46,7 +46,9 @@
 	"babel": {
 		"env": {
 			"COVERAGE": {
-				"plugins": ["istanbul"]
+				"plugins": [
+					"istanbul"
+				]
 			}
 		}
 	},
@@ -56,8 +58,12 @@
 			"sourceType": "module",
 			"allowImportExportEverywhere": true
 		},
-		"plugins": ["security"],
-		"extends": ["plugin:security/recommended"],
+		"plugins": [
+			"security"
+		],
+		"extends": [
+			"plugin:security/recommended"
+		],
 		"rules": {
 			"brace-style": [
 				"error",
