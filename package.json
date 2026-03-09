@@ -46,9 +46,7 @@
 	"babel": {
 		"env": {
 			"COVERAGE": {
-				"plugins": [
-					"istanbul"
-				]
+				"plugins": ["istanbul"]
 			}
 		}
 	},
@@ -58,12 +56,8 @@
 			"sourceType": "module",
 			"allowImportExportEverywhere": true
 		},
-		"plugins": [
-			"security"
-		],
-		"extends": [
-			"plugin:security/recommended"
-		],
+		"plugins": ["security"],
+		"extends": ["plugin:security/recommended"],
 		"rules": {
 			"brace-style": [
 				"error",
